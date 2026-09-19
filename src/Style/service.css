@@ -1,0 +1,54 @@
+.service{
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #101818;
+    color: #fff;
+    
+}
+.service .vente{
+    width: 25%;
+}
+.service .vente p{
+    text-align: justify;
+}
+.service .vente button{
+    background-color: #C9A24A;
+    padding: 10px 55px;
+    border-radius: 5px;
+    color: #fff;
+    border: none;
+}
+.service .image{
+    margin: 0;
+}
+.service .steps{
+    box-sizing: border-box;
+    width: 28%;
+    display: column;
+    justify-content:space-between;
+    align-items: flex-start;
+}
+.service .steps .step{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   
+}
+.service .steps .step i{
+    color: #C9A24A;
+    font-size: 2.3rem;
+}
+.service .steps .step p{
+ text-align: justify;  
+ font-size: 0.8rem; 
+ color: #d6d6d6;
+}
+.service .steps .step .text{
+    display: column;
+    justify-content: space-around;
+    align-items: flex-start;
+}

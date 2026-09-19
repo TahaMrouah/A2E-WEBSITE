@@ -1,0 +1,36 @@
+.hero {
+  width: 100%;
+  height: 400px;
+  background-image: linear-gradient(
+      rgba(0, 0, 0, 0.78),
+      rgba(0, 0, 0, 0.35)
+    ),url("../assets/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+}
+
+.hero-content {
+  color: white;
+  
+  margin-left: 80px;
+}
+.hero-content p {
+    width: 35%;
+    
+}
+.hero-content .btn{
+    background-color: #C9A24A;
+    border-radius: 10px;
+    color:  #FFF;
+    font-weight: bold;
+    font-size: 0.85em;
+    padding: 15px 40px;
+}
+.hero-content .btn:hover{
+  background-color: #E0C06A;
+}
