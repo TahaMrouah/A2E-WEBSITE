@@ -1,29 +1,346 @@
-.navbar{
-  background-color: #101818;
-}
-.link {
-  position: relative;
-  display: inline-block;
-  color: white;
-  text-decoration: none;
-  transition: transform 0.9s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-.link:hover {
-  transform: scale(1.15);
-  text-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
-}
-.link::after{
-    content: "";
-  position: absolute;
-  left: 0;
-  bottom: -5px;
-  width: 0;
-  height: 2px;
-  
-  background-color: gold;
-  transition: width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+/* =================================
+   NAVBAR
+================================= */
 
-}
-.link:hover::after {
+.navbar {
+  position: relative;
+
   width: 100%;
+
+  min-height: 82px;
+
+  padding: 0;
+
+  background: #171713;
+
+  border-bottom: 1px solid rgba(201, 162, 74, 0.18);
+
+  z-index: 1000;
+}
+
+
+/* Very subtle luxury highlight */
+
+.navbar::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: -1px;
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 162, 74, 0.45),
+    transparent
+  );
+}
+
+
+/* =================================
+   CONTAINER
+================================= */
+
+.navbar .container {
+  min-height: 82px;
+
+  display: flex;
+
+  align-items: center;
+}
+
+
+/* =================================
+   LOGO / BRAND
+================================= */
+
+.navbar-brand {
+  position: relative;
+
+  margin-right: 65px;
+
+  padding: 0 !important;
+
+  color: #ffffff !important;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 1.45rem;
+
+  font-weight: 500;
+
+  letter-spacing: 1px;
+
+  transition: color 0.3s ease;
+}
+
+
+.navbar-brand span {
+  color: #c9a24a;
+
+  font-size: 0.9em;
+
+  font-weight: 400;
+}
+
+
+.navbar-brand:hover {
+  color: #c9a24a !important;
+}
+
+
+/* =================================
+   NAVIGATION LINKS
+================================= */
+
+.navbar .link {
+  position: relative;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  height: 82px;
+
+  margin: 0 13px;
+
+  padding: 0 3px !important;
+
+  color: rgba(255, 255, 255, 0.78) !important;
+
+  text-decoration: none;
+
+  font-size: 0.78rem;
+
+  font-weight: 500;
+
+  letter-spacing: 1.3px;
+
+  text-transform: uppercase;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+/* =================================
+   GOLD UNDERLINE
+================================= */
+
+.navbar .link::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  bottom: 22px;
+
+  width: 0;
+
+  height: 1px;
+
+  background: #c9a24a;
+
+  transition:
+    width 0.35s ease;
+}
+
+
+/* Small gold dot */
+
+.navbar .link::before {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 18px;
+
+  width: 3px;
+
+  height: 3px;
+
+  border-radius: 50%;
+
+  background: #c9a24a;
+
+  opacity: 0;
+
+  transform: translateX(-50%);
+
+  transition:
+    opacity 0.3s ease;
+}
+
+
+/* =================================
+   HOVER
+================================= */
+
+.navbar .link:hover {
+  color: #ffffff !important;
+
+  transform: translateY(-1px);
+}
+
+
+.navbar .link:hover::after {
+  width: 100%;
+}
+
+
+.navbar .link:hover::before {
+  opacity: 1;
+}
+
+
+/* =================================
+   RIGHT SIDE
+================================= */
+
+.navbar-right {
+  display: flex;
+
+  align-items: center;
+}
+
+
+/* =================================
+   CONTACT BUTTON
+================================= */
+
+.navbar .contact-link {
+  margin-left: 22px;
+
+  padding: 10px 20px !important;
+
+  height: auto;
+
+  border: 1px solid rgba(201, 162, 74, 0.75);
+
+  border-radius: 2px;
+
+  color: #c9a24a !important;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+.navbar .contact-link::after,
+.navbar .contact-link::before {
+  display: none;
+}
+
+
+.navbar .contact-link:hover {
+  color: #171713 !important;
+
+  background: #c9a24a;
+
+  border-color: #c9a24a;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 7px 20px rgba(201, 162, 74, 0.15);
+}
+
+
+/* =================================
+   MOBILE TOGGLE
+================================= */
+
+.navbar-toggler {
+  border: 1px solid rgba(201, 162, 74, 0.5) !important;
+
+  padding: 7px 9px;
+
+  border-radius: 3px;
+}
+
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 2px rgba(201, 162, 74, 0.15) !important;
+}
+
+
+/* Bootstrap hamburger icon */
+
+.navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 991px) {
+
+  .navbar {
+    min-height: 72px;
+  }
+
+  .navbar .container {
+    min-height: 72px;
+  }
+
+  .navbar-brand {
+    margin-right: 0;
+
+    font-size: 1.3rem;
+  }
+
+  .navbar-collapse {
+    padding: 20px 0 25px;
+  }
+
+  .navbar .link {
+    height: auto;
+
+    margin: 0;
+
+    padding: 14px 0 !important;
+
+    font-size: 0.78rem;
+  }
+
+  .navbar .link::after {
+    bottom: 6px;
+  }
+
+  .navbar .link::before {
+    display: none;
+  }
+
+  .navbar-links,
+  .navbar-right {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .navbar-right {
+    margin-top: 5px;
+  }
+
+  .navbar .contact-link {
+    margin: 10px 0 0;
+
+    padding: 11px 20px !important;
+  }
 }

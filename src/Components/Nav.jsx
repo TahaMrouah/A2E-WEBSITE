@@ -1,26 +1,65 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-//import NavDropdown from 'react-bootstrap/NavDropdown';
-import '../Style/navbar.css'
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import "../Style/navbar.css";
+import { Link } from "react-router-dom";
 function Navb() {
   return (
-    <Navbar collapseOnSelect expand="lg" className="navbar">
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      className="navbar"
+    >
       <Container>
-        <Navbar.Brand href="#home"className='link' style={{color:"#fff"}}>A2E Immobilier</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
+        <Navbar.Brand
+        as={Link}
+          to="/"
+          className="link navbar-brand"
+        >
+          A2E <span>Immobilier</span>
+        </Navbar.Brand>
+
+        <Navbar.Toggle
+          aria-controls="responsive-navbar-nav"
+          className="navbar-toggler"
+        />
+
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#home" className='link'style={{color:"#fff"}}>Accueil</Nav.Link>
-            <Nav.Link href="#service" className='link'style={{color:"#fff"}}>Nos Service</Nav.Link>
-            <Nav.Link href="#blogs" className='link'style={{color:"#fff"}}>Offre</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link href="#Location"className='link' style={{color:"#fff"}}>Localisation</Nav.Link>
-            <Nav.Link eventKey={2} className='link'href="#contact" style={{color:"#fff"}}>
-              Contact
+
+          <Nav className="me-auto navbar-links">
+            <Nav.Link as={Link} to="/" className="link">
+              Accueil
+            </Nav.Link>
+
+            <Nav.Link href="#services" className="link">
+              Nos Services
+            </Nav.Link>
+
+            <Nav.Link href="#offres" className="link">
+              Nos Offres
+            </Nav.Link>
+            <Nav.Link href="#expertise" className="link">
+              Notre Expertise
             </Nav.Link>
           </Nav>
+
+          <Nav className="navbar-right">
+
+            <Nav.Link as={Link} to="/about" className="link">
+              A Propos
+            </Nav.Link>
+
+            <Nav.Link as={Link}
+              eventKey={2}
+              to="/contact"
+              className="link contact-link"
+            >
+              Contact
+            </Nav.Link>
+
+          </Nav>
+
         </Navbar.Collapse>
       </Container>
     </Navbar>
