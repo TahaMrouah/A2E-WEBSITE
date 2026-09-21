@@ -1,0 +1,556 @@
+/* =================================
+   SERVICE SECTION
+================================= */
+
+.service {
+  position: relative;
+
+  width: 100%;
+  min-height: 620px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 60px;
+
+  padding: 90px max(6vw, 50px);
+
+  box-sizing: border-box;
+
+  background: #171713;
+
+  color: #fff;
+
+  overflow: hidden;
+}
+
+
+/* Subtle background glow */
+
+.service::before {
+  content: "";
+
+  position: absolute;
+
+  width: 500px;
+  height: 500px;
+
+  top: -250px;
+  right: -150px;
+
+  border-radius: 50%;
+
+  background: rgba(201, 162, 74, 0.035);
+
+  pointer-events: none;
+}
+
+
+/* =================================
+   LEFT — INTRO
+================================= */
+
+.service .vente {
+  position: relative;
+
+  z-index: 2;
+
+  width: 30%;
+
+  max-width: 400px;
+}
+
+
+/* =================================
+   LABEL
+================================= */
+
+.service .service-label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 24px;
+
+  color: #c9a24a;
+
+  font-size: 0.72rem;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+.service .service-label span {
+  display: block;
+
+  width: 32px;
+  height: 1px;
+
+  background: #c9a24a;
+}
+
+
+/* =================================
+   TITLE
+================================= */
+
+.service .vente h2 {
+  margin: 0 0 25px;
+
+  color: #fff;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(2rem, 3vw, 3rem);
+
+  font-weight: 400;
+
+  line-height: 1.15;
+
+  letter-spacing: -0.5px;
+}
+
+.service .vente h2 em {
+  color: #c9a24a;
+
+  font-style: italic;
+
+  font-weight: 400;
+}
+
+
+/* =================================
+   DESCRIPTION
+================================= */
+
+.service .vente p {
+  margin: 0 0 30px;
+
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 0.9rem;
+
+  font-weight: 300;
+
+  line-height: 1.8;
+
+  text-align: left;
+}
+
+
+/* =================================
+   CONTACT BUTTON
+================================= */
+
+.service .vente button {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 18px;
+
+  padding: 14px 24px;
+
+  border: 1px solid #c9a24a;
+
+  border-radius: 3px;
+
+  background: #c9a24a;
+
+  color: #fff;
+
+  font-family: inherit;
+
+  font-size: 0.75rem;
+
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.service .vente button span {
+  font-size: 1.1rem;
+
+  transition: transform 0.3s ease;
+}
+
+.service .vente button:hover {
+  background: #e0c06a;
+
+  border-color: #e0c06a;
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 10px 25px rgba(201, 162, 74, 0.18);
+}
+
+.service .vente button:hover span {
+  transform: translateX(5px);
+}
+
+
+/* =================================
+   CENTER — IMAGE
+================================= */
+
+.service .image {
+  position: relative;
+
+  width: 28%;
+
+  max-width: 370px;
+
+  margin: 0;
+}
+
+
+/* Gold offset frame */
+
+.service .image::before {
+  content: "";
+
+  position: absolute;
+
+  top: 18px;
+  left: -18px;
+
+  width: 100%;
+  height: 100%;
+
+  border: 1px solid rgba(201, 162, 74, 0.45);
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+
+/* Actual image */
+
+.service .image-frame {
+  position: relative;
+
+  width: 100%;
+
+  height: 450px;
+
+  overflow: hidden;
+
+  z-index: 1;
+}
+
+.service .image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.8s ease;
+}
+
+.service .image:hover img {
+  transform: scale(1.04);
+}
+
+
+/* Dark image gradient */
+
+.service .image-frame::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(
+    to top,
+    rgba(20, 18, 14, 0.35),
+    transparent 45%
+  );
+
+  pointer-events: none;
+}
+
+
+/* =================================
+   RIGHT — STEPS
+================================= */
+
+.service .steps {
+  position: relative;
+
+  z-index: 2;
+
+  width: 30%;
+
+  max-width: 390px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0;
+}
+
+
+/* =================================
+   INDIVIDUAL STEP
+================================= */
+
+.service .steps .step {
+  position: relative;
+
+  width: 100%;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 20px;
+
+  padding: 22px 0;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.service .steps .step:first-child {
+  padding-top: 0;
+}
+
+.service .steps .step:last-child {
+  border-bottom: none;
+}
+
+
+/* =================================
+   ICON
+================================= */
+
+.service .steps .step-icon {
+  flex-shrink: 0;
+
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(201, 162, 74, 0.35);
+
+  border-radius: 50%;
+
+  background: rgba(201, 162, 74, 0.05);
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.service .steps .step i {
+  color: #c9a24a;
+
+  font-size: 1.05rem;
+}
+
+.service .steps .step:hover .step-icon {
+  background: #c9a24a;
+
+  border-color: #c9a24a;
+
+  transform: translateY(-3px);
+}
+
+.service .steps .step:hover i {
+  color: #171713;
+}
+
+
+/* =================================
+   TEXT
+================================= */
+
+.service .steps .step .text {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 7px;
+}
+
+.service .steps .step h5 {
+  margin: 0;
+
+  color: #fff;
+
+  font-size: 0.9rem;
+
+  font-weight: 600;
+
+  letter-spacing: 0.2px;
+}
+
+.service .steps .step p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.55);
+
+  font-size: 0.78rem;
+
+  font-weight: 300;
+
+  line-height: 1.6;
+
+  text-align: left;
+}
+
+
+/* =================================
+   TABLET
+================================= */
+
+@media (max-width: 1000px) {
+
+  .service {
+    gap: 35px;
+
+    padding: 80px 35px;
+  }
+
+  .service .vente {
+    width: 32%;
+  }
+
+  .service .image {
+    width: 28%;
+  }
+
+  .service .steps {
+    width: 34%;
+  }
+
+  .service .image-frame {
+    height: 400px;
+  }
+
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 768px) {
+
+  .service {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 50px;
+
+    padding: 75px 25px;
+  }
+
+  .service .vente,
+  .service .image,
+  .service .steps {
+    width: 100%;
+
+    max-width: none;
+  }
+
+
+  /* Image */
+
+  .service .image {
+    order: 2;
+
+    width: 90%;
+
+    margin: 0 auto;
+  }
+
+  .service .image-frame {
+    height: 380px;
+  }
+
+
+  /* Steps */
+
+  .service .steps {
+    order: 3;
+  }
+
+
+  /* Introduction */
+
+  .service .vente {
+    order: 1;
+  }
+
+  .service .vente h2 {
+    font-size: 2.3rem;
+  }
+
+}
+
+
+/* =================================
+   SMALL MOBILE
+================================= */
+
+@media (max-width: 480px) {
+
+  .service {
+    padding: 65px 20px;
+  }
+
+  .service .vente h2 {
+    font-size: 2rem;
+  }
+
+  .service .image {
+    width: 92%;
+  }
+
+  .service .image-frame {
+    height: 320px;
+  }
+
+  .service .image::before {
+    top: 12px;
+    left: -12px;
+  }
+
+  .service .steps .step {
+    gap: 15px;
+  }
+
+}

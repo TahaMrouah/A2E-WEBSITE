@@ -1,0 +1,464 @@
+/* ================================
+   HERO
+================================ */
+
+.hero {
+  position: relative;
+
+  width: 100%;
+  min-height: 680px;
+
+  background-image: url("../assets/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+
+/* ================================
+   DARK LUXURY OVERLAY
+================================ */
+
+.hero-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(15, 14, 12, 0.88) 0%,
+      rgba(15, 14, 12, 0.68) 38%,
+      rgba(15, 14, 12, 0.28) 75%,
+      rgba(15, 14, 12, 0.15) 100%
+    );
+
+  z-index: 1;
+}
+
+
+/* Subtle bottom fade */
+
+.hero::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 140px;
+
+  background: linear-gradient(
+    to top,
+    rgba(247, 243, 235, 0.95),
+    transparent
+  );
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+
+/* ================================
+   CONTENT
+================================ */
+
+.hero-content {
+  position: relative;
+
+  z-index: 3;
+
+  width: 100%;
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 100px 50px 130px;
+
+  color: white;
+}
+
+
+/* ================================
+   A2E LABEL
+================================ */
+
+.hero-label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 24px;
+
+  color: #c9a24a;
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+  letter-spacing: 4px;
+
+  text-transform: uppercase;
+}
+
+.hero-label span {
+  display: block;
+
+  width: 35px;
+  height: 1px;
+
+  background: #c9a24a;
+}
+
+
+/* ================================
+   MAIN TITLE
+================================ */
+
+.hero-content .title {
+  margin: 0;
+
+  color: #fff;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(3.2rem, 5.5vw, 5.4rem);
+
+  font-weight: 400;
+
+  line-height: 1.05;
+
+  letter-spacing: -2px;
+}
+
+
+/* Gold italic accent */
+
+.hero-content .title em {
+  color: #c9a24a;
+
+  font-style: italic;
+
+  font-weight: 400;
+}
+
+
+/* ================================
+   DESCRIPTION
+================================ */
+
+.hero-content p {
+  width: min(520px, 100%);
+
+  margin: 30px 0 35px;
+
+  color: rgba(255, 255, 255, 0.82);
+
+  font-size: 1rem;
+
+  font-weight: 300;
+
+  line-height: 1.8;
+
+  letter-spacing: 0.2px;
+}
+
+
+/* ================================
+   BUTTONS
+================================ */
+
+.hero-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+}
+
+
+/* Main gold button */
+
+.hero-content .btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  padding: 15px 24px;
+
+  border: 1px solid #c9a24a;
+
+  border-radius: 3px;
+
+  background: #c9a24a;
+
+  color: #fff;
+
+  font-family: inherit;
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+  letter-spacing: 1.4px;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+
+.hero-content .btn span {
+  font-size: 1.15rem;
+
+  line-height: 1;
+
+  transition: transform 0.3s ease;
+}
+
+
+.hero-content .btn:hover {
+  background: #e0c06a;
+
+  border-color: #e0c06a;
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 12px 30px rgba(201, 162, 74, 0.25);
+}
+
+
+.hero-content .btn:hover span {
+  transform: translateX(5px);
+}
+
+
+/* ================================
+   SECONDARY BUTTON
+================================ */
+
+.hero-secondary-btn {
+  padding: 15px 24px;
+
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  border-radius: 3px;
+
+  background: transparent;
+
+  color: white;
+
+  font-family: inherit;
+
+  font-size: 0.78rem;
+
+  font-weight: 600;
+
+  letter-spacing: 1.3px;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+.hero-secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+
+  border-color: rgba(255, 255, 255, 0.75);
+
+  transform: translateY(-3px);
+}
+
+
+/* ================================
+   SCROLL INDICATOR
+================================ */
+
+.hero-scroll {
+  position: absolute;
+
+  right: 45px;
+  bottom: 45px;
+
+  z-index: 5;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+.hero-scroll span {
+  width: 1px;
+
+  height: 55px;
+
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    #c9a24a
+  );
+
+  animation: scrollLine 2s infinite;
+}
+
+
+.hero-scroll p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 0.65rem;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+
+  writing-mode: vertical-rl;
+}
+
+
+/* ================================
+   ANIMATION
+================================ */
+
+@keyframes scrollLine {
+  0% {
+    opacity: 0;
+
+    transform: translateY(-10px);
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform: translateY(10px);
+  }
+}
+
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 900px) {
+
+  .hero {
+    min-height: 620px;
+  }
+
+  .hero-content {
+    padding: 90px 40px 120px;
+  }
+
+  .hero-content .title {
+    font-size: clamp(2.8rem, 7vw, 4.5rem);
+  }
+
+  .hero-scroll {
+    right: 25px;
+  }
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+  .hero {
+    min-height: 650px;
+
+    background-position: 60% center;
+  }
+
+  .hero-overlay {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(15, 14, 12, 0.9),
+        rgba(15, 14, 12, 0.55)
+      );
+  }
+
+  .hero-content {
+    padding: 80px 25px 120px;
+  }
+
+  .hero-label {
+    font-size: 0.68rem;
+
+    letter-spacing: 3px;
+  }
+
+  .hero-content .title {
+    font-size: 2.7rem;
+
+    line-height: 1.08;
+
+    letter-spacing: -1px;
+  }
+
+  .hero-content p {
+    font-size: 0.9rem;
+
+    line-height: 1.7;
+
+    margin-top: 25px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    width: 100%;
+  }
+
+  .hero-content .btn,
+  .hero-secondary-btn {
+    width: 100%;
+  }
+
+  .hero-scroll {
+    display: none;
+  }
+}
