@@ -1,31 +1,39 @@
 
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+
+import {
+    FaMapMarkerAlt,
+    FaRulerCombined,
+    FaBed,
+    FaBath,
+    FaHome,
+    FaTree,
+    FaPhoneAlt,
+    FaWhatsapp,
+    FaCheck,
+    FaArrowLeft,
+} from "react-icons/fa";
+
 import properties from "../Data/properties";
 import "../Style/property-details.css";
 
 function PropertyDetails() {
     const { id } = useParams();
 
-    // Find the property matching the URL
     const property = properties.find(
         (item) => String(item.id) === String(id)
     );
 
-    // Property doesn't exist
     if (!property) {
         return (
             <main className="property-not-found">
-
                 <div className="property-not-found-content">
-
                     <span className="details-label">
                         A2E IMMOBILIER
                     </span>
 
-                    <h1>
-                        Bien introuvable
-                    </h1>
+                    <h1>Bien introuvable</h1>
 
                     <p>
                         Cette propriété n'existe pas ou n'est plus
@@ -36,11 +44,10 @@ function PropertyDetails() {
                         to="/properties"
                         className="back-properties-button"
                     >
-                        ← Retour aux propriétés
+                        <FaArrowLeft />
+                        Retour aux propriétés
                     </Link>
-
                 </div>
-
             </main>
         );
     }
@@ -49,7 +56,7 @@ function PropertyDetails() {
         <main className="property-details-page">
 
             {/* =====================================================
-                HERO IMAGE
+                HERO
             ===================================================== */}
 
             <section className="property-details-hero">
@@ -68,13 +75,11 @@ function PropertyDetails() {
                         {property.status}
                     </span>
 
-                    <h1>
-                        {property.title}
-                    </h1>
+                    <h1>{property.title}</h1>
 
                     <div className="details-location">
-                        <span>⌖</span>
-                        {property.location}
+                        <FaMapMarkerAlt />
+                        <span>{property.location}</span>
                     </div>
 
                 </div>
@@ -83,30 +88,65 @@ function PropertyDetails() {
 
 
             {/* =====================================================
-                MAIN CONTENT
+                MAIN PROPERTY AREA
             ===================================================== */}
 
             <section className="property-details-container">
-
-                {/* BACK */}
 
                 <Link
                     to="/properties"
                     className="back-properties"
                 >
-                    ← Toutes les propriétés
+                    <FaArrowLeft />
+                    Toutes les propriétés
                 </Link>
 
 
                 <div className="property-details-layout">
 
                     {/* =================================================
-                        LEFT — PROPERTY INFORMATION
+                        LEFT — GALLERY
                     ================================================= */}
 
-                    <div className="property-details-main">
+                    <div className="property-gallery-column">
 
-                        {/* INTRO */}
+                        <div className="property-details-gallery">
+
+                            {property.images &&
+                                property.images.map((image, index) => (
+                                    <div
+                                        className={
+                                            index === 0
+                                                ? "property-details-gallery-image property-details-gallery-image-main"
+                                                : "property-details-gallery-image"
+                                        }
+                                        key={index}
+                                    >
+                                        <img
+                                            src={image}
+                                            alt={`${property.title} - photo ${index + 1}`}
+                                            loading={
+                                                index === 0
+                                                    ? "eager"
+                                                    : "lazy"
+                                            }
+                                            decoding="async"
+                                        />
+                                    </div>
+                                ))}
+
+                        </div>
+
+                    </div>
+
+
+                    {/* =================================================
+                        RIGHT — INFORMATION
+                    ================================================= */}
+
+                    <div className="property-information-column">
+
+                        {/* INTRODUCTION */}
 
                         <div className="details-introduction">
 
@@ -114,9 +154,7 @@ function PropertyDetails() {
                                 À PROPOS DU BIEN
                             </span>
 
-                            <h2>
-                                {property.title}
-                            </h2>
+                            <h2>{property.title}</h2>
 
                             <p>
                                 {property.description}
@@ -125,19 +163,18 @@ function PropertyDetails() {
                         </div>
 
 
-                        {/* =================================================
-                            KEY INFORMATION
-                        ================================================= */}
+                        {/* PROPERTY INFORMATION */}
 
                         <div className="details-info-grid">
 
                             <div className="info-box">
 
                                 <span className="info-icon">
-                                    ⌂
+                                    <FaRulerCombined />
                                 </span>
 
-                                <div>
+                                <div className="info-content">
+
                                     <small>
                                         Surface
                                     </small>
@@ -145,6 +182,7 @@ function PropertyDetails() {
                                     <strong>
                                         {property.surface}
                                     </strong>
+
                                 </div>
 
                             </div>
@@ -153,10 +191,11 @@ function PropertyDetails() {
                             <div className="info-box">
 
                                 <span className="info-icon">
-                                    ▱
+                                    <FaBed />
                                 </span>
 
-                                <div>
+                                <div className="info-content">
+
                                     <small>
                                         Chambres
                                     </small>
@@ -164,6 +203,7 @@ function PropertyDetails() {
                                     <strong>
                                         {property.bedrooms}
                                     </strong>
+
                                 </div>
 
                             </div>
@@ -172,10 +212,11 @@ function PropertyDetails() {
                             <div className="info-box">
 
                                 <span className="info-icon">
-                                    ♢
+                                    <FaBath />
                                 </span>
 
-                                <div>
+                                <div className="info-content">
+
                                     <small>
                                         Salles de bain
                                     </small>
@@ -183,6 +224,7 @@ function PropertyDetails() {
                                     <strong>
                                         {property.bathrooms}
                                     </strong>
+
                                 </div>
 
                             </div>
@@ -191,10 +233,11 @@ function PropertyDetails() {
                             <div className="info-box">
 
                                 <span className="info-icon">
-                                    ◇
+                                    <FaHome />
                                 </span>
 
-                                <div>
+                                <div className="info-content">
+
                                     <small>
                                         Type
                                     </small>
@@ -202,6 +245,7 @@ function PropertyDetails() {
                                     <strong>
                                         {property.type}
                                     </strong>
+
                                 </div>
 
                             </div>
@@ -213,10 +257,11 @@ function PropertyDetails() {
                                     <div className="info-box">
 
                                         <span className="info-icon">
-                                            ▧
+                                            <FaTree />
                                         </span>
 
-                                        <div>
+                                        <div className="info-content">
+
                                             <small>
                                                 Terrain
                                             </small>
@@ -224,6 +269,7 @@ function PropertyDetails() {
                                             <strong>
                                                 {property.landArea}
                                             </strong>
+
                                         </div>
 
                                     </div>
@@ -233,9 +279,7 @@ function PropertyDetails() {
                         </div>
 
 
-                        {/* =================================================
-                            DESCRIPTION
-                        ================================================= */}
+                        {/* DESCRIPTION */}
 
                         <div className="details-section">
 
@@ -253,17 +297,16 @@ function PropertyDetails() {
 
                             <p>
                                 Cette propriété bénéficie d'une
-                                localisation privilégiée et offre des
-                                espaces conçus pour conjuguer confort,
-                                fonctionnalité et qualité de vie.
+                                localisation privilégiée et offre
+                                des espaces conçus pour conjuguer
+                                confort, fonctionnalité et qualité
+                                de vie.
                             </p>
 
                         </div>
 
 
-                        {/* =================================================
-                            FEATURES
-                        ================================================= */}
+                        {/* FEATURES */}
 
                         {property.features &&
                             property.features.length > 0 && (
@@ -287,8 +330,9 @@ function PropertyDetails() {
                                                     className="feature-item"
                                                     key={index}
                                                 >
+
                                                     <span className="feature-check">
-                                                        ✓
+                                                        <FaCheck />
                                                     </span>
 
                                                     <span>
@@ -297,6 +341,7 @@ function PropertyDetails() {
                                                             ""
                                                         )}
                                                     </span>
+
                                                 </div>
 
                                             )
@@ -309,9 +354,7 @@ function PropertyDetails() {
                             )}
 
 
-                        {/* =================================================
-                            INTRO / COMPOSITION
-                        ================================================= */}
+                        {/* COMPOSITION */}
 
                         {property.intro && (
 
@@ -335,134 +378,88 @@ function PropertyDetails() {
 
 
                         {/* =================================================
-                            GALLERY
+                            CONTACT CARD
                         ================================================= */}
 
-                        {property.images &&
-                            property.images.length > 1 && (
+                        <aside className="property-contact-card">
 
-                                <div className="details-section">
+                            <div className="contact-card-inner">
 
-                                    <span className="section-label">
-                                        GALERIE
-                                    </span>
+                                <span className="contact-label">
+                                    A2E IMMOBILIER
+                                </span>
 
-                                    <h2>
-                                        Découvrez la propriété
-                                    </h2>
+                                <h2>
+                                    Intéressé par ce bien ?
+                                </h2>
 
-                                    <div className="details-gallery">
+                                <p>
+                                    Notre équipe est à votre
+                                    disposition pour vous fournir
+                                    davantage d'informations ou
+                                    organiser une visite.
+                                </p>
 
-                                        {property.images.map(
-                                            (image, index) => (
 
-                                                <div
-                                                    className={
-                                                        index === 0
-                                                            ? "details-gallery-image large"
-                                                            : "details-gallery-image"
-                                                    }
-                                                    key={index}
-                                                >
+                                <div className="contact-price">
 
-                                                    <img
-                                                        src={image}
-                                                        alt={`${property.title} - photo ${index + 1}`}
-                                                        loading={
-                                                            index === 0
-                                                                ? "eager"
-                                                                : "lazy"
-                                                        }
-                                                        decoding="async"
-                                                    />
+                                    <small>
+                                        PRIX DE VENTE
+                                    </small>
 
-                                                </div>
-
-                                            )
-                                        )}
-
-                                    </div>
+                                    <strong>
+                                        {Number(
+                                            property.price
+                                        ).toLocaleString(
+                                            "fr-FR"
+                                        )}{" "}
+                                        MAD
+                                    </strong>
 
                                 </div>
 
-                            )}
+
+                                <a
+                                    href="tel:+212602991215"
+                                    className="details-contact-button call"
+                                >
+                                    <FaPhoneAlt />
+
+                                    <span>
+                                        Appelez-nous
+                                    </span>
+                                </a>
+
+
+                                <a
+                                    href="https://wa.me/212602991215"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="details-contact-button whatsapp"
+                                >
+                                    <FaWhatsapp />
+
+                                    <span>
+                                        Contactez-nous sur WhatsApp
+                                    </span>
+                                </a>
+
+
+                                <div className="contact-note">
+
+                                    Référence du bien :{" "}
+
+                                    <strong>
+                                        A2E-{property.id}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </aside>
 
                     </div>
-
-
-                    {/* =================================================
-                        RIGHT — CONTACT CARD
-                    ================================================= */}
-
-                    <aside className="property-contact-card">
-
-                        <div className="contact-card-inner">
-
-                            <span className="contact-label">
-                                A2E IMMOBILIER
-                            </span>
-
-                            <h2>
-                                Intéressé par ce bien ?
-                            </h2>
-
-                            <p>
-                                Notre équipe est à votre disposition
-                                pour vous fournir davantage
-                                d'informations ou organiser une visite.
-                            </p>
-
-
-                            {/* PRICE */}
-
-                            <div className="contact-price">
-
-                                <small>
-                                    PRIX DE VENTE
-                                </small>
-
-                                <strong>
-                                    {Number(property.price).toLocaleString(
-                                        "fr-FR"
-                                    )}{" "}
-                                    MAD
-                                </strong>
-
-                            </div>
-
-
-                            {/* CALL */}
-
-                            <a
-                                href="tel:+212600000000"
-                                className="details-contact-button call"
-                            >
-                                <span>☎</span>
-                                Appelez-nous
-                            </a>
-
-
-                            {/* WHATSAPP */}
-
-                            <a
-                                href="https://wa.me/212600000000"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="details-contact-button whatsapp"
-                            >
-                                <span>◉</span>
-                                Contactez-nous sur WhatsApp
-                            </a>
-
-
-                            <div className="contact-note">
-                                Référence du bien : A2E-
-                                {property.id}
-                            </div>
-
-                        </div>
-
-                    </aside>
 
                 </div>
 
@@ -473,3 +470,4 @@ function PropertyDetails() {
 }
 
 export default PropertyDetails;
+

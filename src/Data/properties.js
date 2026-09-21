@@ -130,10 +130,9 @@ const properties = [
     ],
 
     images: [
-      
-      CalifornieAppImages["../assets/Appartement Californie/img3.jpeg"],
-      CalifornieAppImages["../assets/Appartement Californie/img4.jpeg"],
       CalifornieAppImages["../assets/Appartement Californie/img5.jpeg"],
+      CalifornieAppImages["../assets/Appartement Californie/img4.jpeg"],
+      
       CalifornieAppImages["../assets/Appartement Californie/img6.jpeg"],
       CalifornieAppImages["../assets/Appartement Californie/img7.jpeg"],
       CalifornieAppImages["../assets/Appartement Californie/img8.jpeg"],

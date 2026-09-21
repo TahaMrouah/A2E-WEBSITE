@@ -26,6 +26,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useState } from "react";
 import properties from "../Data/properties";
+import { FaArrowRight } from "react-icons/fa";
 /*import Carousel from 'react-bootstrap/Carousel';
 import ExampleCarouselImage from 'components/ExampleCarouselImage';*/
 
@@ -55,130 +56,138 @@ import ExampleCarouselImage from 'components/ExampleCarouselImage';*/
 
 export default function RecipeReviewCard() {
   return (
-  <>
-    <div className="offers-title">
-      <h6>Nos Offres</h6>
-      <h1>Des Biens d'exception sélectionnés pour vous</h1>
-    </div>
+    <>
+      <div className="offers-title">
+        <h6>Nos Offres</h6>
+        <h1>Des Biens d'exception sélectionnés pour vous</h1>
+      </div>
 
-    <section className="cards" id="offres">
-      {properties.map((card) => (
-        <Card key={card.id} className="card">
+      <section className="cards" id="offres">
+        {properties.map((card) => (
+          <Card key={card.id} className="card">
 
-          {/* LEFT — LARGE IMAGE CAROUSEL */}
-          <div className="card-image">
-            <Swiper
-              modules={[Navigation, Pagination, Autoplay]}
-              navigation
-              pagination={{ clickable: true }}
-              autoplay={{
-                delay: 5000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }}
-              loop={true}
-              speed={900}
-              className="villa-carousel"
-            >
-              {card.images.map((image, index) => (
-                <SwiperSlide key={index}>
-                  <img
-                    src={image}
-                    alt={`${card.title} ${index + 1}`}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            {/* LEFT — LARGE IMAGE CAROUSEL */}
+            <div className="card-image">
+              <Swiper
+                modules={[Navigation, Pagination, Autoplay]}
+                navigation
+                pagination={{ clickable: true }}
+                autoplay={{
+                  delay: 5000,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: true,
+                }}
+                loop={true}
+                speed={900}
+                className="villa-carousel"
+              >
+                {card.images.map((image, index) => (
+                  <SwiperSlide key={index}>
+                    <img
+                      src={image}
+                      alt={`${card.title} ${index + 1}`}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
 
-            {/* Image counter / label */}
-            <div className="property-badge">
-              À VENDRE
+              {/* Image counter / label */}
+              <div className="property-badge">
+                À VENDRE
+              </div>
             </div>
-          </div>
 
-          {/* RIGHT — PROPERTY INFORMATION */}
-          <div className="card-content">
+            {/* RIGHT — PROPERTY INFORMATION */}
+            <div className="card-content">
 
-            <CardHeader
-              avatar={
-                <Avatar className="a2e-avatar" aria-label="A2E">
-                  A2E
-                </Avatar>
-              }
-              action={
-                <IconButton aria-label="settings" className="property-menu">
-                  <MoreVertIcon />
-                </IconButton>
-              }
-              title={card.title}
-              subheader={card.subheader}
-            />
+              <CardHeader
+                avatar={
+                  <Avatar className="a2e-avatar" aria-label="A2E">
+                    A2E
+                  </Avatar>
+                }
+                action={
+                  <IconButton aria-label="settings" className="property-menu">
+                    <MoreVertIcon />
+                  </IconButton>
+                }
+                title={card.title}
+                subheader={card.subheader}
+              />
 
-            <CardContent className="description">
-              <Typography variant="body2">
-                {card.description}
-              </Typography>
-            </CardContent>
+              <CardContent className="description">
+                <Typography variant="body2">
+                  {card.description}
+                </Typography>
+              </CardContent>
 
-            <CardContent className="property-details">
+              <CardContent className="property-details">
 
-              <Typography className="property-price">
-                {Number(card.price).toLocaleString("fr-FR")} MAD
-              </Typography>
-
-              <Typography className="property-intro">
-                ✨ Une villa sur plusieurs niveaux composée de :
-              </Typography>
-
-              <div className="property-features">
-                <Typography>🛏️ 4 chambres, dont une suite/chambre de 25 m²</Typography>
-
-                <Typography>
-                  🛋️ Plusieurs espaces salon et séjour
+                <Typography className="property-price">
+                  {Number(card.price).toLocaleString("fr-FR")} MAD
                 </Typography>
 
-                <Typography>
-                  🍽️ Cuisine & salle à manger
+                <Typography className="property-intro">
+                  ✨ Une villa sur plusieurs niveaux composée de :
                 </Typography>
 
-                <Typography>
-                  🛁 Salles de bain & hammam
-                </Typography>
+                <div className="property-features">
+                  <Typography>🛏️ 4 chambres, dont une suite/chambre de 25 m²</Typography>
 
-                <Typography>
-                  🔥 Espaces avec cheminées décoratives
-                </Typography>
+                  <Typography>
+                    🛋️ Plusieurs espaces salon et séjour
+                  </Typography>
 
-                <Typography>
-                  🌿 Cour extérieure
-                </Typography>
+                  <Typography>
+                    🍽️ Cuisine & salle à manger
+                  </Typography>
 
-                <Typography>
-                  🚗 Garage
-                </Typography>
+                  <Typography>
+                    🛁 Salles de bain & hammam
+                  </Typography>
 
-                <Typography>
-                  ☀️ Terrasse + magnifique toit-terrasse
-                </Typography>
+                  <Typography>
+                    🔥 Espaces avec cheminées décoratives
+                  </Typography>
+
+                  <Typography>
+                    🌿 Cour extérieure
+                  </Typography>
+
+                  <Typography>
+                    🚗 Garage
+                  </Typography>
+
+                  <Typography>
+                    ☀️ Terrasse + magnifique toit-terrasse
+                  </Typography>
+                </div>
+
+              </CardContent>
+
+              <div className="card-footer">
+                <Link
+                  to={`/properties/${card.id}`}
+                  className="property-button"
+                  aria-label={`Découvrir le bien ${card.title}`}
+                >
+                  <span className="action-text">Détails</span>
+
+                  <span className="action-arrow">
+                    <FaArrowRight aria-hidden="true" />
+                  </span>
+                </Link>
               </div>
 
-            </CardContent>
-
-            <div className="card-footer">
-              <button className="property-button">
-                Découvrir le bien
-              </button>
             </div>
 
-          </div>
-
-        </Card>
-      ))}
-      <Link to="/properties" className="offers-more-button">
-  Plus d'offres
-  <span>→</span>
-</Link>
-    </section>
-  </>
-);
+          </Card>
+        ))}
+        <Link to="/properties" className="offers-more-button">
+          Plus d'offres
+          <span>→</span>
+        </Link>
+      </section>
+    </>
+  );
 }

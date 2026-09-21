@@ -435,50 +435,258 @@ line-height: 1.75;
 DETAILS
 ========================================================= */
 
+
+/* =========================================================
+   PROPERTY DETAILS
+========================================================= */
+
 .properties-page .property-details {
-width: 100%;
-display: grid;
-grid-template-columns: repeat(3, minmax(0, 1fr));
-gap: 10px;
-margin-top: 27px;
-padding-top: 22px;
-border-top: 1px solid rgba(50, 45, 35, 0.09);
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+
+    margin-top: 27px;
+    padding-top: 22px;
+
+    border-top: 1px solid rgba(50, 45, 35, 0.09);
 }
+
+
+/* =========================================================
+   DETAIL ITEM
+========================================================= */
 
 .properties-page .property-detail {
-display: flex;
-align-items: center;
-gap: 9px;
-min-width: 0;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 6px;
+
+    padding: 0 18px;
+
+    border-right: 1px solid rgba(50, 45, 35, 0.09);
 }
+
+.properties-page .property-detail:first-child {
+    padding-left: 0;
+}
+
+.properties-page .property-detail:last-child {
+    border-right: none;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
 
 .properties-page .detail-icon {
-flex-shrink: 0;
-color: #b08a36;
-font-size: 18px;
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 2px;
+
+    color: #b08a36;
+
+    font-size: 17px;
+
+    border: 1px solid rgba(176, 138, 54, 0.28);
+    border-radius: 50%;
+
+    flex-shrink: 0;
 }
+
+
+/* =========================================================
+   TEXT
+========================================================= */
 
 .properties-page .property-detail > div {
-min-width: 0;
-display: flex;
-flex-direction: column;
-gap: 3px;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
 }
+
+
+/* LABEL */
 
 .properties-page .property-detail small {
-color: #9b958b;
-font-size: 0.62rem;
-font-weight: 600;
-letter-spacing: 0.8px;
-text-transform: uppercase;
+    display: block;
+
+    color: #9b958b;
+
+    font-size: 0.58rem;
+    font-weight: 600;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    line-height: 1.2;
 }
 
+
+/* VALUE */
+
 .properties-page .property-detail strong {
-color: #3a362f;
-font-size: 0.8rem;
-font-weight: 600;
-overflow-wrap: break-word;
+    display: block;
+
+    color: #3a362f;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 1rem;
+    font-weight: 500;
+
+    line-height: 1.2;
+
+    white-space: nowrap;
 }
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .properties-page .property-detail {
+        padding: 0 14px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .properties-page .property-details {
+        gap: 0;
+        margin-top: 23px;
+        padding-top: 19px;
+    }
+
+    .properties-page .property-detail {
+        padding: 0 10px;
+        gap: 5px;
+    }
+
+    .properties-page .property-detail:first-child {
+        padding-left: 0;
+    }
+
+    .properties-page .property-detail:last-child {
+        padding-right: 0;
+    }
+
+    .properties-page .detail-icon {
+        width: 29px;
+        height: 29px;
+        font-size: 14px;
+    }
+
+    .properties-page .property-detail small {
+        font-size: 0.52rem;
+        letter-spacing: 0.7px;
+    }
+
+    .properties-page .property-detail strong {
+        font-size: 0.88rem;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .properties-page .property-details {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .properties-page .property-detail {
+        padding: 0 7px;
+    }
+
+    .properties-page .property-detail:first-child {
+        padding-left: 0;
+    }
+
+    .properties-page .property-detail:last-child {
+        padding-right: 0;
+    }
+
+    .properties-page .detail-icon {
+        width: 27px;
+        height: 27px;
+        font-size: 13px;
+    }
+
+    .properties-page .property-detail small {
+        font-size: 0.48rem;
+    }
+
+    .properties-page .property-detail strong {
+        font-size: 0.8rem;
+    }
+
+}
+
+
+/* =========================================================
+   EXTRA SMALL
+========================================================= */
+
+@media (max-width: 340px) {
+
+    .properties-page .property-details {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .properties-page .property-detail {
+        flex-direction: row;
+        align-items: center;
+
+        padding: 0;
+
+        border-right: none;
+    }
+
+    .properties-page .property-detail:first-child {
+        padding-left: 0;
+    }
+
+    .properties-page .property-detail:last-child {
+        padding-right: 0;
+    }
+
+    .properties-page .detail-icon {
+        flex-shrink: 0;
+    }
+
+}
+
+
 
 /* =========================================================
 FOOTER

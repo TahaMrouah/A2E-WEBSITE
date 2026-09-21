@@ -3,6 +3,18 @@ import React, { useState } from "react";
 import "../Style/properties.css";
 import properties from "../Data/properties";
 
+import {
+    FaMapMarkerAlt,
+    FaRulerCombined,
+    FaBed,
+    FaBath,
+    FaPhoneAlt,
+    FaWhatsapp,
+    FaArrowRight,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { FaHome, FaCar, FaTree, FaSwimmingPool, FaCouch, FaUtensils, FaDoorOpen, FaWarehouse, FaKey, } from "react-icons/fa";
+const characteristicIcons = { bed: FaBed, bath: FaBath, surface: FaRulerCombined, home: FaHome, car: FaCar, tree: FaTree, pool: FaSwimmingPool, living: FaCouch, kitchen: FaUtensils, door: FaDoorOpen, warehouse: FaWarehouse, key: FaKey, };
 function Properties() {
     const [selectedProperty, setSelectedProperty] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -186,9 +198,14 @@ function Properties() {
 
                                 <div className="property-location">
 
-                                    <span>⌖</span>
+                                    <FaMapMarkerAlt
+                                        className="location-icon"
+                                        aria-hidden="true"
+                                    />
 
-                                    {property.location}
+                                    <span>
+                                        {property.location}
+                                    </span>
 
                                 </div>
 
@@ -218,7 +235,9 @@ function Properties() {
                                     <div className="property-detail">
 
                                         <span className="detail-icon">
-                                            ⌂
+                                            <FaRulerCombined
+                                                aria-hidden="true"
+                                            />
                                         </span>
 
                                         <div>
@@ -241,7 +260,9 @@ function Properties() {
                                     <div className="property-detail">
 
                                         <span className="detail-icon">
-                                            ▱
+                                            <FaBed
+                                                aria-hidden="true"
+                                            />
                                         </span>
 
                                         <div>
@@ -264,7 +285,9 @@ function Properties() {
                                     <div className="property-detail">
 
                                         <span className="detail-icon">
-                                            ♢
+                                            <FaBath
+                                                aria-hidden="true"
+                                            />
                                         </span>
 
                                         <div>
@@ -323,7 +346,9 @@ function Properties() {
                                         >
 
                                             <span className="action-icon">
-                                                ☎
+                                                <FaPhoneAlt
+                                                    aria-hidden="true"
+                                                />
                                             </span>
 
                                             <span className="action-text">
@@ -344,7 +369,9 @@ function Properties() {
                                         >
 
                                             <span className="action-icon">
-                                                ◉
+                                                <FaWhatsapp
+                                                    aria-hidden="true"
+                                                />
                                             </span>
 
                                             <span className="action-text">
@@ -356,20 +383,12 @@ function Properties() {
 
                                         {/* DETAILS */}
 
-                                        <button
-                                            className="property-action details-action"
-                                            type="button"
-                                        >
-
-                                            <span className="action-text">
-                                                Détails
-                                            </span>
-
+                                        <Link to={`/properties/${property.id}`} className="property-action details-action" aria-label={`Voir les détails de ${property.title}`} >
+                                            <span className="action-text"> Détails </span>
                                             <span className="action-arrow">
-                                                →
+                                                <FaArrowRight aria-hidden="true" />
                                             </span>
-
-                                        </button>
+                                        </Link>
 
                                     </div>
 
@@ -463,3 +482,4 @@ function Properties() {
 }
 
 export default Properties;
+
