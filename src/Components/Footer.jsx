@@ -44,19 +44,15 @@ function Footer() {
             {/* SOCIAL MEDIA */}
             <div className="footer-social">
 
-              <a href="#" aria-label="Instagram">
+              <a href="https://www.instagram.com/a2eimmoo/?hl=en" aria-label="Instagram">
                 <MDBIcon fab icon="instagram" />
               </a>
 
-              <a href="#" aria-label="Facebook">
+              <a href="https://www.facebook.com/profile.php?id=61594556755558" aria-label="Facebook">
                 <MDBIcon fab icon="facebook-f" />
               </a>
 
-              <a href="#" aria-label="LinkedIn">
-                <MDBIcon fab icon="linkedin-in" />
-              </a>
-
-              <a href="#" aria-label="TikTok">
+              <a href="https://www.tiktok.com/@a2eimmoo" aria-label="TikTok">
                 <MDBIcon fab icon="tiktok" />
               </a>
 
@@ -107,7 +103,7 @@ function Footer() {
 
                 <div>
                   <small>Adresse</small>
-                  <p>Casablanca, Maroc</p>
+                  <p>104 Bd Sidi Abderrahmane, Casablanca, Maroc</p>
                 </div>
               </div>
 
@@ -119,8 +115,8 @@ function Footer() {
 
                 <div>
                   <small>Téléphone</small>
-                  <a href="tel:+212600000000">
-                    +212 6 00 00 00 00
+                  <a href="tel:+212521443858">
+                    +212 521443858
                   </a>
                 </div>
               </div>
@@ -133,7 +129,7 @@ function Footer() {
 
                 <div>
                   <small>Email</small>
-                  <a href="mailto:contact@a2e-immobilier.ma">
+                  <a href="mailto:contact@a2eimmoo@gmail.com">
                     A2eimmoo@gmail.com
                   </a>
                 </div>

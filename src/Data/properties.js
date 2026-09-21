@@ -105,7 +105,7 @@ const properties = [
 
     status: "À VENDRE",
 
-    price: 13500000,
+    price: 1690000,
 
     surface: "110 m²",
 
@@ -126,11 +126,11 @@ const properties = [
       "🛁 2 salles de bain",
       "🚗 Garage",
       "🛋️ Salon spacieux",
+      "🍽️ Cuisine"
     ],
 
     images: [
-      CalifornieAppImages["../assets/Appartement Californie/img1.jpeg"],
-      CalifornieAppImages["../assets/Appartement Californie/img2.jpeg"],
+      
       CalifornieAppImages["../assets/Appartement Californie/img3.jpeg"],
       CalifornieAppImages["../assets/Appartement Californie/img4.jpeg"],
       CalifornieAppImages["../assets/Appartement Californie/img5.jpeg"],
