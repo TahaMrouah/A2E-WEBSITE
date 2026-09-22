@@ -1,349 +1,170 @@
 
-import React, { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
-    FaBuilding,
-    FaChartLine,
     FaPlus,
-    FaArrowRight,
-    FaSignOutAlt,
-    FaSearch,
     FaEdit,
     FaTrash,
+    FaEye,
+    FaHome,
     FaMapMarkerAlt,
+    FaMoneyBillWave,
+    FaRulerCombined,
     FaBed,
     FaBath,
-    FaHome,
-    FaKey,
-    FaTimes,
 } from "react-icons/fa";
 
-import {
-    getProperties,
-    deleteProperty,
-} from "../Data/getProperties";
+import useProperties from "../hooks/useProperties";
+
+import { deleteProperty } from "../Data/propertyApi";
 
 import "../Style/Admin/properties.css";
 
 
-function AdminProperties() {
-    const navigate = useNavigate();
+function Properties() {
 
+    /* ========================================================
+       LOAD PROPERTIES FROM MONGODB
+    ======================================================== */
 
-    /* ============================================================
-       STATE
-    ============================================================ */
-
-    const [properties, setProperties] = useState([]);
-
-    const [loading, setLoading] = useState(true);
-
-    const [search, setSearch] = useState("");
-
-    const [filter, setFilter] = useState("all");
-
-    const [deletePropertyData, setDeletePropertyData] =
-        useState(null);
-
-
-    /* ============================================================
-       LOAD PROPERTIES
-    ============================================================ */
-
-    const loadProperties = () => {
-        try {
-            const data = getProperties();
-
-            setProperties(
-                Array.isArray(data)
-                    ? data
-                    : []
-            );
-        } catch (error) {
-            console.error(
-                "Erreur lors du chargement des propriétés :",
-                error
-            );
-
-            setProperties([]);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-
-    useEffect(() => {
-        loadProperties();
-    }, []);
-
-
-    /* ============================================================
-       SEARCH + FILTER
-    ============================================================ */
-
-    const filteredProperties = useMemo(() => {
-        return properties.filter((property) => {
-
-            const searchValue =
-                search.trim().toLowerCase();
-
-            const matchesSearch =
-                !searchValue ||
-                property.title
-                    ?.toLowerCase()
-                    .includes(searchValue) ||
-                property.location
-                    ?.toLowerCase()
-                    .includes(searchValue) ||
-                property.type
-                    ?.toLowerCase()
-                    .includes(searchValue);
-
-
-            const status =
-                property.status
-                    ?.toLowerCase()
-                    .trim() || "";
-
-
-            let matchesFilter = true;
-
-
-            if (filter === "sale") {
-                matchesFilter =
-                    status.includes("vendre");
-            }
-
-
-            if (filter === "rent") {
-                matchesFilter =
-                    status.includes("louer");
-            }
-
-
-            if (filter === "sold") {
-                matchesFilter =
-                    status === "vendu";
-            }
-
-
-            if (filter === "rented") {
-                matchesFilter =
-                    status === "loué" ||
-                    status === "loue";
-            }
-
-
-            return (
-                matchesSearch &&
-                matchesFilter
-            );
-        });
-    }, [
+    const {
         properties,
-        search,
-        filter,
-    ]);
+        loading,
+        error,
+        refreshProperties,
+    } = useProperties();
 
 
-    /* ============================================================
-       DELETE
-    ============================================================ */
+    /* ========================================================
+       DELETE STATE
+    ======================================================== */
 
-    const handleDelete = () => {
+    const [deletingId, setDeletingId] = useState(null);
 
-        if (!deletePropertyData) {
+
+    /* ========================================================
+       DELETE PROPERTY
+    ======================================================== */
+
+    const handleDelete = async (property) => {
+
+        const confirmed = window.confirm(
+            `Êtes-vous sûr de vouloir supprimer "${property.title}" ?`
+        );
+
+        if (!confirmed) {
             return;
         }
 
-
         try {
 
-            const updatedProperties =
-                deleteProperty(
-                    deletePropertyData.id
-                );
+            setDeletingId(property._id);
 
+            await deleteProperty(property._id);
 
-            setProperties(
-                Array.isArray(updatedProperties)
-                    ? updatedProperties
-                    : []
-            );
+            await refreshProperties();
 
-
-            setDeletePropertyData(null);
-
-        } catch (error) {
+        } catch (deleteError) {
 
             console.error(
-                "Erreur lors de la suppression :",
-                error
+                "Delete property error:",
+                deleteError
             );
+
+            alert(
+                deleteError.message ||
+                "Impossible de supprimer cette propriété."
+            );
+
+        } finally {
+
+            setDeletingId(null);
 
         }
     };
 
 
-    /* ============================================================
-       LOGOUT
-    ============================================================ */
-
-    const handleLogout = () => {
-
-        localStorage.removeItem(
-            "a2e_admin"
-        );
-
-        navigate(
-            "/admin/login"
-        );
-    };
-
-
-    /* ============================================================
+    /* ========================================================
        FORMAT PRICE
-    ============================================================ */
+    ======================================================== */
 
     const formatPrice = (price) => {
 
         if (
-            price === "" ||
+            price === undefined ||
             price === null ||
-            price === undefined
+            price === ""
         ) {
             return "Prix sur demande";
         }
 
-
-        const numericPrice =
-            Number(price);
-
-
-        if (Number.isNaN(numericPrice)) {
-            return price;
-        }
-
-
-        return new Intl.NumberFormat(
-            "fr-FR"
-        ).format(numericPrice) + " MAD";
+        return `${Number(price).toLocaleString("fr-FR")} MAD`;
     };
 
 
-    /* ============================================================
-       RENDER
-    ============================================================ */
+    /* ========================================================
+       LOADING
+    ======================================================== */
+
+    if (loading) {
+
+        return (
+            <main className="admin-properties-page">
+
+                <div className="admin-properties-container">
+
+                    <div className="admin-properties-loading">
+
+                        <div className="admin-loading-spinner"></div>
+
+                        <span>
+                            Chargement des propriétés...
+                        </span>
+
+                        <small>
+                            Connexion à la base de données
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </main>
+        );
+    }
+
+
+    /* ========================================================
+       PAGE
+    ======================================================== */
 
     return (
-        <div className="admin-properties-page">
 
+        <main className="admin-properties-page">
 
-            {/* ====================================================
-                SIDEBAR
-            ==================================================== */}
-
-            <aside className="admin-sidebar">
-
-                <div className="admin-sidebar-logo">
-
-                    <span>
-                        A2E
-                    </span>
-
-                    <small>
-                        IMMOBILIER
-                    </small>
-
-                </div>
-
-
-                <nav className="admin-sidebar-nav">
-
-                    <Link
-                        to="/admin"
-                        className="admin-nav-link"
-                    >
-                        <FaChartLine />
-
-                        <span>
-                            Tableau de bord
-                        </span>
-                    </Link>
-
-
-                    <Link
-                        to="/admin/properties"
-                        className="admin-nav-link active"
-                    >
-                        <FaBuilding />
-
-                        <span>
-                            Propriétés
-                        </span>
-                    </Link>
-
-                </nav>
-
-
-                <div className="admin-sidebar-bottom">
-
-                    <Link
-                        to="/properties"
-                        className="admin-view-site"
-                    >
-                        <FaArrowRight />
-
-                        <span>
-                            Voir le site
-                        </span>
-                    </Link>
-
-
-                    <button
-                        type="button"
-                        className="admin-logout"
-                        onClick={handleLogout}
-                    >
-                        <FaSignOutAlt />
-
-                        <span>
-                            Déconnexion
-                        </span>
-                    </button>
-
-                </div>
-
-            </aside>
-
-
-            {/* ====================================================
-                MAIN
-            ==================================================== */}
-
-            <main className="admin-main">
+            <div className="admin-properties-container">
 
 
                 {/* ==================================================
                     HEADER
                 ================================================== */}
 
-                <header className="admin-header">
+                <header className="admin-properties-header">
 
-                    <div className="admin-header-left">
+                    <div className="admin-properties-header-content">
 
-                        <span className="admin-label">
+                        <span className="admin-properties-label">
                             A2E IMMOBILIER
                         </span>
 
                         <h1>
-                            Propriétés
+                            Gestion des propriétés
                         </h1>
 
                         <p>
                             Gérez les biens immobiliers
-                            de votre agence.
+                            enregistrés dans votre base de données.
                         </p>
 
                     </div>
@@ -351,139 +172,72 @@ function AdminProperties() {
 
                     <Link
                         to="/admin/properties/new"
-                        className="admin-add-property"
+                        className="admin-properties-add-button"
                     >
+
                         <FaPlus />
 
                         <span>
                             Ajouter un bien
                         </span>
+
                     </Link>
 
                 </header>
 
 
                 {/* ==================================================
-                    FILTERS
+                    PAGE INFORMATION
                 ================================================== */}
 
-                <section className="admin-filters">
+                <div className="admin-properties-toolbar">
 
+                    <div className="admin-properties-count">
 
-                    <div className="admin-search">
-
-                        <FaSearch />
-
-                        <input
-                            type="text"
-                            placeholder="Rechercher un bien..."
-                            value={search}
-                            onChange={(e) =>
-                                setSearch(
-                                    e.target.value
-                                )
-                            }
-                        />
-
-                    </div>
-
-
-                    <div className="admin-filter-buttons">
-
-                        <button
-                            type="button"
-                            className={
-                                filter === "all"
-                                    ? "admin-filter-button active"
-                                    : "admin-filter-button"
-                            }
-                            onClick={() =>
-                                setFilter("all")
-                            }
-                        >
-                            Tous
-                        </button>
-
-
-                        <button
-                            type="button"
-                            className={
-                                filter === "sale"
-                                    ? "admin-filter-button active"
-                                    : "admin-filter-button"
-                            }
-                            onClick={() =>
-                                setFilter("sale")
-                            }
-                        >
-                            À vendre
-                        </button>
-
-
-                        <button
-                            type="button"
-                            className={
-                                filter === "rent"
-                                    ? "admin-filter-button active"
-                                    : "admin-filter-button"
-                            }
-                            onClick={() =>
-                                setFilter("rent")
-                            }
-                        >
-                            À louer
-                        </button>
-
-
-                        <button
-                            type="button"
-                            className={
-                                filter === "sold"
-                                    ? "admin-filter-button active"
-                                    : "admin-filter-button"
-                            }
-                            onClick={() =>
-                                setFilter("sold")
-                            }
-                        >
-                            Vendus
-                        </button>
-
-
-                        <button
-                            type="button"
-                            className={
-                                filter === "rented"
-                                    ? "admin-filter-button active"
-                                    : "admin-filter-button"
-                            }
-                            onClick={() =>
-                                setFilter("rented")
-                            }
-                        >
-                            Loués
-                        </button>
-
-                    </div>
-
-                </section>
-
-
-                {/* ==================================================
-                    RESULTS COUNT
-                ================================================== */}
-
-                {!loading && (
-
-                    <div className="admin-results-count">
-
-                        <span>
-                            {filteredProperties.length}
+                        <span className="admin-properties-count-number">
+                            {properties.length}
                         </span>
 
-                        {filteredProperties.length > 1
-                            ? " biens trouvés"
-                            : " bien trouvé"}
+                        <span>
+                            {properties.length === 1
+                                ? " propriété"
+                                : " propriétés"}
+                        </span>
+
+                    </div>
+
+                    <div className="admin-properties-toolbar-line"></div>
+
+                    <span className="admin-properties-toolbar-text">
+                        Base de données MongoDB
+                    </span>
+
+                </div>
+
+
+                {/* ==================================================
+                    ERROR
+                ================================================== */}
+
+                {error && (
+
+                    <div className="admin-properties-error">
+
+                        <div className="admin-error-icon">
+                            !
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Impossible de charger les propriétés
+                            </strong>
+
+                            <span>
+                                {error}
+                            </span>
+
+                        </div>
 
                     </div>
 
@@ -491,57 +245,39 @@ function AdminProperties() {
 
 
                 {/* ==================================================
-                    LOADING
+                    EMPTY STATE
                 ================================================== */}
 
-                {loading && (
+                {!error &&
+                    properties.length === 0 && (
 
-                    <div className="admin-empty-state">
+                        <div className="admin-properties-empty">
 
-                        <p>
-                            Chargement des propriétés...
-                        </p>
+                            <div className="admin-empty-icon">
+                                <FaHome />
+                            </div>
 
-                    </div>
-
-                )}
-
-
-                {/* ==================================================
-                    EMPTY
-                ================================================== */}
-
-                {!loading &&
-                    filteredProperties.length === 0 && (
-
-                        <div className="admin-empty-state">
-
-                            <FaBuilding />
+                            <span className="admin-empty-label">
+                                A2E IMMOBILIER
+                            </span>
 
                             <h2>
-                                Aucun bien trouvé
+                                Aucune propriété
                             </h2>
 
                             <p>
-                                {search
-                                    ? "Aucun bien ne correspond à votre recherche."
-                                    : "Commencez par ajouter votre premier bien."
-                                }
+                                Vous n'avez encore ajouté
+                                aucun bien immobilier dans
+                                votre base de données.
                             </p>
 
-
-                            {!search && (
-
-                                <Link
-                                    to="/admin/properties/new"
-                                    className="admin-add-property"
-                                >
-                                    <FaPlus />
-
-                                    Ajouter un bien
-                                </Link>
-
-                            )}
+                            <Link
+                                to="/admin/properties/new"
+                                className="admin-properties-empty-button"
+                            >
+                                <FaPlus />
+                                Ajouter votre premier bien
+                            </Link>
 
                         </div>
 
@@ -552,362 +288,271 @@ function AdminProperties() {
                     PROPERTY GRID
                 ================================================== */}
 
-                {!loading &&
-                    filteredProperties.length > 0 && (
+                {properties.length > 0 && (
 
-                        <section className="admin-properties-grid">
+                    <section className="admin-properties-grid">
 
-                            {filteredProperties.map(
-                                (property) => (
+                        {properties.map((property) => (
 
-                                    <article
-                                        className="admin-property-card"
-                                        key={property.id}
-                                    >
+                            <article
+                                className="admin-property-card"
+                                key={property._id}
+                            >
 
 
-                                        {/* IMAGE */}
+                                {/* ==================================
+                                    IMAGE
+                                ================================== */}
 
-                                        <div className="admin-property-image">
+                                <div className="admin-property-image">
 
-                                            {property.images?.length > 0 ? (
+                                    {property.images &&
+                                    property.images.length > 0 ? (
 
-                                                <img
-                                                    src={
-                                                        property.images[0]
-                                                    }
-                                                    alt={
-                                                        property.title
-                                                    }
-                                                />
+                                        <img
+                                            src={property.images[0]}
+                                            alt={property.title}
+                                        />
 
-                                            ) : (
+                                    ) : (
 
-                                                <div className="admin-property-no-image">
+                                        <div className="admin-property-no-image">
 
-                                                    <FaBuilding />
+                                            <FaHome />
 
-                                                    <span>
-                                                        Aucune photo
-                                                    </span>
+                                            <span>
+                                                Aucune image
+                                            </span>
 
-                                                </div>
+                                        </div>
+
+                                    )}
+
+
+                                    {/* IMAGE OVERLAY */}
+
+                                    <div className="admin-property-image-overlay"></div>
+
+
+                                    {/* STATUS */}
+
+                                    {property.status && (
+
+                                        <span className="admin-property-status">
+
+                                            {property.status}
+
+                                        </span>
+
+                                    )}
+
+                                </div>
+
+
+                                {/* ==================================
+                                    CONTENT
+                                ================================== */}
+
+                                <div className="admin-property-content">
+
+
+                                    {/* TYPE */}
+
+                                    <span className="admin-property-type">
+
+                                        {property.type ||
+                                            "Immobilier"}
+
+                                    </span>
+
+
+                                    {/* TITLE */}
+
+                                    <h2>
+                                        {property.title}
+                                    </h2>
+
+
+                                    {/* LOCATION */}
+
+                                    {property.location && (
+
+                                        <div className="admin-property-location">
+
+                                            <FaMapMarkerAlt />
+
+                                            <span>
+                                                {property.location}
+                                            </span>
+
+                                        </div>
+
+                                    )}
+
+
+                                    {/* PRICE */}
+
+                                    <div className="admin-property-price">
+
+                                        <FaMoneyBillWave />
+
+                                        <span>
+                                            {formatPrice(
+                                                property.price
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    {/* DETAILS */}
+
+                                    <div className="admin-property-details">
+
+
+                                        {property.surface && (
+
+                                            <span>
+
+                                                <FaRulerCombined />
+
+                                                {property.surface}
+
+                                            </span>
+
+                                        )}
+
+
+                                        {property.bedrooms !==
+                                            undefined &&
+                                            property.bedrooms !==
+                                                null && (
+
+                                                <span>
+
+                                                    <FaBed />
+
+                                                    {property.bedrooms}{" "}
+                                                    chambre
+                                                    {property.bedrooms >
+                                                    1
+                                                        ? "s"
+                                                        : ""}
+
+                                                </span>
 
                                             )}
 
 
-                                            <span className="admin-property-status">
-
-                                                {property.status ||
-                                                    "—"}
-
-                                            </span>
-
-                                        </div>
-
-
-                                        {/* INFO */}
-
-                                        <div className="admin-property-info">
-
-
-                                            <span className="admin-property-type">
-
-                                                {property.type ||
-                                                    "Bien immobilier"}
-
-                                            </span>
-
-
-                                            <h2>
-                                                {property.title ||
-                                                    "Sans titre"}
-                                            </h2>
-
-
-                                            <div className="admin-property-location">
-
-                                                <FaMapMarkerAlt />
+                                        {property.bathrooms !==
+                                            undefined &&
+                                            property.bathrooms !==
+                                                null && (
 
                                                 <span>
-                                                    {property.location ||
-                                                        "Localisation non renseignée"}
+
+                                                    <FaBath />
+
+                                                    {property.bathrooms}{" "}
+                                                    salle
+                                                    {property.bathrooms >
+                                                    1
+                                                        ? "s"
+                                                        : ""}{" "}
+                                                    de bain
+
                                                 </span>
 
-                                            </div>
+                                            )}
 
+                                    </div>
 
-                                            <div className="admin-property-details">
 
+                                    {/* ACTIONS */}
 
-                                                {property.surface && (
+                                    <div className="admin-property-actions">
 
-                                                    <span>
 
-                                                        <FaHome />
+                                        {/* VIEW */}
 
-                                                        {property.surface}
+                                        <Link
+                                            to={`/properties/${property._id}`}
+                                            className="admin-property-view"
+                                            title="Voir la propriété"
+                                        >
 
-                                                    </span>
+                                            <FaEye />
 
-                                                )}
+                                            <span>
+                                                Voir
+                                            </span>
 
+                                        </Link>
 
-                                                {property.bedrooms !==
-                                                    "" &&
-                                                    property.bedrooms !==
-                                                        null &&
-                                                    property.bedrooms !==
-                                                        undefined && (
 
-                                                        <span>
+                                        {/* EDIT */}
 
-                                                            <FaBed />
+                                        <Link
+                                            to={`/admin/properties/${property._id}/edit`}
+                                            className="admin-property-edit"
+                                            title="Modifier la propriété"
+                                        >
 
-                                                            {property.bedrooms}
+                                            <FaEdit />
 
-                                                        </span>
+                                            <span>
+                                                Modifier
+                                            </span>
 
-                                                    )}
+                                        </Link>
 
 
-                                                {property.bathrooms !==
-                                                    "" &&
-                                                    property.bathrooms !==
-                                                        null &&
-                                                    property.bathrooms !==
-                                                        undefined && (
+                                        {/* DELETE */}
 
-                                                        <span>
+                                        <button
+                                            type="button"
+                                            className="admin-property-delete"
+                                            onClick={() =>
+                                                handleDelete(property)
+                                            }
+                                            disabled={
+                                                deletingId ===
+                                                property._id
+                                            }
+                                            title="Supprimer la propriété"
+                                        >
 
-                                                            <FaBath />
+                                            <FaTrash />
 
-                                                            {
-                                                                property.bathrooms
-                                                            }
+                                            <span>
 
-                                                        </span>
+                                                {deletingId ===
+                                                property._id
+                                                    ? "Suppression..."
+                                                    : "Supprimer"}
 
-                                                    )}
+                                            </span>
 
-                                            </div>
+                                        </button>
 
+                                    </div>
 
-                                            {/* CUSTOM CHARACTERISTICS */}
+                                </div>
 
-                                            {Array.isArray(
-                                                property.characteristics
-                                            ) &&
-                                                property.characteristics
-                                                    .length >
-                                                    0 && (
+                            </article>
 
-                                                    <div className="admin-property-custom-characteristics">
+                        ))}
 
-                                                        {property.characteristics
-                                                            .slice(
-                                                                0,
-                                                                3
-                                                            )
-                                                            .map(
-                                                                (
-                                                                    characteristic,
-                                                                    index
-                                                                ) => (
+                    </section>
 
-                                                                    <span
-                                                                        key={
-                                                                            characteristic.id ||
-                                                                            index
-                                                                        }
-                                                                    >
+                )}
 
-                                                                        {
-                                                                            characteristic.name
-                                                                        }
+            </div>
 
-                                                                        {characteristic.value
-                                                                            ? ` : ${characteristic.value}`
-                                                                            : ""}
-
-                                                                    </span>
-
-                                                                )
-                                                            )}
-
-                                                    </div>
-
-                                                )}
-
-
-                                            <div className="admin-property-price">
-
-                                                {formatPrice(
-                                                    property.price
-                                                )}
-
-                                            </div>
-
-
-                                            {/* ACTIONS */}
-
-                                            <div className="admin-property-actions">
-
-
-                                                <Link
-                                                    to={`/admin/properties/${property.id}/edit`}
-                                                    className="admin-edit-button"
-                                                    title="Modifier"
-                                                    aria-label={`Modifier ${
-                                                        property.title ||
-                                                        "ce bien"
-                                                    }`}
-                                                >
-                                                    <FaEdit />
-
-                                                    <span>
-                                                        Modifier
-                                                    </span>
-
-                                                </Link>
-
-
-                                                <button
-                                                    type="button"
-                                                    className="admin-delete-button"
-                                                    title="Supprimer"
-                                                    aria-label={`Supprimer ${
-                                                        property.title ||
-                                                        "ce bien"
-                                                    }`}
-                                                    onClick={() =>
-                                                        setDeletePropertyData(
-                                                            property
-                                                        )
-                                                    }
-                                                >
-                                                    <FaTrash />
-
-                                                    <span>
-                                                        Supprimer
-                                                    </span>
-
-                                                </button>
-
-                                            </div>
-
-                                        </div>
-
-                                    </article>
-
-                                )
-                            )}
-
-                        </section>
-
-                    )}
-
-            </main>
-
-
-            {/* ====================================================
-                DELETE MODAL
-            ==================================================== */}
-
-            {deletePropertyData && (
-
-                <div className="admin-delete-overlay">
-
-                    <div className="admin-delete-modal">
-
-
-                        <button
-                            type="button"
-                            className="admin-delete-close"
-                            onClick={() =>
-                                setDeletePropertyData(
-                                    null
-                                )
-                            }
-                            aria-label="Fermer"
-                        >
-                            <FaTimes />
-                        </button>
-
-
-                        <div className="admin-delete-icon">
-
-                            <FaTrash />
-
-                        </div>
-
-
-                        <span className="admin-delete-label">
-                            Confirmation
-                        </span>
-
-
-                        <h2>
-                            Supprimer ce bien ?
-                        </h2>
-
-
-                        <p>
-
-                            Êtes-vous sûr de vouloir
-                            supprimer{" "}
-
-                            <strong>
-                                {deletePropertyData.title}
-                            </strong>
-
-                            {" "}?
-
-                            Cette action est
-                            irréversible.
-
-                        </p>
-
-
-                        <div className="admin-delete-actions">
-
-                            <button
-                                type="button"
-                                className="admin-delete-cancel"
-                                onClick={() =>
-                                    setDeletePropertyData(
-                                        null
-                                    )
-                                }
-                            >
-                                Annuler
-                            </button>
-
-
-                            <button
-                                type="button"
-                                className="admin-delete-confirm"
-                                onClick={
-                                    handleDelete
-                                }
-                            >
-                                <FaTrash />
-
-                                Supprimer
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            )}
-
-        </div>
+        </main>
     );
 }
 
 
-export default AdminProperties;
+export default Properties;
 

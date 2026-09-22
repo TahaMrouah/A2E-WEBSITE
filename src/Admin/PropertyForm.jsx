@@ -1,5 +1,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
+
 import {
     FaArrowLeft,
     FaSave,
@@ -26,13 +27,18 @@ import {
     FaMapMarkerAlt,
     FaCheck,
 } from "react-icons/fa";
-import { Link, useNavigate, useParams } from "react-router-dom";
 
 import {
-    getProperties,
+    Link,
+    useNavigate,
+    useParams,
+} from "react-router-dom";
+
+import {
+    getProperty,
     addProperty,
     updateProperty,
-} from "../Data/getProperties";
+} from "../Data/propertyApi";
 
 import "../Style/Admin/property-form.css";
 
@@ -154,7 +160,8 @@ const getIconComponent = (iconName) => {
 
 const createCharacteristic = () => ({
     id:
-        typeof crypto !== "undefined" && crypto.randomUUID
+        typeof crypto !== "undefined" &&
+        crypto.randomUUID
             ? crypto.randomUUID()
             : `${Date.now()}-${Math.random()}`,
 
@@ -191,6 +198,7 @@ const emptyForm = {
 
 function PropertyForm() {
     const navigate = useNavigate();
+
     const { id } = useParams();
 
     const isEditMode = Boolean(id);
@@ -210,53 +218,108 @@ function PropertyForm() {
 
     const [saving, setSaving] = useState(false);
 
+    const [loadingProperty, setLoadingProperty] =
+        useState(false);
+
 
     /* ========================================================
        LOAD PROPERTY WHEN EDITING
     ======================================================== */
 
     useEffect(() => {
-        if (!isEditMode) {
-            setFormData(emptyForm);
-            return;
-        }
+        const loadPropertyForEdit = async () => {
+            if (!isEditMode) {
+                setFormData(emptyForm);
+                return;
+            }
 
-        const allProperties = getProperties();
+            try {
+                setLoadingProperty(true);
 
-        const property = allProperties.find(
-            (item) => String(item.id) === String(id)
-        );
+                setError("");
 
-        if (!property) {
-            setError("Cette propriété n'existe pas.");
-            return;
-        }
+                const property = await getProperty(id);
 
-        setFormData({
-            title: property.title || "",
-            subheader: property.subheader || "",
-            location: property.location || "",
-            type: property.type || "Villa",
-            status: property.status || "À VENDRE",
-            price: property.price ?? "",
-            surface: property.surface || "",
-            landArea: property.landArea || "",
-            bedrooms: property.bedrooms ?? "",
-            bathrooms: property.bathrooms ?? "",
-            description: property.description || "",
-            intro: property.intro || "",
-            features: Array.isArray(property.features)
-                ? property.features
-                : [],
-            images: Array.isArray(property.images)
-                ? property.images
-                : [],
-            characteristics: Array.isArray(
-                property.characteristics
-            )
-                ? property.characteristics
-                : [],
-        });
+                if (!property) {
+                    setError(
+                        "Cette propriété n'existe pas."
+                    );
+
+                    return;
+                }
+
+                setFormData({
+                    title: property.title || "",
+
+                    subheader:
+                        property.subheader || "",
+
+                    location:
+                        property.location || "",
+
+                    type:
+                        property.type || "Villa",
+
+                    status:
+                        property.status || "À VENDRE",
+
+                    price:
+                        property.price ?? "",
+
+                    surface:
+                        property.surface || "",
+
+                    landArea:
+                        property.landArea || "",
+
+                    bedrooms:
+                        property.bedrooms ?? "",
+
+                    bathrooms:
+                        property.bathrooms ?? "",
+
+                    description:
+                        property.description || "",
+
+                    intro:
+                        property.intro || "",
+
+                    features:
+                        Array.isArray(
+                            property.features
+                        )
+                            ? property.features
+                            : [],
+
+                    images:
+                        Array.isArray(
+                            property.images
+                        )
+                            ? property.images
+                            : [],
+
+                    characteristics:
+                        Array.isArray(
+                            property.characteristics
+                        )
+                            ? property.characteristics
+                            : [],
+                });
+            } catch (loadError) {
+                console.error(
+                    "Error loading property:",
+                    loadError
+                );
+
+                setError(
+                    "Impossible de charger cette propriété."
+                );
+            } finally {
+                setLoadingProperty(false);
+            }
+        };
+
+        loadPropertyForEdit();
     }, [id, isEditMode]);
 
 
@@ -269,6 +332,7 @@ function PropertyForm() {
 
         setFormData((previous) => ({
             ...previous,
+
             [name]: value,
         }));
     };
@@ -315,7 +379,9 @@ function PropertyForm() {
     ======================================================== */
 
     const handleImageUpload = async (e) => {
-        const files = Array.from(e.target.files || []);
+        const files = Array.from(
+            e.target.files || []
+        );
 
         if (!files.length) {
             return;
@@ -324,8 +390,9 @@ function PropertyForm() {
         setError("");
 
         try {
-            const imageFiles = files.filter((file) =>
-                file.type.startsWith("image/")
+            const imageFiles = files.filter(
+                (file) =>
+                    file.type.startsWith("image/")
             );
 
             if (!imageFiles.length) {
@@ -336,14 +403,16 @@ function PropertyForm() {
                 return;
             }
 
-            const newImages = await Promise.all(
-                imageFiles.map((file) =>
-                    fileToDataUrl(file)
-                )
-            );
+            const newImages =
+                await Promise.all(
+                    imageFiles.map((file) =>
+                        fileToDataUrl(file)
+                    )
+                );
 
             setFormData((previous) => ({
                 ...previous,
+
                 images: [
                     ...previous.images,
                     ...newImages,
@@ -357,10 +426,6 @@ function PropertyForm() {
             );
         }
 
-        /*
-            Reset the input so the user can select
-            the same file again later.
-        */
         e.target.value = "";
     };
 
@@ -372,6 +437,7 @@ function PropertyForm() {
     const removeImage = (index) => {
         setFormData((previous) => ({
             ...previous,
+
             images: previous.images.filter(
                 (_, imageIndex) =>
                     imageIndex !== index
@@ -387,8 +453,10 @@ function PropertyForm() {
     const addCharacteristic = () => {
         setFormData((previous) => ({
             ...previous,
+
             characteristics: [
                 ...previous.characteristics,
+
                 createCharacteristic(),
             ],
         }));
@@ -416,6 +484,7 @@ function PropertyForm() {
                         ) {
                             return {
                                 ...characteristic,
+
                                 [field]: value,
                             };
                         }
@@ -491,7 +560,7 @@ function PropertyForm() {
        SAVE PROPERTY
     ======================================================== */
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         setError("");
@@ -522,23 +591,27 @@ function PropertyForm() {
             return;
         }
 
-        /*
-            Remove incomplete characteristics.
-            A characteristic must have a name and value.
-        */
+
+        /* ====================================================
+           CLEAN CHARACTERISTICS
+        ==================================================== */
 
         const cleanedCharacteristics =
             formData.characteristics.filter(
                 (characteristic) =>
-                    characteristic.name.trim() &&
+                    characteristic.name
+                        .trim() &&
                     String(
                         characteristic.value
                     ).trim()
             );
 
-        const propertyToSave = {
-            ...formData,
 
+        /* ====================================================
+           PREPARE PROPERTY
+        ==================================================== */
+
+        const propertyToSave = {
             title: formData.title.trim(),
 
             subheader:
@@ -547,57 +620,110 @@ function PropertyForm() {
             location:
                 formData.location.trim(),
 
+            type: formData.type,
+
+            status: formData.status,
+
+            price:
+                formData.price === ""
+                    ? 0
+                    : Number(formData.price),
+
+            surface:
+                formData.surface.trim(),
+
+            landArea:
+                formData.landArea.trim(),
+
+            bedrooms:
+                formData.bedrooms === ""
+                    ? 0
+                    : Number(formData.bedrooms),
+
+            bathrooms:
+                formData.bathrooms === ""
+                    ? 0
+                    : Number(formData.bathrooms),
+
             description:
                 formData.description.trim(),
 
             intro:
                 formData.intro.trim(),
 
-            price:
-                formData.price === ""
-                    ? ""
-                    : Number(formData.price),
+            features:
+                formData.features,
 
-            bedrooms:
-                formData.bedrooms === ""
-                    ? ""
-                    : Number(formData.bedrooms),
-
-            bathrooms:
-                formData.bathrooms === ""
-                    ? ""
-                    : Number(formData.bathrooms),
+            images:
+                formData.images,
 
             characteristics:
                 cleanedCharacteristics,
         };
 
 
+        /* ====================================================
+           SEND TO API
+        ==================================================== */
+
         try {
             setSaving(true);
 
             if (isEditMode) {
-                updateProperty(
+                await updateProperty(
                     id,
                     propertyToSave
                 );
             } else {
-                addProperty(
+                await addProperty(
                     propertyToSave
                 );
             }
 
+            /* API succeeded */
+
             navigate("/admin/properties");
         } catch (saveError) {
-            console.error(saveError);
-
-            setError(
-                "Impossible d'enregistrer le bien. Les images sont peut-être trop volumineuses."
+            console.error(
+                "Save property error:",
+                saveError
             );
 
+            setError(
+                saveError.message ||
+                "Impossible d'enregistrer le bien."
+            );
+        } finally {
             setSaving(false);
         }
     };
+
+
+    /* ========================================================
+       LOADING EDIT PROPERTY
+    ======================================================== */
+
+    if (
+        isEditMode &&
+        loadingProperty
+    ) {
+        return (
+            <main className="property-form-page">
+
+                <div
+                    style={{
+                        padding: "80px",
+                        textAlign: "center",
+                    }}
+                >
+                    <h2>
+                        Chargement du bien...
+                    </h2>
+                </div>
+
+            </main>
+        );
+    }
 
 
     /* ========================================================
@@ -656,6 +782,7 @@ function PropertyForm() {
                             ? "Enregistrement..."
                             : "Enregistrer"}
                     </span>
+
                 </button>
 
             </header>
@@ -798,6 +925,7 @@ function PropertyForm() {
                                 value={formData.type}
                                 onChange={handleChange}
                             >
+
                                 <option value="Villa">
                                     Villa
                                 </option>
@@ -845,6 +973,7 @@ function PropertyForm() {
                                 value={formData.status}
                                 onChange={handleChange}
                             >
+
                                 <option value="À VENDRE">
                                     À VENDRE
                                 </option>
@@ -1069,8 +1198,6 @@ function PropertyForm() {
                     </div>
 
 
-                    {/* HIDDEN FILE INPUT */}
-
                     <input
                         ref={fileInputRef}
                         type="file"
@@ -1080,8 +1207,6 @@ function PropertyForm() {
                         onChange={handleImageUpload}
                     />
 
-
-                    {/* UPLOAD BUTTON */}
 
                     <button
                         type="button"
@@ -1104,8 +1229,6 @@ function PropertyForm() {
 
                     </button>
 
-
-                    {/* IMAGE PREVIEWS */}
 
                     {formData.images.length > 0 && (
 
@@ -1231,10 +1354,6 @@ function PropertyForm() {
                                             </button>
 
                                         </div>
-
-
-                                        {/* ICON PICKER */}
-
                                         <div className="characteristic-icon-section">
 
                                             <label>
@@ -1294,8 +1413,6 @@ function PropertyForm() {
                                         </div>
 
 
-                                        {/* NAME + VALUE */}
-
                                         <div className="characteristic-fields">
 
                                             <div className="form-field">
@@ -1346,8 +1463,6 @@ function PropertyForm() {
                                             </div>
 
 
-                                            {/* LIVE PREVIEW */}
-
                                             <div className="characteristic-live-preview">
 
                                                 <span>
@@ -1388,8 +1503,6 @@ function PropertyForm() {
 
                     </div>
 
-
-                    {/* ADD CHARACTERISTIC */}
 
                     <button
                         type="button"
@@ -1444,6 +1557,7 @@ function PropertyForm() {
                                 )
                             }
                             onKeyDown={(e) => {
+
                                 if (
                                     e.key === "Enter"
                                 ) {
@@ -1451,6 +1565,7 @@ function PropertyForm() {
 
                                     addFeature();
                                 }
+
                             }}
                             placeholder="Ex. Garage pour 2 voitures"
                         />
@@ -1484,10 +1599,16 @@ function PropertyForm() {
                                         </span>
 
                                         <p>
-    {typeof feature === "object" && feature !== null
-        ? `${feature.name || ""}${feature.value ? ` : ${feature.value}` : ""}`
-        : feature}
-</p>
+                                            {typeof feature ===
+                                                "object" &&
+                                            feature !== null
+                                                ? `${feature.name || ""}${
+                                                      feature.value
+                                                          ? ` : ${feature.value}`
+                                                          : ""
+                                                  }`
+                                                : feature}
+                                        </p>
 
                                         <button
                                             type="button"

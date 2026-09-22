@@ -1,7 +1,6 @@
 
 import React, { useState } from "react";
 import "../Style/properties.css";
-import properties from "../Data/properties";
 
 import {
     FaMapMarkerAlt,
@@ -11,54 +10,245 @@ import {
     FaPhoneAlt,
     FaWhatsapp,
     FaArrowRight,
+    FaHome,
+    FaCar,
+    FaTree,
+    FaSwimmingPool,
+    FaCouch,
+    FaUtensils,
+    FaDoorOpen,
+    FaWarehouse,
+    FaKey,
 } from "react-icons/fa";
+import { resolvePropertyImage } from "../Data/propertyImage";
 import { Link } from "react-router-dom";
-import { FaHome, FaCar, FaTree, FaSwimmingPool, FaCouch, FaUtensils, FaDoorOpen, FaWarehouse, FaKey, } from "react-icons/fa";
-const characteristicIcons = { bed: FaBed, bath: FaBath, surface: FaRulerCombined, home: FaHome, car: FaCar, tree: FaTree, pool: FaSwimmingPool, living: FaCouch, kitchen: FaUtensils, door: FaDoorOpen, warehouse: FaWarehouse, key: FaKey, };
-function Properties() {
-    const [selectedProperty, setSelectedProperty] = useState(null);
-    const [selectedImage, setSelectedImage] = useState(null);
 
-    // Open lightbox
+import useProperties from "../hooks/useProperties";
+
+
+/* =========================================================
+   CHARACTERISTIC ICONS
+
+   Used later if you add custom characteristics
+   from the admin property form.
+========================================================= */
+
+const characteristicIcons = {
+    bed: FaBed,
+    bath: FaBath,
+    surface: FaRulerCombined,
+    home: FaHome,
+    car: FaCar,
+    tree: FaTree,
+    pool: FaSwimmingPool,
+    living: FaCouch,
+    kitchen: FaUtensils,
+    door: FaDoorOpen,
+    warehouse: FaWarehouse,
+    key: FaKey,
+};
+
+
+function Properties() {
+
+    /* =====================================================
+       LOAD PROPERTIES FROM MONGODB
+    ===================================================== */
+
+    const {
+        properties,
+        loading,
+        error,
+    } = useProperties();
+
+
+    /* =====================================================
+       LIGHTBOX STATE
+    ===================================================== */
+
+    const [selectedProperty, setSelectedProperty] =
+        useState(null);
+
+    const [selectedImage, setSelectedImage] =
+        useState(null);
+
+
+    /* =====================================================
+       OPEN LIGHTBOX
+    ===================================================== */
+
     const openLightbox = (property, index) => {
+
         setSelectedProperty(property);
         setSelectedImage(index);
+
     };
 
-    // Close lightbox
+
+    /* =====================================================
+       CLOSE LIGHTBOX
+    ===================================================== */
+
     const closeLightbox = () => {
+
         setSelectedProperty(null);
         setSelectedImage(null);
+
     };
 
-    // Previous image
+
+    /* =====================================================
+       PREVIOUS IMAGE
+    ===================================================== */
+
     const showPreviousImage = (e) => {
-        e.stopPropagation();
+    e.stopPropagation();
 
-        setSelectedImage((current) => {
-            if (current === 0) {
-                return selectedProperty.images.length - 1;
-            }
+    if (
+        !selectedProperty ||
+        !selectedProperty.images ||
+        selectedProperty.images.length === 0
+    ) {
+        return;
+    }
 
-            return current - 1;
-        });
-    };
+    setSelectedImage((current) => {
+        if (current === 0) {
+            return selectedProperty.images.length - 1;
+        }
 
-    // Next image
+        return current - 1;
+    });
+};
+
+
+    /* =====================================================
+       NEXT IMAGE
+    ===================================================== */
+
     const showNextImage = (e) => {
+
         e.stopPropagation();
 
+        if (
+            !selectedProperty ||
+            !selectedProperty.images ||
+            selectedProperty.images.length === 0
+        ) {
+            return;
+        }
+
         setSelectedImage((current) => {
-            if (current === selectedProperty.images.length - 1) {
+
+            if (
+                current ===
+                selectedProperty.images.length - 1
+            ) {
+
                 return 0;
+
             }
 
             return current + 1;
+
         });
+
     };
 
+
+    /* =====================================================
+       LOADING
+    ===================================================== */
+
+    if (loading) {
+
+        return (
+
+            <main className="properties-page">
+
+                <section className="properties-section">
+
+                    <div
+                        style={{
+                            minHeight: "400px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "10px",
+                        }}
+                    >
+
+                        <h2>
+                            Chargement des propriétés...
+                        </h2>
+
+                        <p>
+                            Connexion à notre sélection immobilière.
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </main>
+
+        );
+
+    }
+
+
+    /* =====================================================
+       ERROR
+    ===================================================== */
+
+    if (error) {
+
+        return (
+
+            <main className="properties-page">
+
+                <section className="properties-section">
+
+                    <div
+                        style={{
+                            minHeight: "400px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            gap: "10px",
+                        }}
+                    >
+
+                        <span className="section-label">
+                            A2E IMMOBILIER
+                        </span>
+
+                        <h2>
+                            Impossible de charger les propriétés
+                        </h2>
+
+                        <p>
+                            {error}
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </main>
+
+        );
+
+    }
+
+
     return (
+
         <main className="properties-page">
+
 
             {/* =====================================================
                 HERO
@@ -94,7 +284,10 @@ function Properties() {
 
             <section className="properties-section">
 
-                {/* SECTION HEADING */}
+
+                {/* =================================================
+                    SECTION HEADING
+                ================================================= */}
 
                 <div className="properties-heading">
 
@@ -119,367 +312,545 @@ function Properties() {
 
 
                 {/* =================================================
+                    EMPTY STATE
+                ================================================= */}
+
+                {properties.length === 0 && (
+
+                    <div
+                        style={{
+                            padding: "80px 20px",
+                            textAlign: "center",
+                        }}
+                    >
+
+                        <FaHome
+                            style={{
+                                fontSize: "40px",
+                                color: "#b08a36",
+                                marginBottom: "15px",
+                            }}
+                        />
+
+                        <h3>
+                            Aucune propriété disponible
+                        </h3>
+
+                        <p>
+                            Nos nouvelles propriétés seront bientôt disponibles.
+                        </p>
+
+                    </div>
+
+                )}
+
+
+                {/* =================================================
                     PROPERTY GRID
                 ================================================= */}
 
-                <div className="properties-grid">
+                {properties.length > 0 && (
 
-                    {properties.map((property) => (
+                    <div className="properties-grid">
 
-                        <article
-                            className="property-card"
-                            key={property.id}
-                        >
+                        {properties.map((property) => (
 
-                            {/* =================================================
-                                IMAGE GALLERY
-                            ================================================= */}
+                            <article
+                                className="property-card"
+                                key={property._id}
+                            >
 
-                            <div className="property-image-wrapper">
 
-                                <div className="property-gallery">
+                                {/* =================================================
+                                    IMAGE GALLERY
+                                ================================================= */}
 
-                                    {property.images
-                                        .slice(0, 3)
-                                        .map((image, index) => (
+                                <div className="property-image-wrapper">
 
-                                            <button
-                                                key={index}
-                                                className={`gallery-item gallery-item-${index}`}
-                                                onClick={() =>
-                                                    openLightbox(property, index)
-                                                }
-                                                type="button"
-                                                aria-label={`Voir image ${index + 1}`}
+                                    <div className="property-gallery">
+
+                                        {property.images &&
+                                        property.images.length > 0 ? (
+
+                                            property.images
+                                                .slice(0, 3)
+                                                .map((image, index) => (
+
+                                                    <button
+                                                        key={index}
+                                                        className={`gallery-item gallery-item-${index}`}
+                                                        onClick={() =>
+                                                            openLightbox(
+                                                                property,
+                                                                index
+                                                            )
+                                                        }
+                                                        type="button"
+                                                        aria-label={`Voir image ${
+                                                            index + 1
+                                                        }`}
+                                                    >
+
+                                                        <img
+                                                            src={resolvePropertyImage(image)}
+                                                            alt={`${property.title} - ${
+                                                                index + 1
+                                                            }`}
+                                                            className="property-image"
+                                                            loading={
+                                                                index === 0
+                                                                    ? "eager"
+                                                                    : "lazy"
+                                                            }
+                                                            decoding="async"
+                                                        />
+
+                                                    </button>
+
+                                                ))
+
+                                        ) : (
+
+                                            <div
+                                                className="gallery-item gallery-item-0"
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    background: "#e4ded3",
+                                                }}
                                             >
 
-                                                <img
-                                                    src={image}
-                                                    alt={`${property.title} - ${index + 1}`}
-                                                    className="property-image"
-                                                    loading={
-                                                        index === 0
-                                                            ? "eager"
-                                                            : "lazy"
-                                                    }
-                                                    decoding="async"
+                                                <FaHome
+                                                    style={{
+                                                        fontSize: "45px",
+                                                        color: "#b08a36",
+                                                    }}
                                                 />
 
-                                            </button>
+                                            </div>
 
-                                        ))}
-
-                                </div>
-
-
-                                {/* STATUS */}
-
-                                <span className="property-status">
-                                    {property.status}
-                                </span>
-
-
-                                {/* TYPE */}
-
-                                <span className="property-type">
-                                    {property.type}
-                                </span>
-
-                            </div>
-
-
-                            {/* =================================================
-                                CARD CONTENT
-                            ================================================= */}
-
-                            <div className="property-content">
-
-                                {/* LOCATION */}
-
-                                <div className="property-location">
-
-                                    <FaMapMarkerAlt
-                                        className="location-icon"
-                                        aria-hidden="true"
-                                    />
-
-                                    <span>
-                                        {property.location}
-                                    </span>
-
-                                </div>
-
-
-                                {/* TITLE */}
-
-                                <h3>
-                                    {property.title}
-                                </h3>
-
-
-                                {/* DESCRIPTION */}
-
-                                <p className="property-description">
-                                    {property.description}
-                                </p>
-
-
-                                {/* =================================================
-                                    PROPERTY DETAILS
-                                ================================================= */}
-
-                                <div className="property-details">
-
-                                    {/* SURFACE */}
-
-                                    <div className="property-detail">
-
-                                        <span className="detail-icon">
-                                            <FaRulerCombined
-                                                aria-hidden="true"
-                                            />
-                                        </span>
-
-                                        <div>
-
-                                            <small>
-                                                Surface
-                                            </small>
-
-                                            <strong>
-                                                {property.surface}
-                                            </strong>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    {/* BEDROOMS */}
-
-                                    <div className="property-detail">
-
-                                        <span className="detail-icon">
-                                            <FaBed
-                                                aria-hidden="true"
-                                            />
-                                        </span>
-
-                                        <div>
-
-                                            <small>
-                                                Chambres
-                                            </small>
-
-                                            <strong>
-                                                {property.bedrooms}
-                                            </strong>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    {/* BATHROOMS */}
-
-                                    <div className="property-detail">
-
-                                        <span className="detail-icon">
-                                            <FaBath
-                                                aria-hidden="true"
-                                            />
-                                        </span>
-
-                                        <div>
-
-                                            <small>
-                                                Salles de bain
-                                            </small>
-
-                                            <strong>
-                                                {property.bathrooms}
-                                            </strong>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-
-                                {/* =================================================
-                                    FOOTER
-                                ================================================= */}
-
-                                <div className="property-footer">
-
-                                    {/* PRICE */}
-
-                                    <div className="property-price">
-
-                                        <small>
-                                            Prix
-                                        </small>
-
-                                        <strong>
-                                            {Number(property.price).toLocaleString(
-                                                "fr-FR"
-                                            )}{" "}
-                                            MAD
-                                        </strong>
+                                        )}
 
                                     </div>
 
 
                                     {/* =================================================
-                                        ACTION BUTTONS
+                                        STATUS
                                     ================================================= */}
 
-                                    <div className="property-actions">
+                                    {property.status && (
 
-                                        {/* APPELER */}
+                                        <span className="property-status">
+                                            {property.status}
+                                        </span>
 
-                                        <a
-                                            href="tel:+212602991215"
-                                            className="property-action call-action"
-                                            aria-label="Appelez-nous"
-                                        >
+                                    )}
 
-                                            <span className="action-icon">
-                                                <FaPhoneAlt
-                                                    aria-hidden="true"
-                                                />
+
+                                    {/* =================================================
+                                        TYPE
+                                    ================================================= */}
+
+                                    {property.type && (
+
+                                        <span className="property-type">
+                                            {property.type}
+                                        </span>
+
+                                    )}
+
+                                </div>
+
+
+                                {/* =================================================
+                                    CARD CONTENT
+                                ================================================= */}
+
+                                <div className="property-content">
+
+
+                                    {/* LOCATION */}
+
+                                    {property.location && (
+
+                                        <div className="property-location">
+
+                                            <FaMapMarkerAlt
+                                                className="location-icon"
+                                                aria-hidden="true"
+                                            />
+
+                                            <span>
+                                                {property.location}
                                             </span>
 
-                                            <span className="action-text">
-                                                Appelez-nous
-                                            </span>
+                                        </div>
 
-                                        </a>
+                                    )}
 
 
-                                        {/* WHATSAPP */}
+                                    {/* TITLE */}
 
-                                        <a
-                                            href="https://wa.me/212602991215"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="property-action whatsapp-action"
-                                            aria-label="WhatsApp"
-                                        >
-
-                                            <span className="action-icon">
-                                                <FaWhatsapp
-                                                    aria-hidden="true"
-                                                />
-                                            </span>
-
-                                            <span className="action-text">
-                                                WhatsApp
-                                            </span>
-
-                                        </a>
+                                    <h3>
+                                        {property.title}
+                                    </h3>
 
 
-                                        {/* DETAILS */}
+                                    {/* DESCRIPTION */}
 
-                                        <Link to={`/properties/${property.id}`} className="property-action details-action" aria-label={`Voir les détails de ${property.title}`} >
-                                            <span className="action-text"> Détails </span>
-                                            <span className="action-arrow">
-                                                <FaArrowRight aria-hidden="true" />
-                                            </span>
-                                        </Link>
+                                    {property.description && (
+
+                                        <p className="property-description">
+                                            {property.description}
+                                        </p>
+
+                                    )}
+
+
+                                    {/* =================================================
+                                        PROPERTY DETAILS
+                                    ================================================= */}
+
+                                    <div className="property-details">
+
+
+                                        {/* SURFACE */}
+
+                                        {property.surface && (
+
+                                            <div className="property-detail">
+
+                                                <span className="detail-icon">
+
+                                                    <FaRulerCombined
+                                                        aria-hidden="true"
+                                                    />
+
+                                                </span>
+
+                                                <div>
+
+                                                    <small>
+                                                        Surface
+                                                    </small>
+
+                                                    <strong>
+                                                        {property.surface}
+                                                    </strong>
+
+                                                </div>
+
+                                            </div>
+
+                                        )}
+
+
+                                        {/* BEDROOMS */}
+
+                                        {property.bedrooms !==
+                                            undefined &&
+                                            property.bedrooms !==
+                                                null && (
+
+                                                <div className="property-detail">
+
+                                                    <span className="detail-icon">
+
+                                                        <FaBed
+                                                            aria-hidden="true"
+                                                        />
+
+                                                    </span>
+
+                                                    <div>
+
+                                                        <small>
+                                                            Chambres
+                                                        </small>
+
+                                                        <strong>
+                                                            {property.bedrooms}
+                                                        </strong>
+
+                                                    </div>
+
+                                                </div>
+
+                                            )}
+
+
+                                        {/* BATHROOMS */}
+
+                                        {property.bathrooms !==
+                                            undefined &&
+                                            property.bathrooms !==
+                                                null && (
+
+                                                <div className="property-detail">
+
+                                                    <span className="detail-icon">
+
+                                                        <FaBath
+                                                            aria-hidden="true"
+                                                        />
+
+                                                    </span>
+
+                                                    <div>
+
+                                                        <small>
+                                                            Salles de bain
+                                                        </small>
+
+                                                        <strong>
+                                                            {property.bathrooms}
+                                                        </strong>
+
+                                                    </div>
+
+                                                </div>
+
+                                            )}
+
+                                    </div>
+
+
+                                    {/* =================================================
+                                        FOOTER
+                                    ================================================= */}
+
+                                    <div className="property-footer">
+
+
+                                        {/* PRICE */}
+
+                                        <div className="property-price">
+
+                                            <small>
+                                                Prix
+                                            </small>
+
+                                            <strong>
+
+                                                {property.price !==
+                                                    undefined &&
+                                                property.price !==
+                                                    null &&
+                                                property.price !==
+                                                    "" ? (
+
+                                                    <>
+                                                        {Number(
+                                                            property.price
+                                                        ).toLocaleString(
+                                                            "fr-FR"
+                                                        )}{" "}
+                                                        MAD
+                                                    </>
+
+                                                ) : (
+
+                                                    "Prix sur demande"
+
+                                                )}
+
+                                            </strong>
+
+                                        </div>
+
+
+                                        {/* =================================================
+                                            ACTION BUTTONS
+                                        ================================================= */}
+
+                                        <div className="property-actions">
+
+
+                                            {/* APPELER */}
+
+                                            <a
+                                                href="tel:+212602991215"
+                                                className="property-action call-action"
+                                                aria-label="Appelez-nous"
+                                            >
+
+                                                <span className="action-icon">
+
+                                                    <FaPhoneAlt
+                                                        aria-hidden="true"
+                                                    />
+
+                                                </span>
+
+                                                <span className="action-text">
+                                                    Appelez-nous
+                                                </span>
+
+                                            </a>
+
+
+                                            {/* WHATSAPP */}
+
+                                            <a
+                                                href="https://wa.me/212602991215"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="property-action whatsapp-action"
+                                                aria-label="WhatsApp"
+                                            >
+
+                                                <span className="action-icon">
+
+                                                    <FaWhatsapp
+                                                        aria-hidden="true"
+                                                    />
+
+                                                </span>
+
+                                                <span className="action-text">
+                                                    WhatsApp
+                                                </span>
+
+                                            </a>
+
+
+                                            {/* DETAILS */}
+
+                                            <Link
+                                                to={`/properties/${property._id}`}
+                                                className="property-action details-action"
+                                                aria-label={`Voir les détails de ${property.title}`}
+                                            >
+
+                                                <span className="action-text">
+                                                    Détails
+                                                </span>
+
+                                                <span className="action-arrow">
+
+                                                    <FaArrowRight
+                                                        aria-hidden="true"
+                                                    />
+
+                                                </span>
+
+                                            </Link>
+
+                                        </div>
 
                                     </div>
 
                                 </div>
 
-                            </div>
+                            </article>
 
-                        </article>
+                        ))}
 
-                    ))}
+                    </div>
 
-                </div>
+                )}
 
             </section>
 
 
             {/* =====================================================
                 SINGLE LIGHTBOX
-                IMPORTANT: OUTSIDE THE MAP
             ===================================================== */}
 
-            {selectedProperty && selectedImage !== null && (
-
-                <div
-                    className="image-lightbox"
-                    onClick={closeLightbox}
-                >
-
-                    {/* CLOSE */}
-
-                    <button
-                        className="lightbox-close"
-                        onClick={closeLightbox}
-                        type="button"
-                        aria-label="Fermer"
-                    >
-                        ×
-                    </button>
-
-
-                    {/* PREVIOUS */}
-
-                    <button
-                        className="lightbox-prev"
-                        onClick={showPreviousImage}
-                        type="button"
-                        aria-label="Image précédente"
-                    >
-                        ‹
-                    </button>
-
-
-                    {/* IMAGE */}
-
-                    <img
-                        src={selectedProperty.images[selectedImage]}
-                        alt={`${selectedProperty.title} - ${selectedImage + 1}`}
-                        className="lightbox-image"
-                        onClick={(e) => e.stopPropagation()}
-                    />
-
-
-                    {/* NEXT */}
-
-                    <button
-                        className="lightbox-next"
-                        onClick={showNextImage}
-                        type="button"
-                        aria-label="Image suivante"
-                    >
-                        ›
-                    </button>
-
-
-                    {/* COUNTER */}
+            {selectedProperty &&
+                selectedImage !== null &&
+                selectedProperty.images &&
+                selectedProperty.images.length > 0 && (
 
                     <div
-                        className="lightbox-counter"
-                        onClick={(e) => e.stopPropagation()}
+                        className="image-lightbox"
+                        onClick={closeLightbox}
                     >
-                        {selectedImage + 1} /{" "}
-                        {selectedProperty.images.length}
+
+
+                        {/* CLOSE */}
+
+                        <button
+                            className="lightbox-close"
+                            onClick={closeLightbox}
+                            type="button"
+                            aria-label="Fermer"
+                        >
+                            ×
+                        </button>
+
+
+                        {/* PREVIOUS */}
+
+                        {selectedProperty.images.length > 1 && (
+
+                            <button
+                                className="lightbox-prev"
+                                onClick={showPreviousImage}
+                                type="button"
+                                aria-label="Image précédente"
+                            >
+                                ‹
+                            </button>
+
+                        )}
+
+
+                        {/* IMAGE */}
+
+                        <img
+                            src={resolvePropertyImage(
+        selectedProperty.images[selectedImage]
+    )}
+                            alt={`${selectedProperty.title} - ${
+                                selectedImage + 1
+                            }`}
+                            className="lightbox-image"
+                            onClick={(e) =>
+                                e.stopPropagation()
+                            }
+                        />
+
+
+                        {/* NEXT */}
+
+                        {selectedProperty.images.length > 1 && (
+
+                            <button
+                                className="lightbox-next"
+                                onClick={showNextImage}
+                                type="button"
+                                aria-label="Image suivante"
+                            >
+                                ›
+                            </button>
+
+                        )}
+
+
+                        {/* COUNTER */}
+
+                        <div
+                            className="lightbox-counter"
+                            onClick={(e) =>
+                                e.stopPropagation()
+                            }
+                        >
+
+                            {selectedImage + 1} /{" "}
+                            {selectedProperty.images.length}
+
+                        </div>
+
                     </div>
 
-                </div>
-
-            )}
+                )}
 
         </main>
     );
 }
+
 
 export default Properties;
 
