@@ -63,13 +63,49 @@ function Dashboard() {
        LOGOUT
     ================================= */
 
-    const handleLogout = () => {
+  
+const handleLogout = async () => {
 
-        localStorage.removeItem("a2e_admin");
+    try {
 
-        navigate("/admin/login");
+        const response = await fetch(
+            "/api/auth/logout",
+            {
+                method: "POST",
+                credentials: "include",
+            }
+        );
 
-    };
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Logout failed"
+            );
+
+        }
+
+
+        navigate(
+            "/admin/login",
+            {
+                replace: true,
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+    }
+
+};
+
 
 
     /* ================================

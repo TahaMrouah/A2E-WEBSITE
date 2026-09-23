@@ -1,49 +1,79 @@
-// AdminProtectedRoute.jsx
-
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
 function AdminProtectedRoute({ children }) {
-
     const [loading, setLoading] = useState(true);
     const [authenticated, setAuthenticated] = useState(false);
 
     useEffect(() => {
+        let mounted = true;
 
-        fetch(
-            "http://localhost:5000/api/auth/me",
-            {
-                credentials: "include",
-            }
-        )
-            .then(async (response) => {
-
-                if (!response.ok) {
-                    throw new Error("Not authenticated");
-                }
+        const checkAuthentication = async () => {
+            try {
+                const response = await fetch(
+                    "/api/auth/me",
+                    {
+                        method: "GET",
+                        credentials: "include",
+                        cache: "no-store",
+                    }
+                );
 
                 const data = await response.json();
 
-                setAuthenticated(
-                    data.authenticated === true
+                if (mounted) {
+                    setAuthenticated(
+                        response.ok &&
+                        data.authenticated === true
+                    );
+                }
+
+            } catch (error) {
+                console.error(
+                    "Authentication check failed:",
+                    error
                 );
 
-            })
-            .catch(() => {
-                setAuthenticated(false);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+                if (mounted) {
+                    setAuthenticated(false);
+                }
 
+            } finally {
+                if (mounted) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        checkAuthentication();
+
+        return () => {
+            mounted = false;
+        };
     }, []);
 
     if (loading) {
-        return <div>Vérification de la session...</div>;
+        return (
+            <div
+                style={{
+                    minHeight: "100vh",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                Vérification de la session...
+            </div>
+        );
     }
 
     if (!authenticated) {
-        return <Navigate to="/admin/login" replace />;
+        return (
+            <Navigate
+                to="/admin/login"
+                replace
+            />
+        );
     }
 
     return children;

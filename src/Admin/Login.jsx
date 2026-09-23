@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +11,7 @@ import {
 } from "react-icons/fa";
 
 import "../Style/Admin/login.css";
+
 
 function Login() {
 
@@ -25,6 +27,67 @@ function Login() {
 
     const [loading, setLoading] = useState(false);
 
+    const [checkingAuth, setCheckingAuth] = useState(true);
+
+
+    // ========================================
+    // CHECK IF ALREADY LOGGED IN
+    // ========================================
+
+    useEffect(() => {
+
+        const checkAuthentication = async () => {
+
+            try {
+
+                const response = await fetch(
+                    "/api/auth/me",
+                    {
+                        method: "GET",
+                        credentials: "include",
+                        cache: "no-store",
+                    }
+                );
+
+                const data = await response.json();
+
+                if (
+                    response.ok &&
+                    data.authenticated === true
+                ) {
+
+                    navigate(
+                        "/admin",
+                        {
+                            replace: true,
+                        }
+                    );
+
+                    return;
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Authentication check error:",
+                    error
+                );
+
+            } finally {
+
+                setCheckingAuth(false);
+
+            }
+        };
+
+        checkAuthentication();
+
+    }, [navigate]);
+
+
+    // ========================================
+    // LOGIN
+    // ========================================
 
     const handleSubmit = async (e) => {
 
@@ -34,11 +97,10 @@ function Login() {
 
         setLoading(true);
 
-
         try {
 
             const response = await fetch(
-                "http://localhost:5000/api/auth/login",
+                "/api/auth/login",
                 {
                     method: "POST",
 
@@ -49,8 +111,8 @@ function Login() {
                     credentials: "include",
 
                     body: JSON.stringify({
-                        email,
-                        password,
+                        email: email.trim(),
+                        password: password,
                     }),
                 }
             );
@@ -70,14 +132,22 @@ function Login() {
             }
 
 
-            /*
-             * Login successful.
-             *
-             * The backend has created the
-             * authentication cookie.
-             */
+            if (data.authenticated === true) {
 
-            navigate("/admin");
+                navigate(
+                    "/admin",
+                    {
+                        replace: true,
+                    }
+                );
+
+            } else {
+
+                setError(
+                    "La connexion a échoué."
+                );
+
+            }
 
         } catch (error) {
 
@@ -98,9 +168,41 @@ function Login() {
     };
 
 
+    // ========================================
+    // CHECKING SESSION
+    // ========================================
+
+    if (checkingAuth) {
+
+        return (
+            <main className="admin-login-page">
+
+                <div
+                    style={{
+                        width: "100%",
+                        minHeight: "100vh",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    Vérification de la session...
+                </div>
+
+            </main>
+        );
+
+    }
+
+
+    // ========================================
+    // PAGE
+    // ========================================
+
     return (
 
         <main className="admin-login-page">
+
 
             {/* LEFT SIDE */}
 
@@ -108,9 +210,12 @@ function Login() {
 
                 <div className="admin-login-overlay"></div>
 
+
                 <div className="admin-login-brand">
 
-                    <span>A2E</span>
+                    <span>
+                        A2E
+                    </span>
 
                     <small>
                         IMMOBILIER
@@ -118,13 +223,13 @@ function Login() {
 
                 </div>
 
+
                 <div className="admin-login-quote">
 
                     <span className="admin-login-label">
-
                         ESPACE ADMINISTRATION
-
                     </span>
+
 
                     <h1>
 
@@ -132,9 +237,12 @@ function Login() {
 
                         <br />
 
-                        <em>immobilier.</em>
+                        <em>
+                            immobilier.
+                        </em>
 
                     </h1>
+
 
                     <p>
 
@@ -156,9 +264,13 @@ function Login() {
                 <div className="admin-login-form-container">
 
 
+                    {/* MOBILE BRAND */}
+
                     <div className="admin-login-mobile-brand">
 
-                        <span>A2E</span>
+                        <span>
+                            A2E
+                        </span>
 
                         <small>
                             IMMOBILIER
@@ -166,6 +278,8 @@ function Login() {
 
                     </div>
 
+
+                    {/* HEADING */}
 
                     <div className="admin-login-heading">
 
@@ -175,9 +289,11 @@ function Login() {
 
                         </span>
 
+
                         <h2>
                             Connexion
                         </h2>
+
 
                         <p>
 
@@ -188,6 +304,8 @@ function Login() {
 
                     </div>
 
+
+                    {/* FORM */}
 
                     <form
                         className="admin-login-form"
@@ -326,6 +444,7 @@ function Login() {
 
                             </span>
 
+
                             <span className="admin-login-button-arrow">
 
                                 →
@@ -337,6 +456,8 @@ function Login() {
 
                     </form>
 
+
+                    {/* FOOTER */}
 
                     <div className="admin-login-footer">
 
@@ -360,7 +481,10 @@ function Login() {
             </section>
 
         </main>
+
     );
 }
 
+
 export default Login;
+
