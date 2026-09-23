@@ -1,4 +1,3 @@
-
 /* =========================================================
    A2E ADMIN DASHBOARD
 ========================================================= */
@@ -367,7 +366,7 @@
 
     color: #b08a36;
 
-    font-size: 17px;
+    font-size: 20px;
 }
 
 .admin-stat-content {
@@ -480,7 +479,7 @@
 .admin-section-link svg {
     color: #b08a36;
 
-    font-size: 9px;
+    font-size: 10px;
 }
 
 .admin-section-link:hover {
@@ -489,39 +488,68 @@
 
 
 /* =========================================================
-   PROPERTY LIST
+   PROPERTY LIST / CATALOGUE
 ========================================================= */
 
 .admin-property-list {
+    width: 100%;
+
     border-top: 1px solid rgba(50, 45, 35, 0.09);
+
+    background: #fbf9f4;
+
+    overflow: hidden;
 }
 
+
+/* =========================================================
+   PROPERTY ROW
+========================================================= */
+
 .admin-property-row {
-    min-height: 100px;
+    width: 100%;
+    min-height: 105px;
 
     display: grid;
 
     grid-template-columns:
-        78px
-        minmax(150px, 1fr)
-        auto
-        auto
-        30px;
+        82px
+        minmax(180px, 1fr)
+        120px
+        90px
+        100px;
 
     align-items: center;
 
-    gap: 15px;
+    gap: 18px;
+
+    padding: 14px 16px;
+
+    box-sizing: border-box;
 
     border-bottom: 1px solid rgba(50, 45, 35, 0.08);
+
+    transition: background-color 0.2s ease;
 }
 
+.admin-property-row:hover {
+    background: #f7f2e9;
+}
+
+
+/* =========================================================
+   PROPERTY IMAGE
+========================================================= */
+
 .admin-property-image {
-    width: 78px;
-    height: 68px;
+    width: 82px;
+    height: 70px;
 
     overflow: hidden;
 
     background: #e4ddd1;
+
+    flex-shrink: 0;
 }
 
 .admin-property-image img {
@@ -531,69 +559,122 @@
     display: block;
 
     object-fit: cover;
+
+    transition: transform 0.3s ease;
 }
+
+.admin-property-row:hover .admin-property-image img {
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   PROPERTY INFORMATION
+========================================================= */
 
 .admin-property-info {
     min-width: 0;
+
+    overflow: hidden;
 }
 
 .admin-property-info h3 {
     overflow: hidden;
 
-    margin: 0 0 7px;
+    margin: 0 0 8px;
 
     color: #292620;
 
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: Arial, Helvetica, sans-serif;
 
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 15px;
+
+    font-weight: 600;
+
+    line-height: 1.35;
 
     white-space: nowrap;
+
     text-overflow: ellipsis;
 }
+
+
+/* =========================================================
+   LOCATION
+========================================================= */
 
 .admin-property-location {
     display: flex;
     align-items: center;
 
-    gap: 6px;
+    gap: 7px;
 
-    margin-bottom: 8px;
+    margin-bottom: 9px;
 
-    color: #8c857b;
+    color: #716b63;
 
-    font-size: 9px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 400;
+
+    line-height: 1.3;
+
+    overflow: hidden;
+}
+
+.admin-property-location span {
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
 }
 
 .admin-property-location svg {
+    flex-shrink: 0;
+
     color: #b08a36;
 
-    font-size: 9px;
+    font-size: 12px;
 }
+
+
+/* =========================================================
+   PROPERTY META
+========================================================= */
 
 .admin-property-meta {
     display: flex;
     align-items: center;
 
-    gap: 12px;
+    gap: 14px;
 
-    color: #aaa39a;
+    color: #777067;
 
-    font-size: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 500;
 }
 
 .admin-property-meta span {
     display: flex;
     align-items: center;
 
-    gap: 4px;
+    gap: 9px;
+    
+    white-space: nowrap;
 }
 
 .admin-property-meta svg {
+    flex-shrink: 0;
+
     color: #b08a36;
 
-    font-size: 8px;
+    font-size: 15px;
 }
 
 
@@ -602,29 +683,37 @@
 ========================================================= */
 
 .admin-property-price {
-    min-width: 110px;
+    min-width: 0;
 }
 
 .admin-property-price small {
     display: block;
 
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 
-    color: #aaa39a;
+    color: #999187;
 
-    font-size: 7px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 8px;
+
     font-weight: 700;
 
     letter-spacing: 0.12em;
 }
 
 .admin-property-price strong {
+    display: block;
+
     color: #292620;
 
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: Arial, Helvetica, sans-serif;
 
     font-size: 13px;
-    font-weight: 400;
+
+    font-weight: 600;
+
+    line-height: 1.3;
 
     white-space: nowrap;
 }
@@ -634,66 +723,110 @@
    STATUS
 ========================================================= */
 
+.admin-property-status {
+    min-width: 0;
+}
+
 .admin-property-status span {
-    display: inline-block;
+    display: inline-flex;
 
-    padding: 6px 9px;
+    align-items: center;
+    justify-content: center;
 
-    font-size: 7px;
+    min-height: 29px;
+
+    padding: 0 10px;
+
+    box-sizing: border-box;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 9px;
+
     font-weight: 700;
 
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
 
     white-space: nowrap;
 }
 
 .admin-property-status .for-sale {
-    background: rgba(176, 138, 54, 0.11);
+    background: rgba(176, 138, 54, 0.12);
 
-    color: #9a762c;
+    color: #94722f;
 }
 
 .admin-property-status .for-rent {
-    background: rgba(77, 89, 72, 0.11);
+    background: rgba(77, 89, 72, 0.12);
 
     color: #4d5948;
 }
 
 
 /* =========================================================
-   EDIT ARROW
+   EDIT BUTTON
 ========================================================= */
 
 .admin-property-edit {
-    width: 28px;
-    height: 28px;
+    width: 100px;
+    height: 38px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border: 1px solid rgba(50, 45, 35, 0.1);
+    gap: 8px;
 
-    color: #8c857b;
+    padding: 0 10px;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(176, 138, 54, 0.40);
+
+    background: transparent;
+
+    color: #94722f;
 
     text-decoration: none;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
 
     transition:
         background-color 0.2s ease,
         color 0.2s ease,
+        border-color 0.2s ease,
         transform 0.2s ease;
 }
 
 .admin-property-edit svg {
-    font-size: 9px;
+    width: 17px;
+    height: 17px;
+
+    flex-shrink: 0;
+
+    font-size: 17px;
+}
+
+.admin-property-edit span {
+    display: inline-block;
+
+    line-height: 1;
 }
 
 .admin-property-edit:hover {
     background: #292620;
 
+    border-color: #292620;
+
     color: #d5b76b;
 
-    transform: translateX(2px);
+    transform: translateY(-1px);
 }
 
 
@@ -713,7 +846,10 @@
 
     display: grid;
 
-    grid-template-columns: 39px minmax(0, 1fr) 20px;
+    grid-template-columns:
+        39px
+        minmax(0, 1fr)
+        20px;
 
     align-items: center;
 
@@ -766,7 +902,7 @@
 
     color: #b08a36;
 
-    font-size: 13px;
+    font-size: 17px;
 }
 
 .admin-action-card strong {
@@ -777,6 +913,7 @@
     font-family: Georgia, "Times New Roman", serif;
 
     font-size: 14px;
+
     font-weight: 400;
 }
 
@@ -795,7 +932,7 @@
 .admin-action-arrow {
     color: #b08a36;
 
-    font-size: 9px;
+    font-size: 11px;
 
     transition: transform 0.2s ease;
 }
@@ -811,11 +948,13 @@
 
 .admin-dashboard-footer {
     display: flex;
+
     justify-content: flex-end;
 
     gap: 12px;
 
     margin-top: 55px;
+
     padding-top: 20px;
 
     border-top: 1px solid rgba(50, 45, 35, 0.08);
@@ -835,7 +974,7 @@
 
 
 /* =========================================================
-   TABLET
+   LARGE TABLET / LAPTOP
 ========================================================= */
 
 @media (max-width: 1150px) {
@@ -869,7 +1008,9 @@
     }
 
     .admin-action-card {
-        grid-template-columns: 35px minmax(0, 1fr);
+        grid-template-columns:
+            35px
+            minmax(0, 1fr);
 
         position: relative;
     }
@@ -879,6 +1020,62 @@
 
         right: 12px;
         top: 15px;
+    }
+
+    /* CATALOGUE */
+
+    .admin-property-row {
+        grid-template-columns:
+            78px
+            minmax(140px, 1fr)
+            105px
+            85px
+            88px;
+
+        gap: 12px;
+
+        padding: 13px;
+    }
+
+    .admin-property-image {
+        width: 78px;
+        height: 66px;
+    }
+
+    .admin-property-edit {
+        width: 88px;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .admin-property-row {
+        grid-template-columns:
+            75px
+            minmax(0, 1fr)
+            85px;
+    }
+
+    .admin-property-image {
+        width: 75px;
+        height: 64px;
+    }
+
+    .admin-property-price,
+    .admin-property-status {
+        display: none;
+    }
+
+    .admin-property-edit {
+        width: 85px;
+        min-width: 85px;
+
+        height: 36px;
     }
 }
 
@@ -928,7 +1125,7 @@
     }
 
     .admin-nav-link svg {
-        font-size: 15px;
+        font-size: 17px;
     }
 
     .admin-view-site,
@@ -961,6 +1158,69 @@
 
     .admin-actions-list {
         grid-template-columns: 1fr;
+    }
+
+
+    /* =====================================================
+       CATALOGUE
+    ===================================================== */
+
+    .admin-property-row {
+        grid-template-columns:
+            72px
+            minmax(0, 1fr)
+            44px;
+
+        gap: 12px;
+
+        min-height: 92px;
+
+        padding: 12px 10px;
+    }
+
+    .admin-property-image {
+        width: 72px;
+        height: 62px;
+    }
+
+    .admin-property-edit {
+        width: 44px;
+        min-width: 44px;
+
+        height: 44px;
+
+        padding: 0;
+
+        gap: 0;
+    }
+
+    .admin-property-edit span {
+        display: none;
+    }
+
+    .admin-property-edit svg {
+        width: 19px;
+        height: 19px;
+
+        font-size: 19px;
+    }
+
+    .admin-property-info h3 {
+        font-size: 14px;
+    }
+
+    .admin-property-location {
+        font-size: 10px;
+    }
+
+    .admin-property-meta {
+        gap: 15px;
+
+        font-size: 13px;
+    }
+
+    .admin-property-meta svg {
+        font-size: 13px;
     }
 }
 
@@ -1064,27 +1324,56 @@
         width: 40px;
         height: 40px;
 
-        font-size: 14px;
+        font-size: 17px;
     }
 
     .admin-stat-content strong {
         font-size: 27px;
     }
 
+
+    /* =====================================================
+       MOBILE CATALOGUE
+    ===================================================== */
+
+    .admin-property-list {
+        width: 100%;
+
+        border-top: none;
+
+        background: transparent;
+
+        overflow: visible;
+    }
+
     .admin-property-row {
+        width: 100%;
+
+        min-height: 88px;
+
+        display: grid;
+
         grid-template-columns:
-            65px
+            70px
             minmax(0, 1fr)
-            30px;
+            40px;
 
         gap: 10px;
 
-        padding: 12px 0;
+        margin-bottom: 10px;
+
+        padding: 10px;
+
+        box-sizing: border-box;
+
+        border: 1px solid rgba(50, 45, 35, 0.08);
+
+        background: #fbf9f4;
     }
 
     .admin-property-image {
-        width: 65px;
-        height: 60px;
+        width: 70px;
+        height: 66px;
     }
 
     .admin-property-price,
@@ -1092,16 +1381,92 @@
         display: none;
     }
 
+    .admin-property-info {
+        min-width: 0;
+
+        overflow: hidden;
+    }
+
     .admin-property-info h3 {
+        margin-bottom: 6px;
+
         font-size: 14px;
+
+        line-height: 1.3;
+    }
+
+    .admin-property-location {
+        margin-bottom: 6px;
+
+        font-size: 9px;
+
+        gap: 5px;
+    }
+
+    .admin-property-location svg {
+        font-size: 10px;
     }
 
     .admin-property-meta {
-        gap: 8px;
+        gap: 15px;
+
+        font-size: 12px;
+
+        overflow: hidden;
+    }
+
+    .admin-property-meta span {
+        gap: 4px;
+    }
+
+    .admin-property-meta svg {
+        font-size: 12px;
+    }
+
+
+    /* =====================================================
+       MOBILE EDIT BUTTON
+    ===================================================== */
+
+    .admin-property-edit {
+        width: 40px;
+        min-width: 40px;
+
+        height: 40px;
+
+        padding: 0;
+
+        gap: 0;
+    }
+
+    .admin-property-edit span {
+        display: none;
+    }
+
+    .admin-property-edit svg {
+        width: 18px;
+        height: 18px;
+
+        font-size: 18px;
+    }
+
+
+    /* =====================================================
+       SECTION HEADER
+    ===================================================== */
+
+    .admin-section-header {
+        align-items: center;
+
+        margin-bottom: 16px;
     }
 
     .admin-section-header h2 {
         font-size: 24px;
+    }
+
+    .admin-section-link {
+        font-size: 9px;
     }
 
     .admin-dashboard-footer {
@@ -1132,20 +1497,65 @@
         display: none;
     }
 
+
+    /* CATALOGUE */
+
     .admin-property-row {
         grid-template-columns:
-            55px
+            58px
             minmax(0, 1fr)
-            28px;
+            36px;
+
+        gap: 8px;
+
+        min-height: 80px;
+
+        padding: 8px;
     }
 
     .admin-property-image {
-        width: 55px;
-        height: 52px;
+        width: 58px;
+        height: 55px;
     }
 
     .admin-property-info h3 {
         font-size: 13px;
+
+        margin-bottom: 5px;
+    }
+
+    .admin-property-location {
+        font-size: 8px;
+
+        gap: 4px;
+
+        margin-bottom: 5px;
+    }
+
+    .admin-property-meta {
+        font-size: 13px;
+
+        gap: 25px;
+    }
+
+    .admin-property-meta svg {
+        font-size: 12px;
+    }
+
+
+    /* EDIT */
+
+    .admin-property-edit {
+        width: 36px;
+        min-width: 36px;
+
+        height: 36px;
+    }
+
+    .admin-property-edit svg {
+        width: 16px;
+        height: 16px;
+
+        font-size: 16px;
     }
 }
-

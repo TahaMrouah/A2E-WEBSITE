@@ -686,7 +686,43 @@
     color: #fff;
 }
 
+.admin-properties-back-button {
+    flex-shrink: 0;
+    min-height: 52px;
+    padding: 0 20px;
 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    border: 1px solid #ded6c9;
+    border-radius: 6px;
+
+    background: #faf8f4;
+    color: #514b43;
+
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.admin-properties-back-button svg {
+    font-size: 11px;
+}
+
+.admin-properties-back-button:hover {
+    border-color: #292620;
+    background: #292620;
+    color: #fff;
+    transform: translateY(-2px);
+}
 .admin-property-delete {
     border: 1px solid #eadbd7;
 

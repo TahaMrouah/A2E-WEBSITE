@@ -13,13 +13,30 @@ import {
     FaMapMarkerAlt,
     FaBed,
     FaBath,
+    FaEdit,FaRulerCombined
 } from "react-icons/fa";
 
-import properties from "../Data/properties";
+import useProperties from "../hooks/useProperties";
+import { resolvePropertyImage } from "../Data/propertyImage";
+
 import "../Style/Admin/dashboard.css";
 
+
 function Dashboard() {
+
     const navigate = useNavigate();
+
+
+    /* ================================
+       LOAD PROPERTIES FROM MONGODB
+    ================================= */
+
+    const {
+        properties,
+        loading,
+        error,
+    } = useProperties();
+
 
     /* ================================
        PROPERTY STATISTICS
@@ -29,25 +46,68 @@ function Dashboard() {
 
     const propertiesForSale = properties.filter(
         (property) =>
-            property.status?.toLowerCase().includes("vendre")
+            property.status
+                ?.toLowerCase()
+                .includes("vendre")
     ).length;
 
     const propertiesForRent = properties.filter(
         (property) =>
-            property.status?.toLowerCase().includes("louer")
+            property.status
+                ?.toLowerCase()
+                .includes("louer")
     ).length;
+
 
     /* ================================
        LOGOUT
     ================================= */
 
     const handleLogout = () => {
+
         localStorage.removeItem("a2e_admin");
+
         navigate("/admin/login");
+
     };
 
+
+    /* ================================
+       LOADING
+    ================================= */
+
+    if (loading) {
+
+        return (
+            <main className="admin-dashboard">
+
+                <section className="admin-dashboard-content">
+
+                    <div
+                        style={{
+                            minHeight: "100vh",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontFamily: "Georgia, serif",
+                            color: "#292620",
+                        }}
+                    >
+                        Chargement des propriétés...
+                    </div>
+
+                </section>
+
+            </main>
+        );
+
+    }
+
+
     return (
+
         <main className="admin-dashboard">
+
 
             {/* ==========================================
                 SIDEBAR
@@ -55,12 +115,19 @@ function Dashboard() {
 
             <aside className="admin-sidebar">
 
+
                 {/* LOGO */}
 
                 <div className="admin-sidebar-logo">
+
                     <span>A2E</span>
-                    <small>IMMOBILIER</small>
+
+                    <small>
+                        IMMOBILIER
+                    </small>
+
                 </div>
+
 
                 {/* NAVIGATION */}
 
@@ -70,43 +137,68 @@ function Dashboard() {
                         ADMINISTRATION
                     </span>
 
+
                     <Link
                         to="/admin"
                         className="admin-nav-link active"
                     >
+
                         <FaChartLine />
-                        <span>Dashboard</span>
+
+                        <span>
+                            Dashboard
+                        </span>
+
                     </Link>
+
 
                     <Link
                         to="/admin/properties"
                         className="admin-nav-link"
                     >
+
                         <FaBuilding />
-                        <span>Propriétés</span>
+
+                        <span>
+                            Propriétés
+                        </span>
+
                     </Link>
 
                 </nav>
+
 
                 {/* SIDEBAR BOTTOM */}
 
                 <div className="admin-sidebar-bottom">
 
+
                     <Link
                         to="/properties"
                         className="admin-view-site"
                     >
-                        <span>Voir le site</span>
+
+                        <span>
+                            Voir le site
+                        </span>
+
                         <FaArrowRight />
+
                     </Link>
+
 
                     <button
                         type="button"
                         className="admin-logout"
                         onClick={handleLogout}
                     >
+
                         <FaSignOutAlt />
-                        <span>Déconnexion</span>
+
+                        <span>
+                            Déconnexion
+                        </span>
+
                     </button>
 
                 </div>
@@ -120,11 +212,13 @@ function Dashboard() {
 
             <section className="admin-dashboard-content">
 
+
                 {/* TOP BAR */}
 
                 <header className="admin-dashboard-header">
 
                     <div>
+
                         <span className="admin-dashboard-label">
                             A2E IMMOBILIER
                         </span>
@@ -132,7 +226,9 @@ function Dashboard() {
                         <h1>
                             Dashboard
                         </h1>
+
                     </div>
+
 
                     <div className="admin-header-actions">
 
@@ -150,10 +246,36 @@ function Dashboard() {
 
 
                 {/* ==========================================
+                    DATABASE ERROR
+                ========================================== */}
+
+                {error && (
+
+                    <div
+                        style={{
+                            marginBottom: "25px",
+                            padding: "15px 20px",
+                            border: "1px solid #eadbd7",
+                            borderRadius: "7px",
+                            background: "#fff9f7",
+                            color: "#a45b50",
+                            fontSize: "12px",
+                        }}
+                    >
+                        Impossible de charger les propriétés :
+                        {" "}
+                        {error}
+                    </div>
+
+                )}
+
+
+                {/* ==========================================
                     STATISTICS
                 ========================================== */}
 
                 <section className="admin-statistics">
+
 
                     {/* TOTAL */}
 
@@ -244,15 +366,18 @@ function Dashboard() {
 
                 <section className="admin-dashboard-grid">
 
+
                     {/* ======================================
                         RECENT PROPERTIES
                     ====================================== */}
 
                     <div className="admin-recent-properties">
 
+
                         <div className="admin-section-header">
 
                             <div>
+
                                 <span className="admin-section-label">
                                     CATALOGUE
                                 </span>
@@ -260,14 +385,19 @@ function Dashboard() {
                                 <h2>
                                     Propriétés récentes
                                 </h2>
+
                             </div>
+
 
                             <Link
                                 to="/admin/properties"
                                 className="admin-section-link"
                             >
+
                                 Voir tout
+
                                 <FaArrowRight />
+
                             </Link>
 
                         </div>
@@ -275,133 +405,190 @@ function Dashboard() {
 
                         <div className="admin-property-list">
 
+
                             {properties
                                 .slice(0, 5)
-                                .map((property) => (
+                                .map((property) => {
 
-                                    <div
-                                        className="admin-property-row"
-                                        key={property.id}
-                                    >
-
-                                        {/* IMAGE */}
-
-                                        <div className="admin-property-image">
-
-                                            <img
-                                                src={
-                                                    property.images?.[0]
-                                                }
-                                                alt={
-                                                    property.title
-                                                }
-                                            />
-
-                                        </div>
+                                    const propertyImage =
+                                        Array.isArray(
+                                            property.images
+                                        ) &&
+                                        property.images.length > 0
+                                            ? resolvePropertyImage(
+                                                  property.images[0]
+                                              )
+                                            : null;
 
 
-                                        {/* INFORMATION */}
+                                    return (
 
-                                        <div className="admin-property-info">
-
-                                            <h3>
-                                                {property.title}
-                                            </h3>
-
-                                            <div className="admin-property-location">
-
-                                                <FaMapMarkerAlt />
-
-                                                <span>
-                                                    {
-                                                        property.location
-                                                    }
-                                                </span>
-
-                                            </div>
-
-                                            <div className="admin-property-meta">
-
-                                                <span>
-                                                    <FaBed />
-                                                    {
-                                                        property.bedrooms
-                                                    }
-                                                </span>
-
-                                                <span>
-                                                    <FaBath />
-                                                    {
-                                                        property.bathrooms
-                                                    }
-                                                </span>
-
-                                                <span>
-                                                    {
-                                                        property.surface
-                                                    }
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        {/* PRICE */}
-
-                                        <div className="admin-property-price">
-
-                                            <small>
-                                                PRIX
-                                            </small>
-
-                                            <strong>
-                                                {Number(
-                                                    property.price
-                                                ).toLocaleString(
-                                                    "fr-FR"
-                                                )}{" "}
-                                                MAD
-                                            </strong>
-
-                                        </div>
-
-
-                                        {/* STATUS */}
-
-                                        <div className="admin-property-status">
-
-                                            <span
-                                                className={
-                                                    property.status
-                                                        ?.toLowerCase()
-                                                        .includes(
-                                                            "vendre"
-                                                        )
-                                                        ? "for-sale"
-                                                        : "for-rent"
-                                                }
-                                            >
-                                                {
-                                                    property.status
-                                                }
-                                            </span>
-
-                                        </div>
-
-
-                                        {/* EDIT */}
-
-                                        <Link
-                                            to={`/admin/properties/${property.id}/edit`}
-                                            className="admin-property-edit"
+                                        <div
+                                            className="admin-property-row"
+                                            key={property._id}
                                         >
-                                            <FaArrowRight />
-                                        </Link>
 
-                                    </div>
 
-                                ))}
+                                            {/* IMAGE */}
+
+                                            <div className="admin-property-image">
+
+                                                {propertyImage ? (
+
+                                                    <img
+                                                        src={
+                                                            propertyImage
+                                                        }
+                                                        alt={
+                                                            property.title
+                                                        }
+                                                    />
+
+                                                ) : (
+
+                                                    <div
+                                                        style={{
+                                                            width: "100%",
+                                                            height: "100%",
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                        }}
+                                                    >
+                                                        <FaHome />
+                                                    </div>
+
+                                                )}
+
+                                            </div>
+
+
+                                            {/* INFORMATION */}
+
+                                            <div className="admin-property-info">
+
+                                                <h3>
+                                                    {
+                                                        property.title
+                                                    }
+                                                </h3>
+
+
+                                                <div className="admin-property-location">
+
+                                                    <FaMapMarkerAlt />
+
+                                                    <span>
+                                                        {
+                                                            property.location
+                                                        }
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div className="admin-property-meta">
+
+                                                    <span>
+
+                                                        <FaBed />
+
+                                                        {
+                                                            property.bedrooms
+                                                        }
+
+                                                    </span>
+
+
+                                                    <span>
+
+                                                        <FaBath />
+
+                                                        {
+                                                            property.bathrooms
+                                                        }
+
+                                                    </span>
+
+
+                                                    <span>
+                                                        <FaRulerCombined/>
+                                                        {
+                                                            property.surface
+                                                        }
+                                                    </span>
+
+                                                </div>
+                                                        {/* PRICE */}
+
+                                            <div className="admin-property-price">
+
+                                                <small>
+                                                    PRIX
+                                                </small>
+
+                                                <strong>
+
+                                                    {Number(
+                                                        property.price
+                                                    ).toLocaleString(
+                                                        "fr-FR"
+                                                    )}
+
+                                                    {" "}
+                                                    MAD
+
+                                                </strong>
+
+                                            </div>
+                                            </div>
+
+
+                                            
+
+
+                                            {/* STATUS */}
+
+                                            <div className="admin-property-status">
+
+                                                <span
+                                                    className={
+                                                        property.status
+                                                            ?.toLowerCase()
+                                                            .includes(
+                                                                "vendre"
+                                                            )
+                                                            ? "for-sale"
+                                                            : "for-rent"
+                                                    }
+                                                >
+
+                                                    {
+                                                        property.status
+                                                    }
+
+                                                </span>
+
+                                            </div>
+
+
+                                            {/* EDIT */}
+
+                                            <Link
+                                                to={`/admin/properties/${property._id}/edit`}
+                                                className="admin-property-edit"
+                                            >
+
+                                                <FaEdit />
+<span>Modifier</span>
+
+                                            </Link>
+
+                                        </div>
+
+                                    );
+
+                                })}
 
                         </div>
 
@@ -414,9 +601,11 @@ function Dashboard() {
 
                     <div className="admin-quick-actions">
 
+
                         <div className="admin-section-header">
 
                             <div>
+
                                 <span className="admin-section-label">
                                     ACTIONS
                                 </span>
@@ -424,12 +613,14 @@ function Dashboard() {
                                 <h2>
                                     Accès rapide
                                 </h2>
+
                             </div>
 
                         </div>
 
 
                         <div className="admin-actions-list">
+
 
                             <Link
                                 to="/admin/properties/new"
@@ -441,6 +632,7 @@ function Dashboard() {
                                 </div>
 
                                 <div>
+
                                     <strong>
                                         Ajouter une propriété
                                     </strong>
@@ -448,6 +640,7 @@ function Dashboard() {
                                     <span>
                                         Créer une nouvelle annonce
                                     </span>
+
                                 </div>
 
                                 <FaArrowRight className="admin-action-arrow" />
@@ -465,6 +658,7 @@ function Dashboard() {
                                 </div>
 
                                 <div>
+
                                     <strong>
                                         Gérer les propriétés
                                     </strong>
@@ -472,6 +666,7 @@ function Dashboard() {
                                     <span>
                                         Modifier ou supprimer un bien
                                     </span>
+
                                 </div>
 
                                 <FaArrowRight className="admin-action-arrow" />
@@ -489,6 +684,7 @@ function Dashboard() {
                                 </div>
 
                                 <div>
+
                                     <strong>
                                         Voir le site
                                     </strong>
@@ -496,11 +692,13 @@ function Dashboard() {
                                     <span>
                                         Consulter le site public
                                     </span>
+
                                 </div>
 
                                 <FaArrowRight className="admin-action-arrow" />
 
                             </Link>
+
 
                         </div>
 
@@ -529,11 +727,12 @@ function Dashboard() {
 
                 </footer>
 
+
             </section>
 
         </main>
     );
 }
 
-export default Dashboard;
 
+export default Dashboard;

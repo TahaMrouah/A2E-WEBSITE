@@ -13,6 +13,7 @@ import Login from "./Admin/Login";
 import Dashboard from "./Admin/Dashboard";
 import AdminProperties from "./Admin/Properties";
 import PropertyForm from "./Admin/PropertyForm";
+import AdminProtectedRoute from "./Admin/adminProtectedRoute";
 function App() {
   return (
     <>
@@ -43,16 +44,24 @@ function App() {
         <Route path="/properties" element={<Properties />} />
         <Route path="/properties/:id" element={<PropertyDetails />} />
         <Route path="/admin/login" element={<Login />} />
-        <Route path="/admin" element={<Dashboard />} />
-        <Route path="/admin/properties" element={<AdminProperties />} />
+        <Route
+    path="/admin"
+    element={
+        <AdminProtectedRoute>
+            <Dashboard />
+        </AdminProtectedRoute>
+    }
+/>
+        <Route path="/admin/properties" element={
+          <AdminProtectedRoute><AdminProperties /></AdminProtectedRoute>} />
         <Route
           path="/admin/properties/new"
-          element={<PropertyForm />}
+          element={<AdminProtectedRoute><PropertyForm /></AdminProtectedRoute>}
         />
 
         <Route
           path="/admin/properties/:id/edit"
-          element={<PropertyForm />}
+          element={<AdminProtectedRoute><PropertyForm /></AdminProtectedRoute>}
         />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>

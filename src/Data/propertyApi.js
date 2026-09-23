@@ -1,8 +1,8 @@
-
 const API_URL = "http://localhost:5000/api/properties";
 
 // ========================================
 // GET ALL PROPERTIES
+// PUBLIC
 // ========================================
 
 export async function getProperties() {
@@ -17,6 +17,7 @@ export async function getProperties() {
 
 // ========================================
 // GET ONE PROPERTY
+// PUBLIC
 // ========================================
 
 export async function getProperty(id) {
@@ -33,6 +34,7 @@ export async function getProperty(id) {
 
 // ========================================
 // CREATE PROPERTY
+// ADMIN ONLY
 // ========================================
 
 export async function addProperty(property) {
@@ -42,6 +44,8 @@ export async function addProperty(property) {
         headers: {
             "Content-Type": "application/json",
         },
+
+        credentials: "include",
 
         body: JSON.stringify(property),
     });
@@ -59,6 +63,7 @@ export async function addProperty(property) {
 
 // ========================================
 // UPDATE PROPERTY
+// ADMIN ONLY
 // ========================================
 
 export async function updateProperty(id, property) {
@@ -70,6 +75,8 @@ export async function updateProperty(id, property) {
             headers: {
                 "Content-Type": "application/json",
             },
+
+            credentials: "include",
 
             body: JSON.stringify(property),
         }
@@ -88,6 +95,7 @@ export async function updateProperty(id, property) {
 
 // ========================================
 // DELETE PROPERTY
+// ADMIN ONLY
 // ========================================
 
 export async function deleteProperty(id) {
@@ -95,6 +103,8 @@ export async function deleteProperty(id) {
         `${API_URL}/${id}`,
         {
             method: "DELETE",
+
+            credentials: "include",
         }
     );
 
@@ -108,4 +118,3 @@ export async function deleteProperty(id) {
 
     return await response.json();
 }
-
