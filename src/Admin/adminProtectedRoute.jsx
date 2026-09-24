@@ -11,7 +11,7 @@ function AdminProtectedRoute({ children }) {
         const checkAuthentication = async () => {
             try {
                 const response = await fetch(
-                    "/api/auth/me",
+                    "https://a2e-api.netlify.app/api/auth/me",
                     {
                         method: "GET",
                         credentials: "include",

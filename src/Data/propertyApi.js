@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api/properties";
+const API_URL = "https://a2e-api.netlify.app/api/properties";
 
 // ========================================
 // GET ALL PROPERTIES

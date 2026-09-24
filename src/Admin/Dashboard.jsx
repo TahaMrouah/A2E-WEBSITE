@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import API_URL from "../configs/api";
 
 import {
     FaHome,
@@ -69,7 +70,7 @@ const handleLogout = async () => {
     try {
 
         const response = await fetch(
-            "/api/auth/logout",
+            `${API_URL}/api/auth/logout`,
             {
                 method: "POST",
                 credentials: "include",

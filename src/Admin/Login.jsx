@@ -41,7 +41,7 @@ function Login() {
             try {
 
                 const response = await fetch(
-                    "/api/auth/me",
+                    "https://a2e-api.netlify.app/api/auth/me",
                     {
                         method: "GET",
                         credentials: "include",
@@ -100,7 +100,7 @@ function Login() {
         try {
 
             const response = await fetch(
-                "/api/auth/login",
+                "https://a2e-api.netlify.app/api/auth/login",
                 {
                     method: "POST",
 
