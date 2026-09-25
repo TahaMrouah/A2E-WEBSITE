@@ -1,17 +1,32 @@
+
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
+
+// ========================================
+// LOCAL API
+// ========================================
+
+const API_URL = "http://localhost:5000/api";
+
+
 function AdminProtectedRoute({ children }) {
+
     const [loading, setLoading] = useState(true);
     const [authenticated, setAuthenticated] = useState(false);
 
+
     useEffect(() => {
+
         let mounted = true;
 
+
         const checkAuthentication = async () => {
+
             try {
+
                 const response = await fetch(
-                    "https://a2e-api.netlify.app/api/auth/me",
+                    `${API_URL}/auth/me`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -19,41 +34,70 @@ function AdminProtectedRoute({ children }) {
                     }
                 );
 
+
                 const data = await response.json();
 
+
                 if (mounted) {
+
                     setAuthenticated(
                         response.ok &&
                         data.authenticated === true
                     );
+
                 }
 
-            } catch (error) {
+            }
+
+            catch (error) {
+
                 console.error(
                     "Authentication check failed:",
                     error
                 );
 
+
                 if (mounted) {
+
                     setAuthenticated(false);
+
                 }
 
-            } finally {
-                if (mounted) {
-                    setLoading(false);
-                }
             }
+
+            finally {
+
+                if (mounted) {
+
+                    setLoading(false);
+
+                }
+
+            }
+
         };
+
 
         checkAuthentication();
 
+
         return () => {
+
             mounted = false;
+
         };
+
     }, []);
 
+
+    // ========================================
+    // LOADING
+    // ========================================
+
     if (loading) {
+
         return (
+
             <div
                 style={{
                     minHeight: "100vh",
@@ -62,21 +106,42 @@ function AdminProtectedRoute({ children }) {
                     justifyContent: "center",
                 }}
             >
+
                 Vérification de la session...
+
             </div>
+
         );
+
     }
 
+
+    // ========================================
+    // NOT AUTHENTICATED
+    // ========================================
+
     if (!authenticated) {
+
         return (
+
             <Navigate
                 to="/admin/login"
                 replace
             />
+
         );
+
     }
 
+
+    // ========================================
+    // AUTHENTICATED
+    // ========================================
+
     return children;
+
 }
 
+
 export default AdminProtectedRoute;
+

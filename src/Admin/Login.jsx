@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -13,12 +12,18 @@ import {
 import "../Style/Admin/login.css";
 
 
+// ========================================
+// LOCAL API
+// ========================================
+
+const API_URL = "http://localhost:5000/api";
+
+
 function Login() {
 
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
-
     const [password, setPassword] = useState("");
 
     const [showPassword, setShowPassword] = useState(false);
@@ -41,7 +46,7 @@ function Login() {
             try {
 
                 const response = await fetch(
-                    "https://a2e-api.netlify.app/api/auth/me",
+                    `${API_URL}/auth/me`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -49,10 +54,17 @@ function Login() {
                     }
                 );
 
+
+                if (!response.ok) {
+                    setCheckingAuth(false);
+                    return;
+                }
+
+
                 const data = await response.json();
 
+
                 if (
-                    response.ok &&
                     data.authenticated === true
                 ) {
 
@@ -66,19 +78,25 @@ function Login() {
                     return;
                 }
 
-            } catch (error) {
+            }
+
+            catch (error) {
 
                 console.error(
                     "Authentication check error:",
                     error
                 );
 
-            } finally {
+            }
+
+            finally {
 
                 setCheckingAuth(false);
 
             }
+
         };
+
 
         checkAuthentication();
 
@@ -97,10 +115,11 @@ function Login() {
 
         setLoading(true);
 
+
         try {
 
             const response = await fetch(
-                "https://a2e-api.netlify.app/api/auth/login",
+                `${API_URL}/auth/login`,
                 {
                     method: "POST",
 
@@ -132,7 +151,9 @@ function Login() {
             }
 
 
-            if (data.authenticated === true) {
+            if (
+                data.authenticated === true
+            ) {
 
                 navigate(
                     "/admin",
@@ -141,7 +162,9 @@ function Login() {
                     }
                 );
 
-            } else {
+            }
+
+            else {
 
                 setError(
                     "La connexion a échoué."
@@ -149,7 +172,9 @@ function Login() {
 
             }
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
             console.error(
                 "Login error:",
@@ -160,11 +185,14 @@ function Login() {
                 "Impossible de contacter le serveur."
             );
 
-        } finally {
+        }
+
+        finally {
 
             setLoading(false);
 
         }
+
     };
 
 
@@ -175,6 +203,7 @@ function Login() {
     if (checkingAuth) {
 
         return (
+
             <main className="admin-login-page">
 
                 <div
@@ -186,10 +215,13 @@ function Login() {
                         justifyContent: "center",
                     }}
                 >
+
                     Vérification de la session...
+
                 </div>
 
             </main>
+
         );
 
     }
@@ -232,24 +264,19 @@ function Login() {
 
 
                     <h1>
-
                         Gérez votre
-
                         <br />
 
                         <em>
                             immobilier.
                         </em>
-
                     </h1>
 
 
                     <p>
-
                         Gérez vos propriétés, vos offres et
                         les informations de votre agence
                         depuis votre espace d'administration.
-
                     </p>
 
                 </div>
@@ -284,9 +311,7 @@ function Login() {
                     <div className="admin-login-heading">
 
                         <span className="admin-section-label">
-
                             BIENVENUE
-
                         </span>
 
 
@@ -296,10 +321,8 @@ function Login() {
 
 
                         <p>
-
                             Connectez-vous à votre espace
                             d'administration.
-
                         </p>
 
                     </div>
@@ -318,9 +341,7 @@ function Login() {
                         <div className="admin-input-group">
 
                             <label htmlFor="admin-email">
-
                                 Adresse e-mail
-
                             </label>
 
 
@@ -355,9 +376,7 @@ function Login() {
                         <div className="admin-input-group">
 
                             <label htmlFor="admin-password">
-
                                 Mot de passe
-
                             </label>
 
 
@@ -420,9 +439,7 @@ function Login() {
                         {error && (
 
                             <div className="admin-login-error">
-
                                 {error}
-
                             </div>
 
                         )}
@@ -437,18 +454,14 @@ function Login() {
                         >
 
                             <span>
-
                                 {loading
                                     ? "Connexion..."
                                     : "Se connecter"}
-
                             </span>
 
 
                             <span className="admin-login-button-arrow">
-
                                 →
-
                             </span>
 
                         </button>
@@ -483,6 +496,7 @@ function Login() {
         </main>
 
     );
+
 }
 
 

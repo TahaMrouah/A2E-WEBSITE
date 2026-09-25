@@ -107,10 +107,10 @@ function Expertise() {
 
 
       {/* CTA */}
-      <button as={Link} to="/contact" className="btn">
+      <Link to="/contact" className="btn">
         Contactez-nous
         <span>→</span>
-      </button>
+      </Link>
 
     </section>
   );

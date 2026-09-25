@@ -150,7 +150,8 @@
    CONTACT BUTTON
 ================================= */
 
-.service .vente button {
+.service .vente .btn
+ {
   display: inline-flex;
 
   align-items: center;
@@ -187,13 +188,13 @@
     box-shadow 0.3s ease;
 }
 
-.service .vente button span {
+.service .vente .btn span {
   font-size: 1.1rem;
 
   transition: transform 0.3s ease;
 }
 
-.service .vente button:hover {
+.service .vente .btn:hover {
   background: #e0c06a;
 
   border-color: #e0c06a;
@@ -203,7 +204,7 @@
   box-shadow: 0 10px 25px rgba(201, 162, 74, 0.18);
 }
 
-.service .vente button:hover span {
+.service .vente .btn:hover span {
   transform: translateX(5px);
 }
 

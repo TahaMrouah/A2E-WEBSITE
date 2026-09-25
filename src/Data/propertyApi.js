@@ -1,4 +1,4 @@
-const API_URL = "https://a2e-api.netlify.app/api/properties";
+const API_URL = "http://localhost:5000/api/properties";
 
 // ========================================
 // GET ALL PROPERTIES
@@ -21,9 +21,7 @@ export async function getProperties() {
 // ========================================
 
 export async function getProperty(id) {
-    const response = await fetch(
-        `${API_URL}/${id}`
-    );
+    const response = await fetch(`${API_URL}/${id}`);
 
     if (!response.ok) {
         throw new Error("Property not found");

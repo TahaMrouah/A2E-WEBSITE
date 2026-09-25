@@ -1,6 +1,6 @@
-import img from "../assets/bg.webp";
+import img from "../assets/background.png";
 import "../Style/service.css";
-
+import {Link} from "react-router-dom";
 function Service() {
   return (
     <section className="service" id="services">
@@ -25,10 +25,10 @@ function Service() {
           mesure et un réseau d'acheteurs qualifiés.
         </p>
 
-        <button>
+        <Link  to="/contact" className="btn">
           Contactez-nous
           <span>→</span>
-        </button>
+        </Link>
 
       </div>
 
