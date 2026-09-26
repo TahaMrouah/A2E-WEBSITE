@@ -82,8 +82,14 @@ function Footer() {
               Notre Expertise
             </a>
 
-            <Link  to="/contact">
+            <Link to="/contact">
               Contact
+            </Link>
+            <Link
+              to="/admin/login"
+              aria-label="admin"
+            >
+              {/* invisible, just needs to be clickable */}
             </Link>
 
           </MDBCol>
