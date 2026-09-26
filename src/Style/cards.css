@@ -1,32 +1,1212 @@
-.offre {
+/* =========================================================
+   A2E IMMOBILIER — OFFERS
+   Premium / Responsive / Horizontal Showcase
+========================================================= */
+
+
+/* =========================================================
+   PAGE TITLE
+========================================================= */
+
+.offers-title {
+  width: min(900px, 90%);
+  margin: 75px auto 40px;
+}
+
+.offers-title h6 {
+  margin: 0 0 12px;
+
+  color: #c9a24a;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.offers-title h1 {
+  margin: 0;
+
+  color: #25221e;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+
+  line-height: 1.2;
+}
+
+
+/* =========================================================
+   CARDS CONTAINER
+   HORIZONTAL PROPERTY SHOWCASE
+========================================================= */
+
+.cards {
+  width: 100%;
+  max-width: 1500px;
+
+  margin: 0 auto 80px;
+
+  padding: 0 40px 25px;
+
+  display: flex;
+
+  gap: 28px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-behavior: smooth;
+
+  box-sizing: border-box;
+
+  scrollbar-width: thin;
+  scrollbar-color: #c9a24a transparent;
+}
+
+
+/* =========================================================
+   CUSTOM SCROLLBAR
+========================================================= */
+
+.cards::-webkit-scrollbar {
+  height: 6px;
+}
+
+.cards::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cards::-webkit-scrollbar-thumb {
+  background: #c9a24a;
+  border-radius: 20px;
+}
+
+.cards::-webkit-scrollbar-thumb:hover {
+  background: #a98638;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.cards .card {
+  position: relative;
+  height:100%;
+  flex: 0 0 calc((100% - 56px) / 3);
+
+  width: calc((100% - 56px) / 3);
+
+  min-width: 0;
+  max-width: none !important;
+
   display: flex;
   flex-direction: column;
-  
+
+  margin: 0;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  background: #f7f3eb;
+
+  border: 1px solid rgba(201, 162, 74, 0.18);
+
+  box-shadow:
+    0 12px 35px rgba(45, 38, 28, 0.08),
+    0 2px 8px rgba(45, 38, 28, 0.03);
+
+  box-sizing: border-box;
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
 }
-*{
-    
+
+.cards .card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 22px 45px rgba(45, 38, 28, 0.13),
+    0 5px 15px rgba(45, 38, 28, 0.05);
 }
-.offre .title{
-    color:#fff;
-    padding:30px;
-    width: 100%;
-    background-color: rgb(212, 192, 76);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: large;
+
+
+/* =========================================================
+   IMAGE AREA
+========================================================= */
+
+.card-image {
+  position: relative;
+
+  width: 100%;
+
+  height: 300px;
+
+  overflow: hidden;
+
+  background: #ddd7cc;
+
+  flex-shrink: 0;
 }
-.cards{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 10px auto;
+
+
+/* =========================================================
+   SWIPER
+========================================================= */
+
+.villa-carousel {
+  width: 100%;
+  height: 100%;
 }
-.cards .card {
-    background-color: ivory;
-    box-shadow: 0 4px 15px rgba(105, 105, 105, 0.45);
-    display:flex;
-    justify-content:space-around;
-    
+
+.villa-carousel .swiper-wrapper {
+  height: 100%;
+}
+
+.villa-carousel .swiper-slide {
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+.villa-carousel .swiper-slide img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition:
+    transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.card-image:hover
+.villa-carousel
+.swiper-slide-active
+img {
+  transform: scale(1.035);
+}
+
+
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
+
+.card-image::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 35%;
+
+  pointer-events: none;
+
+  background: linear-gradient(
+    to top,
+    rgba(20, 18, 15, 0.35),
+    transparent
+  );
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   PROPERTY BADGE
+========================================================= */
+
+.property-badge {
+  position: absolute;
+
+  top: 18px;
+  left: 18px;
+
+  z-index: 10;
+
+  padding: 7px 13px;
+
+  background: rgba(35, 32, 27, 0.72);
+
+  color: #fff;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  border-radius: 30px;
+
+  font-size: 0.62rem;
+  font-weight: 700;
+
+  letter-spacing: 1.7px;
+
+  backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   SWIPER ARROWS
+========================================================= */
+
+.villa-carousel .swiper-button-next,
+.villa-carousel .swiper-button-prev {
+  width: 38px;
+  height: 38px;
+
+  margin-top: -19px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.22);
+
+  color: #fff;
+
+  backdrop-filter: blur(8px);
+
+  opacity: 0;
+
+  transition:
+    opacity 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+
+  z-index: 5;
+}
+
+.card-image:hover
+.villa-carousel
+.swiper-button-next,
+
+.card-image:hover
+.villa-carousel
+.swiper-button-prev {
+  opacity: 1;
+}
+
+.villa-carousel .swiper-button-next::after,
+.villa-carousel .swiper-button-prev::after {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.villa-carousel .swiper-button-next:hover,
+.villa-carousel .swiper-button-prev:hover {
+  background: rgba(255, 255, 255, 0.85);
+
+  color: #25221e;
+
+  transform: scale(1.08);
+}
+
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.villa-carousel .swiper-pagination {
+  bottom: 14px;
+
+  z-index: 10;
+}
+
+.villa-carousel .swiper-pagination-bullet {
+  width: 6px;
+  height: 6px;
+
+  margin: 0 3px !important;
+
+  background: #fff;
+
+  opacity: 0.55;
+
+  transition:
+    width 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.villa-carousel .swiper-pagination-bullet-active {
+  width: 20px;
+
+  border-radius: 10px;
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.card-content {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  padding-bottom: 20px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MATERIAL UI HEADER
+========================================================= */
+
+.card-content .MuiCardHeader-root {
+  padding: 20px 22px 8px;
+
+  box-sizing: border-box;
+}
+
+.card-content .MuiCardHeader-content {
+  min-width: 0;
+}
+
+.card-content .MuiCardHeader-title {
+  display: block;
+
+  color: #28251f;
+
+  font-size: 1.05rem;
+  font-weight: 600;
+
+  line-height: 1.35;
+
+  overflow-wrap: break-word;
+}
+
+.card-content .MuiCardHeader-subheader {
+  margin-top: 4px;
+
+  color: #999;
+
+  font-size: 0.7rem;
+}
+
+
+/* =========================================================
+   A2E AVATAR
+========================================================= */
+
+.a2e-avatar {
+  width: 36px !important;
+  height: 36px !important;
+
+  background: #c9a24a !important;
+
+  color: #fff !important;
+
+  font-size: 0.62rem !important;
+  font-weight: 700 !important;
+
+  letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.property-menu {
+  color: #777 !important;
+}
+
+.property-menu:hover {
+  color: #c9a24a !important;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.description {
+  padding: 5px 22px 10px !important;
+
+  box-sizing: border-box;
+}
+
+.description .MuiTypography-root {
+  color: #68645d;
+
+  font-size: 0.78rem;
+
+  line-height: 1.55;
+
+  overflow-wrap: break-word;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   PROPERTY DETAILS
+========================================================= */
+
+.property-details {
+  padding: 2px 22px 8px !important;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+.property-price {
+  margin-bottom: 12px !important;
+
+  color: #b08a36 !important;
+
+  font-size: 1.35rem !important;
+
+  font-weight: 700 !important;
+
+  line-height: 1.2;
+
+  overflow-wrap: break-word;
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.property-intro {
+  display: none;
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.property-features {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 7px 12px;
+}
+
+.property-features .MuiTypography-root {
+  width: 100%;
+
+  color: #69655e;
+
+  font-size: 0.76rem;
+
+  line-height: 1.4;
+
+  overflow-wrap: break-word;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.card-footer {
+  width: auto;
+
+  margin-top: 12px;
+
+  padding: 0 22px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PROPERTY BUTTON
+   PREMIUM COMPACT STYLE
+========================================================= */
+
+.property-button {
+  width: auto;
+
+  min-height: 42px;
+
+  padding: 10px 15px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  border: 1px solid rgba(201, 162, 74, 0.75);
+
+  border-radius: 3px;
+
+  background: transparent;
+
+  color: #9c772d;
+
+  text-decoration: none;
+
+  font-family: inherit;
+
+  font-size: 0.68rem;
+
+  font-weight: 700;
+
+  letter-spacing: 1.3px;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.property-button .action-text {
+  white-space: nowrap;
+}
+
+.property-button .action-arrow {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 11px;
+
+  transition: transform 0.3s ease;
+}
+
+.property-button:hover {
+  background: #c9a24a;
+
+  border-color: #c9a24a;
+
+  color: #fff;
+
+  transform: translateY(-2px);
+}
+
+.property-button:hover .action-arrow {
+  transform: translateX(5px);
+}
+
+
+/* =========================================================
+   PLUS D'OFFRES
+========================================================= */
+
+.offers-more-button {
+  flex: 0 0 auto;
+
+  align-self: center;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 15px;
+
+  margin: 25px;
+
+  padding: 13px 25px;
+
+  background: transparent;
+
+  color: #2a2824;
+
+  border: 1px solid #9d8158;
+
+  text-decoration: none;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease,
+    transform 0.35s ease;
+}
+
+.offers-more-button span {
+  font-size: 18px;
+
+  transition: transform 0.35s ease;
+}
+
+.offers-more-button:hover {
+  background: #2a2824;
+
+  color: #f3efe8;
+
+  border-color: #2a2824;
+
+  transform: translateY(-3px);
+}
+
+.offers-more-button:hover span {
+  transform: translateX(6px);
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+   1401px+
+   3 CARDS
+========================================================= */
+
+@media (min-width: 1401px) {
+
+  .cards {
+    max-width: 1550px;
+
+    padding-left: 50px;
+    padding-right: 50px;
+
+    gap: 30px;
+  }
+
+  .cards .card {
+    flex-basis: calc((100% - 60px) / 3);
+
+    width: calc((100% - 60px) / 3);
+  }
+
+  .card-image {
+    height: 320px;
+  }
+
+  .card-content .MuiCardHeader-root {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .description {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  .property-details {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  .card-footer {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+
+/* =========================================================
+   DESKTOP
+   1101px → 1400px
+   3 CARDS
+========================================================= */
+
+@media (max-width: 1400px) {
+
+  .cards {
+    padding-left: 35px;
+    padding-right: 35px;
+
+    gap: 25px;
+  }
+
+  .cards .card {
+    flex-basis: calc((100% - 50px) / 3);
+
+    width: calc((100% - 50px) / 3);
+  }
+
+  .card-image {
+    height: 290px;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+   701px → 1100px
+   2 CARDS
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .offers-title {
+    width: 90%;
+
+    margin-top: 60px;
+    margin-bottom: 35px;
+  }
+
+  .cards {
+    padding-left: 25px;
+    padding-right: 25px;
+
+    gap: 22px;
+  }
+
+  .cards .card {
+    flex-basis: calc((100% - 22px) / 2);
+
+    width: calc((100% - 22px) / 2);
+  }
+
+  .card-image {
+    height: 300px;
+  }
+
+  .card-content .MuiCardHeader-root {
+    padding: 20px 20px 8px;
+  }
+
+  .description {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .property-details {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .card-footer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .property-features .MuiTypography-root {
+    font-size: 0.74rem;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   0 → 700px
+   1 CARD
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .offers-title {
+    width: 88%;
+
+    margin: 50px auto 30px;
+  }
+
+  .offers-title h6 {
+    font-size: 0.72rem;
+
+    letter-spacing: 2.5px;
+  }
+
+  .offers-title h1 {
+    font-size: 1.9rem;
+  }
+
+
+  /* HORIZONTAL SCROLL */
+
+  .cards {
+    padding: 0 15px 20px;
+
+    gap: 18px;
+
+    margin-bottom: 60px;
+  }
+
+  .cards .card {
+    flex: 0 0 88%;
+
+    width: 88%;
+
+    border-radius: 14px;
+  }
+
+
+  /* IMAGE */
+
+  .card-image {
+    height: 285px;
+  }
+
+
+  /* HEADER */
+
+  .card-content .MuiCardHeader-root {
+    padding: 20px 20px 8px;
+  }
+
+  .card-content .MuiCardHeader-title {
+    font-size: 1rem;
+  }
+
+
+  /* DESCRIPTION */
+
+  .description {
+    padding: 5px 20px 9px !important;
+  }
+
+  .description .MuiTypography-root {
+    font-size: 0.8rem;
+
+    line-height: 1.55;
+  }
+
+
+  /* DETAILS */
+
+  .property-details {
+    padding: 2px 20px 8px !important;
+  }
+
+  .property-price {
+    font-size: 1.25rem !important;
+  }
+
+  .property-features {
+    gap: 6px 10px;
+  }
+
+  .property-features .MuiTypography-root {
+    font-size: 0.74rem;
+  }
+
+
+  /* FOOTER */
+
+  .card-footer {
+    padding: 0 20px 20px;
+  }
+
+  .property-button {
+    min-height: 42px;
+
+    padding: 10px 14px;
+
+    font-size: 0.63rem;
+  }
+
+
+  /* SWIPER */
+
+  .villa-carousel .swiper-button-next,
+  .villa-carousel .swiper-button-prev {
+    width: 36px;
+    height: 36px;
+
+    opacity: 0.8;
+  }
+
+  .villa-carousel .swiper-button-next::after,
+  .villa-carousel .swiper-button-prev::after {
+    font-size: 10px;
+  }
+
+
+  /* BADGE */
+
+  .property-badge {
+    top: 14px;
+    left: 14px;
+
+    padding: 6px 11px;
+
+    font-size: 0.58rem;
+  }
+
+
+  /* MORE OFFERS */
+
+  .offers-more-button {
+    margin-left: 5px;
+    margin-right: 5px;
+
+    padding: 13px 20px;
+
+    font-size: 9px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   376px → 500px
+========================================================= */
+
+@media (max-width: 500px) {
+
+  .offers-title {
+    width: 90%;
+
+    margin-top: 40px;
+    margin-bottom: 25px;
+  }
+
+  .offers-title h1 {
+    font-size: 1.65rem;
+  }
+
+
+  .cards {
+    padding-left: 10px;
+    padding-right: 10px;
+
+    gap: 16px;
+  }
+
+  .cards .card {
+    flex: 0 0 91%;
+
+    width: 91%;
+
+    border-radius: 12px;
+  }
+
+
+  /* IMAGE */
+
+  .card-image {
+    height: 270px;
+  }
+
+
+  /* HEADER */
+
+  .card-content .MuiCardHeader-root {
+    padding: 19px 18px 7px;
+  }
+
+  .card-content .MuiCardHeader-title {
+    font-size: 0.95rem;
+
+    line-height: 1.35;
+  }
+
+  .card-content .MuiCardHeader-subheader {
+    font-size: 0.66rem;
+  }
+
+  .a2e-avatar {
+    width: 34px !important;
+    height: 34px !important;
+
+    font-size: 0.58rem !important;
+  }
+
+
+  /* DESCRIPTION */
+
+  .description {
+    padding: 5px 18px 8px !important;
+  }
+
+  .description .MuiTypography-root {
+    font-size: 0.77rem;
+
+    line-height: 1.5;
+  }
+
+
+  /* DETAILS */
+
+  .property-details {
+    padding: 2px 18px 8px !important;
+  }
+
+  .property-price {
+    margin-bottom: 11px !important;
+
+    font-size: 1.18rem !important;
+  }
+
+  .property-features .MuiTypography-root {
+    font-size: 0.71rem;
+  }
+
+
+  /* FOOTER */
+
+  .card-footer {
+    padding: 0 18px 18px;
+  }
+
+  .property-button {
+    min-height: 40px;
+
+    padding: 9px 13px;
+
+    font-size: 0.61rem;
+
+    letter-spacing: 1px;
+  }
+
+
+  /* MORE OFFERS */
+
+  .offers-more-button {
+    padding: 12px 19px;
+
+    font-size: 8.5px;
+
+    letter-spacing: 1.4px;
+
+    gap: 10px;
+  }
+
+  .offers-more-button span {
+    font-size: 16px;
+  }
+
+
+  /* SWIPER */
+
+  .villa-carousel .swiper-button-next,
+  .villa-carousel .swiper-button-prev {
+    width: 33px;
+    height: 33px;
+  }
+
+  .villa-carousel .swiper-pagination {
+    bottom: 9px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   0 → 375px
+========================================================= */
+
+@media (max-width: 375px) {
+
+  .offers-title {
+    width: 92%;
+
+    margin-top: 35px;
+  }
+
+  .offers-title h6 {
+    font-size: 0.64rem;
+
+    letter-spacing: 1.8px;
+  }
+
+  .offers-title h1 {
+    font-size: 1.45rem;
+  }
+
+
+  .cards {
+    padding-left: 8px;
+    padding-right: 8px;
+
+    gap: 14px;
+  }
+
+  .cards .card {
+    flex: 0 0 92%;
+
+    width: 92%;
+
+    border-radius: 10px;
+  }
+
+
+  /* IMAGE */
+
+  .card-image {
+    height: 245px;
+  }
+
+
+  /* HEADER */
+
+  .card-content .MuiCardHeader-root {
+    padding: 17px 14px 6px;
+  }
+
+
+  /* DESCRIPTION */
+
+  .description {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+
+  /* DETAILS */
+
+  .property-details {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .property-features .MuiTypography-root {
+    font-size: 0.68rem;
+  }
+
+
+  /* FOOTER */
+
+  .card-footer {
+    padding-left: 14px;
+    padding-right: 14px;
+
+    padding-bottom: 16px;
+  }
+
+  .property-button {
+    min-height: 39px;
+
+    padding: 9px 12px;
+
+    font-size: 0.58rem;
+  }
+
+
+  .offers-more-button {
+    padding: 11px 17px;
+  }
 }

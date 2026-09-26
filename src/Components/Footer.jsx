@@ -1,86 +1,188 @@
-
-import React from 'react'
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
+import React from "react";
+import "../Style/footer.css";
+import { Link } from "react-router-dom";
 import {
   MDBFooter,
   MDBContainer,
   MDBIcon,
-  MDBInput,
-  MDBCol,
   MDBRow,
-  MDBBtn
-} from 'mdb-react-ui-kit';
-import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+  MDBCol,
+} from "mdb-react-ui-kit";
+
+import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-const containerStyle = {
-  width: '400px',
-  height: '400px',
-}
 
-const center = {
-  lat: -3.745,
-  lng: -38.523,
-}
-export default function Footer() {
+function Footer() {
   return (
-    <MDBFooter className='text-center' color='white' style={{backgroundColor:"#101818"}}>
-      <MDBContainer className='p-4'>
-        <section className='mb-4'>
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-            <MDBIcon fab icon='facebook-f' />
-          </MDBBtn>
+    <MDBFooter className="a2e-footer" >
 
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-            <MDBIcon fab icon='twitter' />
-          </MDBBtn>
+      {/* =================================
+          MAIN FOOTER
+      ================================= */}
 
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-            <MDBIcon fab icon='google' />
-          </MDBBtn>
+      <MDBContainer className="footer-container">
 
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-            <MDBIcon fab icon='instagram' />
-          </MDBBtn>
+        <MDBRow className="footer-main">
 
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-            <MDBIcon fab icon='linkedin-in' />
-          </MDBBtn>
+          {/* BRAND */}
+          <MDBCol lg="5" md="12" className="footer-brand">
 
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-            <MDBIcon fab icon='github' />
-          </MDBBtn>
-        </section>
+            <div className="footer-logo">
+              A2E <span>Immobilier</span>
+            </div>
 
-        <section className=''>
-          <form action=''>
-            <MDBRow className='d-flex justify-content-center'>
-              <MDBCol size="auto">
-                <p className='pt-2'>
-                  <strong>Sign up for our newsletter</strong>
-                </p>
-              </MDBCol>
+            <div className="footer-tagline">
+              L'immobilier d'exception, autrement.
+            </div>
 
-              <MDBCol md='5' start>
-                <MDBInput contrast type='email' label='Email address' className='mb-4' />
-              </MDBCol>
+            <p className="footer-description">
+              A2E vous accompagne dans la vente et la valorisation
+              de vos biens immobiliers avec une approche personnalisée,
+              une stratégie adaptée et un accompagnement complet.
+            </p>
 
-              <MDBCol size="auto">
-                <MDBBtn outline color='light' type='submit' className='mb-4'>
-                  Subscribe
-                </MDBBtn>
-              </MDBCol>
-            </MDBRow>
-          </form>
-        </section>
+            {/* SOCIAL MEDIA */}
+            <div className="footer-social">
+
+              <a href="https://www.instagram.com/a2eimmoo/?hl=en" aria-label="Instagram">
+                <MDBIcon fab icon="instagram" />
+              </a>
+
+              <a href="https://www.facebook.com/profile.php?id=61594556755558" aria-label="Facebook">
+                <MDBIcon fab icon="facebook-f" />
+              </a>
+
+              <a href="https://www.tiktok.com/@a2eimmoo" aria-label="TikTok">
+                <MDBIcon fab icon="tiktok" />
+              </a>
+
+            </div>
+
+          </MDBCol>
+
+
+          {/* NAVIGATION */}
+          <MDBCol lg="3" md="6" className="footer-column">
+
+            <h3>Navigation</h3>
+
+            <a href="#home">
+              Accueil
+            </a>
+
+            <a href="#services">
+              Nos Services
+            </a>
+
+            <a href="#offres">
+              Nos Offres
+            </a>
+
+            <a href="#expertise">
+              Notre Expertise
+            </a>
+
+            <Link to="/contact">
+              Contact
+            </Link> 
+            <Link
+              to="/admin/login"
+            >AD
+              {/* invisible, just needs to be clickable */}
+            </Link>
+
+          </MDBCol>
+
+
+          {/* CONTACT */}
+          <MDBCol lg="4" md="6" className="footer-column">
+
+            <h3>Contact</h3>
+
+            <div className="footer-contact">
+
+              <div className="contact-item">
+                <span className="contact-icon">
+                  <MDBIcon fas icon="location-dot" />
+                </span>
+
+                <div>
+                  <small>Adresse</small>
+                  <p>104 Bd Sidi Abderrahmane, Casablanca, Maroc</p>
+                </div>
+              </div>
+
+
+              <div className="contact-item">
+                <span className="contact-icon">
+                  <MDBIcon fas icon="phone" />
+                </span>
+
+                <div>
+                  <small>Téléphone</small>
+                  <a href="tel:+212521443858">
+                    +212 521443858
+                  </a>
+                </div>
+              </div>
+
+
+              <div className="contact-item">
+                <span className="contact-icon">
+                  <MDBIcon fas icon="envelope" />
+                </span>
+
+                <div>
+                  <small>Email</small>
+                  <a href="mailto:contact@a2eimmoo@gmail.com">
+                    A2eimmoo@gmail.com
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
+          </MDBCol>
+
+        </MDBRow>
+
+
+        {/* =================================
+            GOLD DIVIDER
+        ================================= */}
+
+        <div className="footer-divider"></div>
+
+
+        {/* =================================
+            BOTTOM
+        ================================= */}
+
+        <div className="footer-bottom">
+
+          <p>
+            © {new Date().getFullYear()} A2E Immobilier.
+            Tous droits réservés.
+          </p>
+
+          <div className="footer-legal">
+
+            <a href="#">
+              Mentions légales
+            </a>
+
+            <a href="#">
+              Politique de confidentialité
+            </a>
+
+          </div>
+
+        </div>
 
       </MDBContainer>
-        
-      <div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-        © 2026 Copyright : 
-        <a className='text-white' href='https://mdbootstrap.com/'>
-            &nbsp; A2EIMMOO.COM
-        </a>
-      </div>
+
     </MDBFooter>
   );
 }
+
+export default Footer;

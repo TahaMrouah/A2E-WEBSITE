@@ -1,0 +1,1311 @@
+/* =========================================================
+A2E IMMOBILIER — PROPERTIES PAGE
+Premium / Responsive
+ALL STYLES SCOPED TO .properties-page
+========================================================= */
+
+/* =========================================================
+PAGE
+========================================================= */
+
+.properties-page {
+width: 100%;
+min-height: 100vh;
+background: #f6f2ea;
+color: #292620;
+overflow-x: hidden;
+}
+
+/* =========================================================
+HERO
+========================================================= */
+
+.properties-page .properties-hero {
+position: relative;
+height: 340px;
+min-height: 340px;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+background: #25221e;
+}
+
+.properties-page .properties-hero::before {
+content: "";
+position: absolute;
+inset: 0;
+background:
+url("../assets/background.png")
+center 55% / cover no-repeat;
+z-index: 0;
+transform: scale(1.02);
+}
+
+.properties-page .properties-hero-overlay {
+position: absolute;
+inset: 0;
+z-index: 1;
+background:
+linear-gradient(
+90deg,
+rgba(18, 16, 13, 0.82) 0%,
+rgba(18, 16, 13, 0.40) 50%,
+rgba(18, 16, 13, 0.72) 100%
+),
+linear-gradient(
+to bottom,
+rgba(18, 16, 13, 0.18),
+rgba(18, 16, 13, 0.68)
+);
+}
+
+.properties-page .properties-hero::after {
+content: "";
+position: absolute;
+inset: 0;
+z-index: 1;
+pointer-events: none;
+box-shadow:
+inset 0 -80px 90px rgba(18, 16, 13, 0.35);
+}
+
+.properties-page .properties-hero-content {
+position: relative;
+z-index: 2;
+width: min(850px, 90%);
+margin-top: 15px;
+text-align: center;
+color: #fff;
+}
+
+/* =========================================================
+HERO LABEL
+========================================================= */
+
+.properties-page .properties-label {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 13px;
+margin-bottom: 17px;
+color: #d5b76b;
+font-size: 0.62rem;
+font-weight: 700;
+letter-spacing: 4px;
+text-transform: uppercase;
+}
+
+.properties-page .properties-label::before,
+.properties-page .properties-label::after {
+content: "";
+width: 28px;
+height: 1px;
+background: #d5b76b;
+opacity: 0.85;
+}
+
+/* =========================================================
+HERO TITLE
+========================================================= */
+
+.properties-page .properties-hero-content h1 {
+margin: 0;
+color: #fff;
+font-family:
+Georgia,
+"Times New Roman",
+serif;
+font-size: clamp(2.8rem, 5vw, 4.4rem);
+font-weight: 400;
+line-height: 1.05;
+letter-spacing: -1px;
+text-shadow:
+0 3px 25px rgba(0, 0, 0, 0.28);
+}
+
+/* =========================================================
+HERO DESCRIPTION
+========================================================= */
+
+.properties-page .properties-hero-content p {
+width: min(560px, 90%);
+margin: 18px auto 0;
+color: rgba(255, 255, 255, 0.78);
+font-size: 0.82rem;
+font-weight: 400;
+line-height: 1.7;
+}
+
+/* =========================================================
+PROPERTIES SECTION
+========================================================= */
+
+.properties-page .properties-section {
+width: min(1400px, 100%);
+margin: 0 auto;
+padding: 75px 50px 110px;
+box-sizing: border-box;
+}
+
+/* =========================================================
+SECTION HEADING
+========================================================= */
+
+.properties-page .properties-heading {
+width: 100%;
+display: flex;
+align-items: flex-end;
+justify-content: space-between;
+gap: 50px;
+margin-bottom: 50px;
+}
+
+.properties-page .properties-heading > div {
+max-width: 700px;
+}
+
+/* =========================================================
+SECTION LABEL
+========================================================= */
+
+.properties-page .section-label {
+display: block;
+margin-bottom: 13px;
+color: #b08a36;
+font-size: 0.7rem;
+font-weight: 700;
+letter-spacing: 3px;
+text-transform: uppercase;
+}
+
+/* =========================================================
+SECTION TITLE
+========================================================= */
+
+.properties-page .properties-heading h2 {
+margin: 0;
+color: #292620;
+font-family:
+Georgia,
+"Times New Roman",
+serif;
+font-size: clamp(2rem, 4vw, 3.1rem);
+font-weight: 400;
+line-height: 1.2;
+}
+
+/* =========================================================
+SECTION DESCRIPTION
+========================================================= */
+
+.properties-page .properties-heading > p {
+width: min(400px, 100%);
+margin: 0;
+color: #777168;
+font-size: 0.85rem;
+line-height: 1.8;
+}
+
+/* =========================================================
+PROPERTY GRID
+========================================================= */
+
+.properties-page .properties-grid {
+width: 100%;
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 35px;
+}
+
+/* =========================================================
+PROPERTY CARD
+========================================================= */
+
+.properties-page .property-card {
+position: relative;
+width: 100%;
+min-width: 0;
+background: #fbf9f5;
+border: 1px solid rgba(80, 68, 48, 0.1);
+border-radius: 12px;
+overflow: hidden;
+box-shadow:
+0 10px 35px rgba(45, 38, 28, 0.06);
+transition:
+transform 0.35s ease,
+box-shadow 0.35s ease;
+}
+
+.properties-page .property-card:hover {
+transform: translateY(-5px);
+box-shadow:
+0 20px 50px rgba(45, 38, 28, 0.12);
+}
+
+/* =========================================================
+IMAGE WRAPPER
+========================================================= */
+
+.properties-page .property-image-wrapper {
+position: relative;
+width: 100%;
+overflow: hidden;
+background: #e4ded3;
+}
+
+/* =========================================================
+GALLERY
+========================================================= */
+
+.properties-page .property-gallery {
+width: 100%;
+height: 440px;
+display: grid;
+grid-template-columns: 2fr 1fr;
+grid-template-rows: 1fr 1fr;
+gap: 3px;
+overflow: hidden;
+}
+
+.properties-page .gallery-item-0 {
+grid-column: 1;
+grid-row: 1 / 3;
+}
+
+.properties-page .gallery-item-1 {
+grid-column: 2;
+grid-row: 1;
+}
+
+.properties-page .gallery-item-2 {
+grid-column: 2;
+grid-row: 2;
+}
+
+/* =========================================================
+GALLERY ITEM
+========================================================= */
+
+.properties-page .gallery-item {
+position: relative;
+width: 100%;
+height: 100%;
+min-width: 0;
+min-height: 0;
+padding: 0;
+border: none;
+background: #ddd7cc;
+overflow: hidden;
+cursor: zoom-in;
+}
+
+/* =========================================================
+PROPERTY IMAGE
+========================================================= */
+
+.properties-page .property-image {
+width: 100%;
+height: 100%;
+display: block;
+object-fit: cover;
+backface-visibility: hidden;
+}
+
+.properties-page .gallery-item:hover .property-image {
+transform: none;
+filter: none;
+}
+
+/* =========================================================
+VIEW PHOTOS
+========================================================= */
+
+.properties-page .gallery-item-2::after {
+content: "Voir les photos";
+position: absolute;
+right: 14px;
+bottom: 14px;
+padding: 8px 12px;
+background: rgba(25, 23, 20, 0.72);
+color: #fff;
+border: 1px solid rgba(255, 255, 255, 0.22);
+border-radius: 3px;
+font-size: 0.6rem;
+font-weight: 600;
+letter-spacing: 1px;
+text-transform: uppercase;
+backdrop-filter: blur(8px);
+pointer-events: none;
+}
+
+/* =========================================================
+STATUS
+========================================================= */
+
+.properties-page .property-status {
+position: absolute;
+top: 18px;
+left: 18px;
+z-index: 5;
+padding: 8px 13px;
+background: rgba(30, 28, 24, 0.74);
+color: #fff;
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-radius: 2px;
+font-size: 0.6rem;
+font-weight: 700;
+letter-spacing: 1.8px;
+backdrop-filter: blur(10px);
+}
+
+/* =========================================================
+TYPE
+========================================================= */
+
+.properties-page .property-type {
+position: absolute;
+top: 18px;
+right: 18px;
+z-index: 5;
+padding: 8px 13px;
+background: rgba(247, 243, 235, 0.92);
+color: #3a362f;
+border-radius: 2px;
+font-size: 0.6rem;
+font-weight: 700;
+letter-spacing: 1.2px;
+text-transform: uppercase;
+backdrop-filter: blur(8px);
+}
+
+/* =========================================================
+PROPERTY CONTENT
+========================================================= */
+
+.properties-page .property-content {
+padding: 28px 30px 30px;
+box-sizing: border-box;
+}
+
+.properties-page .property-location {
+display: flex;
+align-items: center;
+gap: 7px;
+margin-bottom: 11px;
+color: #a18450;
+font-size: 0.72rem;
+font-weight: 600;
+letter-spacing: 0.4px;
+}
+
+.properties-page .property-location span {
+font-size: 15px;
+color: #b08a36;
+}
+
+/* =========================================================
+PROPERTY TITLE
+========================================================= */
+
+.properties-page .property-content h3 {
+margin: 0 0 13px;
+color: #292620;
+font-family:
+Georgia,
+"Times New Roman",
+serif;
+font-size: 1.55rem;
+font-weight: 500;
+line-height: 1.25;
+}
+
+/* =========================================================
+DESCRIPTION
+========================================================= */
+
+.properties-page .property-description {
+margin: 0;
+color: #777168;
+font-size: 0.83rem;
+line-height: 1.75;
+}
+
+/* =========================================================
+DETAILS
+========================================================= */
+
+
+/* =========================================================
+   PROPERTY DETAILS
+========================================================= */
+
+.properties-page .property-details {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+
+    margin-top: 27px;
+    padding-top: 22px;
+
+    border-top: 1px solid rgba(50, 45, 35, 0.09);
+}
+
+
+/* =========================================================
+   DETAIL ITEM
+========================================================= */
+
+.properties-page .property-detail {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 6px;
+
+    padding: 0 18px;
+
+    border-right: 1px solid rgba(50, 45, 35, 0.09);
+}
+
+.properties-page .property-detail:first-child {
+    padding-left: 0;
+}
+
+.properties-page .property-detail:last-child {
+    border-right: none;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.properties-page .detail-icon {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 2px;
+
+    color: #b08a36;
+
+    font-size: 17px;
+
+    border: 1px solid rgba(176, 138, 54, 0.28);
+    border-radius: 50%;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.properties-page .property-detail > div {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+/* LABEL */
+
+.properties-page .property-detail small {
+    display: block;
+
+    color: #9b958b;
+
+    font-size: 0.58rem;
+    font-weight: 600;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    line-height: 1.2;
+}
+
+
+/* VALUE */
+
+.properties-page .property-detail strong {
+    display: block;
+
+    color: #3a362f;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 1rem;
+    font-weight: 500;
+
+    line-height: 1.2;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .properties-page .property-detail {
+        padding: 0 14px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .properties-page .property-details {
+        gap: 0;
+        margin-top: 23px;
+        padding-top: 19px;
+    }
+
+    .properties-page .property-detail {
+        padding: 0 10px;
+        gap: 5px;
+    }
+
+    .properties-page .property-detail:first-child {
+        padding-left: 0;
+    }
+
+    .properties-page .property-detail:last-child {
+        padding-right: 0;
+    }
+
+    .properties-page .detail-icon {
+        width: 29px;
+        height: 29px;
+        font-size: 14px;
+    }
+
+    .properties-page .property-detail small {
+        font-size: 0.52rem;
+        letter-spacing: 0.7px;
+    }
+
+    .properties-page .property-detail strong {
+        font-size: 0.88rem;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .properties-page .property-details {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .properties-page .property-detail {
+        padding: 0 7px;
+    }
+
+    .properties-page .property-detail:first-child {
+        padding-left: 0;
+    }
+
+    .properties-page .property-detail:last-child {
+        padding-right: 0;
+    }
+
+    .properties-page .detail-icon {
+        width: 27px;
+        height: 27px;
+        font-size: 13px;
+    }
+
+    .properties-page .property-detail small {
+        font-size: 0.48rem;
+    }
+
+    .properties-page .property-detail strong {
+        font-size: 0.8rem;
+    }
+
+}
+
+
+/* =========================================================
+   EXTRA SMALL
+========================================================= */
+
+@media (max-width: 340px) {
+
+    .properties-page .property-details {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .properties-page .property-detail {
+        flex-direction: row;
+        align-items: center;
+
+        padding: 0;
+
+        border-right: none;
+    }
+
+    .properties-page .property-detail:first-child {
+        padding-left: 0;
+    }
+
+    .properties-page .property-detail:last-child {
+        padding-right: 0;
+    }
+
+    .properties-page .detail-icon {
+        flex-shrink: 0;
+    }
+
+}
+
+
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+.properties-page .property-footer {
+display: flex;
+flex-direction: column;
+gap: 18px;
+margin-top: 28px;
+padding-top: 22px;
+border-top: 1px solid rgba(50, 45, 35, 0.1);
+}
+
+/* =========================================================
+PRICE
+========================================================= */
+
+.properties-page .property-price {
+display: flex;
+flex-direction: column;
+gap: 4px;
+}
+
+.properties-page .property-price small {
+color: #9b958b;
+font-size: 0.65rem;
+font-weight: 600;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+}
+
+.properties-page .property-price strong {
+color: #b08a36;
+font-family:
+Georgia,
+"Times New Roman",
+serif;
+font-size: 1.45rem;
+font-weight: 500;
+line-height: 1.2;
+}
+
+/* =========================================================
+ACTIONS
+========================================================= */
+
+.properties-page .property-actions {
+width: 100%;
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 8px;
+}
+
+.properties-page .property-action {
+min-width: 0;
+min-height: 46px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 7px;
+padding: 10px 8px;
+box-sizing: border-box;
+border-radius: 4px;
+font-family: inherit;
+font-size: 0.62rem;
+font-weight: 700;
+letter-spacing: 0.8px;
+text-transform: uppercase;
+text-decoration: none;
+cursor: pointer;
+transition:
+background 0.25s ease,
+color 0.25s ease,
+border-color 0.25s ease;
+}
+
+.properties-page .action-icon {
+font-size: 14px;
+line-height: 1;
+}
+
+/* CALL */
+
+.properties-page .call-action {
+color: #302d27;
+background: transparent;
+border: 1px solid rgba(48, 45, 39, 0.25);
+}
+
+.properties-page .call-action:hover {
+color: #fff;
+background: #302d27;
+border-color: #302d27;
+}
+
+/* WHATSAPP */
+
+.properties-page .whatsapp-action {
+color: #fff;
+background: #4d5948;
+border: 1px solid #4d5948;
+}
+
+.properties-page .whatsapp-action:hover {
+background: #3d4939;
+border-color: #3d4939;
+}
+
+/* DETAILS */
+
+.properties-page .details-action {
+color: #9c772d;
+background: transparent;
+border: 1px solid #c9a24a;
+}
+
+.properties-page .details-action:hover {
+color: #fff;
+background: #c9a24a;
+border-color: #c9a24a;
+}
+
+.properties-page .action-arrow {
+font-size: 16px;
+transition: transform 0.25s ease;
+}
+
+.properties-page .details-action:hover .action-arrow {
+transform: translateX(4px);
+}
+
+/* =========================================================
+LIGHTBOX
+========================================================= */
+
+.properties-page .image-lightbox {
+position: fixed;
+inset: 0;
+z-index: 9999;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 50px;
+box-sizing: border-box;
+background: rgba(18, 16, 13, 0.95);
+backdrop-filter: blur(10px);
+}
+
+.properties-page .lightbox-image {
+max-width: 90vw;
+max-height: 88vh;
+width: auto;
+height: auto;
+display: block;
+object-fit: contain;
+border-radius: 3px;
+box-shadow:
+0 25px 80px rgba(0, 0, 0, 0.55);
+user-select: none;
+}
+
+/* =========================================================
+LIGHTBOX CLOSE
+========================================================= */
+
+.properties-page .lightbox-close {
+position: absolute;
+top: 20px;
+right: 25px;
+z-index: 10;
+width: 45px;
+height: 45px;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 0;
+border: none;
+border-radius: 50%;
+background: rgba(255, 255, 255, 0.12);
+color: #fff;
+font-size: 30px;
+font-weight: 300;
+line-height: 1;
+cursor: pointer;
+transition:
+background 0.25s ease,
+transform 0.25s ease;
+}
+
+.properties-page .lightbox-close:hover {
+background: rgba(255, 255, 255, 0.25);
+transform: rotate(90deg);
+}
+
+/* =========================================================
+LIGHTBOX NAVIGATION
+========================================================= */
+
+.properties-page .lightbox-prev,
+.properties-page .lightbox-next {
+position: absolute;
+top: 50%;
+z-index: 10;
+width: 52px;
+height: 52px;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 0;
+border: none;
+border-radius: 50%;
+background: rgba(255, 255, 255, 0.12);
+color: #fff;
+font-size: 40px;
+font-weight: 200;
+line-height: 1;
+cursor: pointer;
+transform: translateY(-50%);
+transition:
+background 0.25s ease,
+transform 0.25s ease;
+}
+
+.properties-page .lightbox-prev {
+left: 25px;
+}
+
+.properties-page .lightbox-next {
+right: 25px;
+}
+
+.properties-page .lightbox-prev:hover,
+.properties-page .lightbox-next:hover {
+background: rgba(255, 255, 255, 0.25);
+transform: translateY(-50%) scale(1.06);
+}
+
+/* =========================================================
+COUNTER
+========================================================= */
+
+.properties-page .lightbox-counter {
+position: absolute;
+left: 50%;
+bottom: 20px;
+padding: 7px 14px;
+border-radius: 20px;
+background: rgba(0, 0, 0, 0.45);
+color: #fff;
+font-size: 11px;
+letter-spacing: 1px;
+transform: translateX(-50%);
+}
+
+/* =========================================================
+LARGE TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+.properties-page .properties-section {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.properties-page .properties-grid {
+    gap: 25px;
+}
+
+.properties-page .property-gallery {
+    height: 390px;
+}
+
+.properties-page .property-content {
+    padding: 25px 24px 26px;
+}
+
+.properties-page .property-content h3 {
+    font-size: 1.4rem;
+}
+
+.properties-page .property-action {
+    font-size: 0.58rem;
+    letter-spacing: 0.5px;
+}
+
+
+}
+
+/* =========================================================
+TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+
+.properties-page .properties-hero {
+    height: 300px;
+    min-height: 300px;
+}
+
+.properties-page .properties-section {
+    padding-top: 65px;
+    padding-bottom: 80px;
+}
+
+.properties-page .properties-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.properties-page .properties-heading > p {
+    width: 100%;
+    max-width: 550px;
+}
+
+.properties-page .properties-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+.properties-page .property-card {
+    width: 100%;
+}
+
+.properties-page .property-gallery {
+    height: 430px;
+}
+
+
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+
+.properties-page .properties-hero {
+    height: 270px;
+    min-height: 270px;
+}
+
+.properties-page .properties-hero-content {
+    width: 90%;
+    margin-top: 10px;
+}
+
+.properties-page .properties-label {
+    gap: 9px;
+    margin-bottom: 15px;
+    font-size: 0.54rem;
+    letter-spacing: 2.5px;
+}
+
+.properties-page .properties-label::before,
+.properties-page .properties-label::after {
+    width: 18px;
+}
+
+.properties-page .properties-hero-content h1 {
+    font-size: 2.6rem;
+    letter-spacing: -0.7px;
+}
+
+.properties-page .properties-hero-content p {
+    width: 95%;
+    margin-top: 15px;
+    font-size: 0.75rem;
+    line-height: 1.6;
+}
+
+.properties-page .properties-section {
+    padding: 50px 15px 70px;
+}
+
+.properties-page .section-label {
+    font-size: 0.62rem;
+    letter-spacing: 2.3px;
+}
+
+.properties-page .properties-heading h2 {
+    font-size: 2rem;
+}
+
+.properties-page .property-gallery {
+    height: 330px;
+    grid-template-columns: 2fr 1fr;
+    gap: 2px;
+}
+
+.properties-page .property-content {
+    padding: 22px 20px 23px;
+}
+
+.properties-page .property-content h3 {
+    font-size: 1.3rem;
+}
+
+.properties-page .property-description {
+    font-size: 0.78rem;
+    line-height: 1.7;
+}
+
+.properties-page .property-details {
+    gap: 7px;
+    margin-top: 23px;
+    padding-top: 19px;
+}
+
+.properties-page .detail-icon {
+    font-size: 15px;
+}
+
+.properties-page .property-detail {
+    gap: 6px;
+}
+
+.properties-page .property-detail small {
+    font-size: 0.55rem;
+}
+
+.properties-page .property-detail strong {
+    font-size: 0.72rem;
+}
+
+.properties-page .property-footer {
+    margin-top: 23px;
+    padding-top: 19px;
+}
+
+.properties-page .property-price strong {
+    font-size: 1.3rem;
+}
+
+.properties-page .property-actions {
+    gap: 6px;
+}
+
+.properties-page .property-action {
+    min-height: 44px;
+    padding: 9px 5px;
+    font-size: 0.55rem;
+    letter-spacing: 0.4px;
+}
+
+.properties-page .action-icon {
+    font-size: 13px;
+}
+
+.properties-page .property-status,
+.properties-page .property-type {
+    top: 12px;
+    padding: 7px 10px;
+    font-size: 0.54rem;
+}
+
+.properties-page .property-status {
+    left: 12px;
+}
+
+.properties-page .property-type {
+    right: 12px;
+}
+
+.properties-page .image-lightbox {
+    padding: 20px 10px;
+}
+
+.properties-page .lightbox-image {
+    max-width: 96vw;
+    max-height: 78vh;
+}
+
+.properties-page .lightbox-close {
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    font-size: 27px;
+}
+
+.properties-page .lightbox-prev,
+.properties-page .lightbox-next {
+    width: 38px;
+    height: 38px;
+    font-size: 29px;
+}
+
+.properties-page .lightbox-prev {
+    left: 8px;
+}
+
+.properties-page .lightbox-next {
+    right: 8px;
+}
+
+.properties-page .lightbox-counter {
+    bottom: 12px;
+    font-size: 10px;
+}
+
+
+}
+
+/* =========================================================
+SMALL PHONES
+========================================================= */
+
+@media (max-width: 400px) {
+
+
+.properties-page .properties-hero {
+    height: 250px;
+    min-height: 250px;
+}
+
+.properties-page .properties-section {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.properties-page .properties-hero-content h1 {
+    font-size: 2.35rem;
+}
+
+.properties-page .properties-heading h2 {
+    font-size: 1.75rem;
+}
+
+.properties-page .property-gallery {
+    height: 275px;
+}
+
+.properties-page .property-content {
+    padding: 20px 16px;
+}
+
+.properties-page .property-content h3 {
+    font-size: 1.18rem;
+}
+
+.properties-page .property-description {
+    font-size: 0.74rem;
+}
+
+.properties-page .property-details {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.properties-page .property-detail {
+    gap: 4px;
+}
+
+.properties-page .detail-icon {
+    display: none;
+}
+
+.properties-page .property-detail small {
+    font-size: 0.5rem;
+}
+
+.properties-page .property-detail strong {
+    font-size: 0.68rem;
+}
+
+.properties-page .property-price strong {
+    font-size: 1.2rem;
+}
+
+.properties-page .property-action {
+    min-height: 42px;
+    font-size: 0.49rem;
+}
+
+.properties-page .action-icon {
+    font-size: 11px;
+}
+
+
+}
+
+/* =========================================================
+EXTRA SMALL PHONES
+========================================================= */
+
+@media (max-width: 340px) {
+
+
+.properties-page .properties-hero {
+    height: 230px;
+    min-height: 230px;
+}
+
+.properties-page .property-gallery {
+    height: 240px;
+}
+
+.properties-page .property-actions {
+    grid-template-columns: 1fr;
+}
+
+.properties-page .property-action {
+    min-height: 43px;
+    font-size: 0.58rem;
+}
+
+.properties-page .property-details {
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.properties-page .detail-icon {
+    display: inline;
+
+
+}}
