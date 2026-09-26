@@ -93,11 +93,10 @@ function Footer() {
                 right: "4px",
                 width: "12px",
                 height: "12px",
-                opacity: 0,
-                zIndex: 9999,
+                
               }}
               aria-label="admin"
-            >....
+            >AD
               {/* invisible, just needs to be clickable */}
             </Link>
 
