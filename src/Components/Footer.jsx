@@ -84,11 +84,20 @@ function Footer() {
 
             <Link to="/contact">
               Contact
-            </Link>
+            </Link> 
             <Link
               to="/admin/login"
+              style={{
+                position: "fixed",
+                bottom: "4px",
+                right: "4px",
+                width: "12px",
+                height: "12px",
+                opacity: 0,
+                zIndex: 9999,
+              }}
               aria-label="admin"
-            >
+            >....
               {/* invisible, just needs to be clickable */}
             </Link>
 
