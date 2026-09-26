@@ -87,15 +87,6 @@ function Footer() {
             </Link> 
             <Link
               to="/admin/login"
-              style={{
-                position: "fixed",
-                bottom: "4px",
-                right: "4px",
-                width: "12px",
-                height: "12px",
-                
-              }}
-              aria-label="admin"
             >AD
               {/* invisible, just needs to be clickable */}
             </Link>
