@@ -16,7 +16,7 @@ import "../Style/Admin/login.css";
 // LOCAL API
 // ========================================
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://api.a2eimmo.ma/api";
 
 
 function Login() {
