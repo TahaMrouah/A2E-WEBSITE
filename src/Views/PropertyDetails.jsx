@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 import "../Style/property-details.css";
-
+import ScrollToTopButton from "../Components/scrollToTop";
 import {
     FaArrowLeft,
     FaMapMarkerAlt,
@@ -938,7 +938,7 @@ function PropertyDetails() {
 
                     </div>
                 )}
-
+<ScrollToTopButton />
         </main>
     );
 }

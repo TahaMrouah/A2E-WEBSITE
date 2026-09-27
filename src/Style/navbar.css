@@ -260,27 +260,57 @@
    MOBILE TOGGLE
 ================================= */
 
+/* =================================
+   MOBILE TOGGLE
+================================= */
+
 .navbar-toggler {
-  border: 1px solid rgba(201, 162, 74, 0.5) !important;
-
-  padding: 7px 9px;
-
+  border: 1px solid rgba(201, 162, 74, 0.6) !important;
+  padding: 7px 9px !important;
   border-radius: 3px;
+  background: transparent !important;
 }
-
 
 .navbar-toggler:focus {
   box-shadow: 0 0 0 2px rgba(201, 162, 74, 0.15) !important;
 }
 
-
 /* Bootstrap hamburger icon */
-
 .navbar-toggler-icon {
+  width: 1.4em !important;
+  height: 1.4em !important;
+
+  background-image: var(--bs-navbar-toggler-icon-bg) !important;
+
   filter: brightness(0) invert(1);
 }
+.navbar-toggler {
+  width: 44px;
+  height: 40px;
+  padding: 8px !important;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 
+  background: transparent !important;
+  border: 1px solid rgba(201, 162, 74, 0.6) !important;
+  border-radius: 3px;
+}
+
+.hamburger-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #c9a24a;
+  border-radius: 2px;
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 2px rgba(201, 162, 74, 0.15) !important;
+}
 /* =================================
    MOBILE
 ================================= */

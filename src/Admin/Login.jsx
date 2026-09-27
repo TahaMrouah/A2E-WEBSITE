@@ -355,7 +355,7 @@ function Login() {
                                 <input
                                     id="admin-email"
                                     type="email"
-                                    placeholder="admin@a2eimmobilier.com"
+                                    placeholder="Votre adresse e-mail"
                                     value={email}
                                     onChange={(e) =>
                                         setEmail(

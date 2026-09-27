@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import "../Style/properties.css";
-
+import ScrollToTopButton from "../Components/scrollToTop";
 import {
     FaMapMarkerAlt,
     FaRulerCombined,
@@ -846,7 +846,7 @@ function Properties() {
                     </div>
 
                 )}
-
+<ScrollToTopButton />
         </main>
     );
 }

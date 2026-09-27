@@ -13,12 +13,14 @@ import Login from "./Admin/Login";
 import Dashboard from "./Admin/Dashboard";
 import AdminProperties from "./Admin/Properties";
 import PropertyForm from "./Admin/PropertyForm";
+import ScrollToTop from "./hooks/scrollTop";
 import AdminProtectedRoute from "./Admin/adminProtectedRoute";
+import ScrollToTopButton from "./Components/scrollToTop";
 function App() {
   return (
     <>
       <Navb />
-
+  <ScrollToTop />
       <Routes>
         {/* Main Dashboard */}
         <Route
@@ -29,6 +31,7 @@ function App() {
               <Offre />
               <Service />
               <Expertise />
+              <ScrollToTopButton />
             </>
           }
         />
