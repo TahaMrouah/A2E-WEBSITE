@@ -109,15 +109,15 @@ export default function RecipeReviewCard() {
                                 )}
                             </Swiper>
 
-                            <div className="property-badge">
+                            <div className="offer-badge">
                                 {card.status || "À VENDRE"}
                             </div>
 
                             {card.type && (
-                                <div className="property-type">{card.type}</div>
+                                <div className="offer-type">{card.type}</div>
                             )}
 
-                            <div className="property-price">
+                            <div className="offer-price">
                                 {Number(card.price).toLocaleString("fr-FR")} MAD
                             </div>
 
@@ -128,20 +128,20 @@ export default function RecipeReviewCard() {
                         <div className="card-content">
 
                             {(card.location || card.subheader) && (
-                                <div className="property-location">
+                                <div className="offer-location">
                                     <FaMapMarkerAlt aria-hidden="true" />
                                     <span>{card.location || card.subheader}</span>
                                 </div>
                             )}
 
-                            <h3 className="property-title">{card.title}</h3>
+                            <h3 className="offer-title">{card.title}</h3>
 
                             <p className="description">
                                 {card.description ||
                                     "Découvrez cette propriété d'exception proposée par A2E Immobilier."}
                             </p>
 
-                            <div className="property-features">
+                            <div className="offer-features">
 
                                 {card.surface && (
                                     <div className="feature">
@@ -174,7 +174,7 @@ export default function RecipeReviewCard() {
 
                             {Array.isArray(card.features) &&
                                 card.features.length > 0 && (
-                                    <div className="property-tags">
+                                    <div className="offer-tags">
                                         {card.features
                                             .slice(0, 3)
                                             .map((feature, index) => (
@@ -186,7 +186,7 @@ export default function RecipeReviewCard() {
                             <div className="card-footer">
                                 <Link
                                     to={`/properties/${card._id}`}
-                                    className="property-button"
+                                    className="offer-button"
                                     aria-label={`Découvrir le bien ${card.title}`}
                                 >
                                     <span className="action-text">Détails</span>
