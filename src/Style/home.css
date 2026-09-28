@@ -411,13 +411,13 @@
   .hero {
     min-height: 650px;
     background-position:55% center;
-    /*background-image:url("../assets/wp2.webp")*/
+    background-image:url("../assets/heroo.png");
     
   }
 
  .hero-overlay {
   background: linear-gradient(
-    90deg,
+    60deg,
     rgba(10, 10, 10, 0.85) 0%,
     rgba(20, 20, 20, 0.60) 25%,
     rgba(30, 30, 30, 0.25) 55%,

@@ -1,5 +1,5 @@
 import "../Style/home.css";
-import logo  from "../assets/ChatGPT_Image_Sep_27__2026__08_15_00_PM-removebg-preview.png"
+import logo  from "../assets/logo.png"
 function Home() {
   return (
     <section className="hero" id="home">
