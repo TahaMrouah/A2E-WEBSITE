@@ -1,5 +1,5 @@
 import "../Style/home.css";
-
+import logo  from "../assets/ChatGPT_Image_Sep_27__2026__08_15_00_PM-removebg-preview.png"
 function Home() {
   return (
     <section className="hero" id="home">
@@ -9,7 +9,7 @@ function Home() {
 
         <div className="hero-label">
           <span></span>
-          A2E IMMOBILIER
+          <img src={logo} className="logo" alt="Logo"  />
           <span></span>
         </div>
 

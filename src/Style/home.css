@@ -110,7 +110,11 @@
 
   text-transform: uppercase;
 }
-
+.hero-label .logo {
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+}
 .hero-label span {
   display: block;
 
@@ -410,14 +414,15 @@
     background-position: 60% center;
   }
 
-  .hero-overlay {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(15, 14, 12, 0.9),
-        rgba(15, 14, 12, 0.55)
-      );
-  }
+ .hero-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(10, 10, 10, 0.85) 0%,
+    rgba(20, 20, 20, 0.60) 25%,
+    rgba(30, 30, 30, 0.25) 55%,
+    rgba(30, 30, 30, 0.00) 100%
+  );
+}
 
   .hero-content {
     padding: 80px 25px 120px;
