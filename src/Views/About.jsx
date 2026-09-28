@@ -163,13 +163,12 @@ function About() {
           {/* GOOGLE MAP */}
           <div className="location-map">
 
-            <iframe
-              title="Localisation de A2E Immobilier à Casablanca"
-              src="https://www.google.com/maps/embed?pb=YOUR_GOOGLE_MAP_EMBED_URL"
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3324.5030981568248!2d-7.657324825165127!3d33.56628454323547!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7d3dcc8e81cb7%3A0xa2461ba11c68b4a4!2sA2E%20Immobilier!5e0!3m2!1sfr!2sma!4v1790610287585!5m2!1sfr!2sma"
+             allowfullscreen 
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin">
+
+            </iframe>
 
           </div>
 
