@@ -1,32 +1,539 @@
-.offre {
+/* =========================================================
+   A2E IMMOBILIER — OFFERS
+   Compact, refined horizontal showcase
+   (save as ../Style/cards.css)
+========================================================= */
+
+:root {
+  --gold: #c9a24a;
+  --gold-deep: #9c772d;
+  --ink: #25221e;
+  --paper: #fbf8f1;
+  --muted: #7b766d;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+
+/* ---------- TITLE ---------- */
+
+.offers-title {
+  width: min(900px, 90%);
+  margin: 75px auto 44px;
+  text-align: center;
+}
+
+.offers-title h6 {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 14px;
+  color: var(--gold);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.offers-title h6::before,
+.offers-title h6::after {
+  content: "";
+  width: 30px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.offers-title h1 {
+  margin: 0;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+
+/* ---------- SCROLL CONTAINER ---------- */
+
+.cards {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto 50px;
+  padding: 14px 40px 26px;
+  display: flex;
+  align-items: stretch;
+  gap: 26px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) transparent;
+}
+
+.cards::-webkit-scrollbar { height: 5px; }
+.cards::-webkit-scrollbar-track { background: transparent; }
+.cards::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 20px; }
+
+
+/* ---------- CARD ---------- */
+
+.cards .card {
+  position: relative;
+  flex: 0 0 calc((100% - 52px) / 3);
+  width: calc((100% - 52px) / 3);
+  min-width: 0;
+  max-width: none !important;
   display: flex;
   flex-direction: column;
-  
+  margin: 0;
+  overflow: hidden;
+  scroll-snap-align: start;
+  border-radius: 10px;
+  background: var(--paper);
+  border: 1px solid rgba(201, 162, 74, 0.22);
+  box-shadow: 0 10px 28px rgba(45, 38, 28, 0.08);
+  box-sizing: border-box;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s ease;
 }
-*{
-    
+
+.cards .card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.5s var(--ease);
 }
-.offre .title{
-    color:#fff;
-    padding:30px;
-    width: 100%;
-    background-color: rgb(212, 192, 76);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: large;
+
+.cards .card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 44px rgba(45, 38, 28, 0.14);
 }
-.cards{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 10px auto;
+
+.cards .card:hover::after { width: 100%; }
+
+
+/* ---------- IMAGE ---------- */
+
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #ddd7cc;
 }
-.cards .card {
-    background-color: ivory;
-    box-shadow: 0 4px 15px rgba(105, 105, 105, 0.45);
-    display:flex;
-    justify-content:space-around;
-    
+
+.card-image::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 55%;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(to top, rgba(20, 17, 12, 0.72), transparent);
+}
+
+.villa-carousel,
+.villa-carousel .swiper-wrapper,
+.villa-carousel .swiper-slide {
+  width: 100%;
+  height: 100%;
+}
+
+.villa-carousel .swiper-slide { overflow: hidden; }
+
+.villa-carousel .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease);
+}
+
+.cards .card:hover .villa-carousel .swiper-slide-active img {
+  transform: scale(1.05);
+}
+
+.no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+
+/* ---------- BADGE / TYPE / PRICE ---------- */
+
+.offer-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 10;
+  padding: 6px 12px;
+  background: var(--gold);
+  color: #fff;
+  border-radius: 2px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.offer-type {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  padding: 5px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 30px;
+  background: rgba(20, 17, 12, 0.3);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.6rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.offer-price {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  z-index: 10;
+  color: #fff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.1;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+
+/* ---------- SWIPER CONTROLS ---------- */
+
+.villa-carousel .swiper-button-next,
+.villa-carousel .swiper-button-prev {
+  width: 32px;
+  height: 32px;
+  margin-top: -16px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--ink);
+  opacity: 0;
+  z-index: 5;
+  transition: opacity 0.3s ease, background 0.3s ease, transform 0.3s ease;
+}
+
+.card-image:hover .villa-carousel .swiper-button-next,
+.card-image:hover .villa-carousel .swiper-button-prev { opacity: 1; }
+
+.villa-carousel .swiper-button-next::after,
+.villa-carousel .swiper-button-prev::after {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.villa-carousel .swiper-button-next:hover,
+.villa-carousel .swiper-button-prev:hover {
+  background: var(--gold);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.villa-carousel .swiper-pagination {
+  bottom: 10px;
+  z-index: 10;
+  text-align: right;
+  padding-right: 14px;
+  box-sizing: border-box;
+}
+
+.villa-carousel .swiper-pagination-bullet {
+  width: 5px;
+  height: 5px;
+  margin: 0 2px !important;
+  background: #fff;
+  opacity: 0.6;
+  transition: width 0.3s ease, opacity 0.3s ease;
+}
+
+.villa-carousel .swiper-pagination-bullet-active {
+  width: 16px;
+  border-radius: 8px;
+  background: var(--gold);
+  opacity: 1;
+}
+
+
+/* ---------- CONTENT ---------- */
+
+.card-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 22px 22px;
+  box-sizing: border-box;
+}
+
+.offer-location {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 7px;
+  color: var(--gold-deep);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.offer-location svg { color: var(--gold); font-size: 0.72rem; }
+
+.offer-location span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.offer-title {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.18rem;
+  font-weight: 500;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}
+
+.description {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+/* ---------- FEATURES ---------- */
+
+.offer-features {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  margin-top: auto;
+  padding: 13px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #4d4942;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.feature svg { color: var(--gold); font-size: 0.85rem; }
+
+.offer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-bottom: 13px;
+}
+
+.offer-tags span {
+  padding: 3px 9px;
+  border-radius: 30px;
+  background: rgba(201, 162, 74, 0.13);
+  color: var(--gold-deep);
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+
+/* ---------- BUTTON ---------- */
+
+.card-footer { margin-top: 2px; }
+
+.offer-button {
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgba(201, 162, 74, 0.8);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--gold-deep);
+  text-decoration: none;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  transition: color 0.3s ease;
+}
+
+.offer-button::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.4s var(--ease);
+}
+
+.offer-button .action-text,
+.offer-button .action-arrow { position: relative; z-index: 1; }
+
+.offer-button .action-arrow {
+  display: flex;
+  font-size: 11px;
+  transition: transform 0.3s ease;
+}
+
+.offer-button:hover,
+.offer-button:focus-visible { color: #fff; }
+
+.offer-button:hover::before,
+.offer-button:focus-visible::before { width: 100%; }
+
+.offer-button:hover .action-arrow { transform: translateX(5px); }
+
+
+/* ---------- MORE OFFERS ---------- */
+
+.offers-more-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 80px;
+}
+
+.offers-more-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 13px 26px;
+  border: 1px solid #9d8158;
+  background: transparent;
+  color: #2a2824;
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: background 0.35s ease, color 0.35s ease,
+    border-color 0.35s ease, transform 0.35s ease;
+}
+
+.offers-more-button span {
+  font-size: 17px;
+  transition: transform 0.35s ease;
+}
+
+.offers-more-button:hover,
+.offers-more-button:focus-visible {
+  background: #2a2824;
+  border-color: #2a2824;
+  color: #f3efe8;
+  transform: translateY(-3px);
+}
+
+.offers-more-button:hover span { transform: translateX(6px); }
+
+
+/* ---------- LARGE DESKTOP ---------- */
+
+@media (min-width: 1401px) {
+  .cards { max-width: 1550px; padding-left: 50px; padding-right: 50px; gap: 30px; }
+  .cards .card { flex-basis: calc((100% - 60px) / 3); width: calc((100% - 60px) / 3); }
+  .card-image { height: 265px; }
+}
+
+
+/* ---------- DESKTOP ---------- */
+
+@media (max-width: 1400px) {
+  .cards { padding-left: 35px; padding-right: 35px; gap: 24px; }
+  .cards .card { flex-basis: calc((100% - 48px) / 3); width: calc((100% - 48px) / 3); }
+}
+
+
+/* ---------- TABLET: 2 cards ---------- */
+
+@media (max-width: 1100px) {
+  .offers-title { margin-top: 60px; margin-bottom: 36px; }
+  .cards { padding-left: 25px; padding-right: 25px; gap: 22px; }
+  .cards .card { flex-basis: calc((100% - 22px) / 2); width: calc((100% - 22px) / 2); }
+  .card-image { height: 250px; }
+}
+
+
+/* ---------- MOBILE: swipe ---------- */
+
+@media (max-width: 700px) {
+  .offers-title { margin: 50px auto 30px; }
+  .offers-title h6 { font-size: 0.7rem; letter-spacing: 2.5px; }
+  .offers-title h6::before,
+  .offers-title h6::after { width: 20px; }
+  .offers-title h1 { font-size: 1.7rem; }
+
+  .cards { padding: 10px 15px 20px; gap: 16px; margin-bottom: 30px; }
+  .cards .card { flex: 0 0 86%; width: 86%; border-radius: 10px; }
+  .card-image { height: 220px; }
+  .offer-price { font-size: 1.25rem; }
+
+  .villa-carousel .swiper-button-next,
+  .villa-carousel .swiper-button-prev { opacity: 0.85; width: 30px; height: 30px; }
+
+  .card-content { padding: 18px 18px 20px; }
+  .offer-title { font-size: 1.08rem; }
+
+  .offers-more-wrapper { margin-bottom: 60px; }
+}
+
+
+/* ---------- SMALL PHONES ---------- */
+
+@media (max-width: 400px) {
+  .cards { padding-left: 10px; padding-right: 10px; }
+  .cards .card { flex-basis: 90%; width: 90%; }
+  .card-image { height: 205px; }
+  .offers-title h1 { font-size: 1.45rem; }
+}
+
+
+/* ---------- REDUCED MOTION ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .cards { scroll-behavior: auto; }
+  .cards .card,
+  .cards .card::after,
+  .villa-carousel .swiper-slide img,
+  .offer-button,
+  .offer-button::before,
+  .offers-more-button { transition: none; }
 }
