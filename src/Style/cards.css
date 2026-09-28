@@ -1,1212 +1,539 @@
 /* =========================================================
    A2E IMMOBILIER — OFFERS
-   Premium / Responsive / Horizontal Showcase
+   Compact, refined horizontal showcase
+   (save as ../Style/cards.css)
 ========================================================= */
 
+:root {
+  --gold: #c9a24a;
+  --gold-deep: #9c772d;
+  --ink: #25221e;
+  --paper: #fbf8f1;
+  --muted: #7b766d;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
 
-/* =========================================================
-   PAGE TITLE
-========================================================= */
+
+/* ---------- TITLE ---------- */
 
 .offers-title {
   width: min(900px, 90%);
-  margin: 75px auto 40px;
+  margin: 75px auto 44px;
+  text-align: center;
 }
 
 .offers-title h6 {
-  margin: 0 0 12px;
-
-  color: #c9a24a;
-
-  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 14px;
+  color: var(--gold);
+  font-size: 0.76rem;
   font-weight: 700;
-
   letter-spacing: 3px;
   text-transform: uppercase;
 }
 
+.offers-title h6::before,
+.offers-title h6::after {
+  content: "";
+  width: 30px;
+  height: 1px;
+  background: var(--gold);
+}
+
 .offers-title h1 {
   margin: 0;
-
-  color: #25221e;
-
+  color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
-
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.9rem, 3.6vw, 2.8rem);
   font-weight: 400;
-
   line-height: 1.2;
 }
 
 
-/* =========================================================
-   CARDS CONTAINER
-   HORIZONTAL PROPERTY SHOWCASE
-========================================================= */
+/* ---------- SCROLL CONTAINER ---------- */
 
 .cards {
   width: 100%;
   max-width: 1500px;
-
-  margin: 0 auto 80px;
-
-  padding: 0 40px 25px;
-
+  margin: 0 auto 50px;
+  padding: 14px 40px 26px;
   display: flex;
-
-  gap: 28px;
-
+  align-items: stretch;
+  gap: 26px;
   overflow-x: auto;
   overflow-y: hidden;
-
   scroll-behavior: smooth;
-
+  scroll-snap-type: x proximity;
   box-sizing: border-box;
-
   scrollbar-width: thin;
-  scrollbar-color: #c9a24a transparent;
+  scrollbar-color: var(--gold) transparent;
 }
 
-
-/* =========================================================
-   CUSTOM SCROLLBAR
-========================================================= */
-
-.cards::-webkit-scrollbar {
-  height: 6px;
-}
-
-.cards::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.cards::-webkit-scrollbar-thumb {
-  background: #c9a24a;
-  border-radius: 20px;
-}
-
-.cards::-webkit-scrollbar-thumb:hover {
-  background: #a98638;
-}
+.cards::-webkit-scrollbar { height: 5px; }
+.cards::-webkit-scrollbar-track { background: transparent; }
+.cards::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 20px; }
 
 
-/* =========================================================
-   MAIN CARD
-========================================================= */
+/* ---------- CARD ---------- */
 
 .cards .card {
   position: relative;
-  height:100%;
-  flex: 0 0 calc((100% - 56px) / 3);
-
-  width: calc((100% - 56px) / 3);
-
+  flex: 0 0 calc((100% - 52px) / 3);
+  width: calc((100% - 52px) / 3);
   min-width: 0;
   max-width: none !important;
-
   display: flex;
   flex-direction: column;
-
   margin: 0;
-
   overflow: hidden;
-
-  border-radius: 16px;
-
-  background: #f7f3eb;
-
-  border: 1px solid rgba(201, 162, 74, 0.18);
-
-  box-shadow:
-    0 12px 35px rgba(45, 38, 28, 0.08),
-    0 2px 8px rgba(45, 38, 28, 0.03);
-
+  scroll-snap-align: start;
+  border-radius: 10px;
+  background: var(--paper);
+  border: 1px solid rgba(201, 162, 74, 0.22);
+  box-shadow: 0 10px 28px rgba(45, 38, 28, 0.08);
   box-sizing: border-box;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s ease;
+}
 
-  transition:
-    transform 0.4s ease,
-    box-shadow 0.4s ease;
+.cards .card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.5s var(--ease);
 }
 
 .cards .card:hover {
-  transform: translateY(-5px);
-
-  box-shadow:
-    0 22px 45px rgba(45, 38, 28, 0.13),
-    0 5px 15px rgba(45, 38, 28, 0.05);
+  transform: translateY(-6px);
+  box-shadow: 0 22px 44px rgba(45, 38, 28, 0.14);
 }
 
+.cards .card:hover::after { width: 100%; }
 
-/* =========================================================
-   IMAGE AREA
-========================================================= */
+
+/* ---------- IMAGE ---------- */
 
 .card-image {
   position: relative;
-
   width: 100%;
-
-  height: 300px;
-
-  overflow: hidden;
-
-  background: #ddd7cc;
-
+  height: 250px;
   flex-shrink: 0;
-}
-
-
-/* =========================================================
-   SWIPER
-========================================================= */
-
-.villa-carousel {
-  width: 100%;
-  height: 100%;
-}
-
-.villa-carousel .swiper-wrapper {
-  height: 100%;
-}
-
-.villa-carousel .swiper-slide {
-  width: 100%;
-  height: 100%;
-
   overflow: hidden;
+  background: #ddd7cc;
 }
-
-.villa-carousel .swiper-slide img {
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  transition:
-    transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-
-.card-image:hover
-.villa-carousel
-.swiper-slide-active
-img {
-  transform: scale(1.035);
-}
-
-
-/* =========================================================
-   IMAGE OVERLAY
-========================================================= */
 
 .card-image::after {
   content: "";
-
   position: absolute;
-
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  height: 35%;
-
+  inset: auto 0 0 0;
+  height: 55%;
   pointer-events: none;
-
-  background: linear-gradient(
-    to top,
-    rgba(20, 18, 15, 0.35),
-    transparent
-  );
-
   z-index: 2;
+  background: linear-gradient(to top, rgba(20, 17, 12, 0.72), transparent);
+}
+
+.villa-carousel,
+.villa-carousel .swiper-wrapper,
+.villa-carousel .swiper-slide {
+  width: 100%;
+  height: 100%;
+}
+
+.villa-carousel .swiper-slide { overflow: hidden; }
+
+.villa-carousel .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease);
+}
+
+.cards .card:hover .villa-carousel .swiper-slide-active img {
+  transform: scale(1.05);
+}
+
+.no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 
-/* =========================================================
-   PROPERTY BADGE
-========================================================= */
+/* ---------- BADGE / TYPE / PRICE ---------- */
 
 .property-badge {
   position: absolute;
-
-  top: 18px;
-  left: 18px;
-
+  top: 14px;
+  left: 14px;
   z-index: 10;
-
-  padding: 7px 13px;
-
-  background: rgba(35, 32, 27, 0.72);
-
+  padding: 6px 12px;
+  background: var(--gold);
   color: #fff;
-
-  border: 1px solid rgba(255, 255, 255, 0.25);
-
-  border-radius: 30px;
-
-  font-size: 0.62rem;
+  border-radius: 2px;
+  font-size: 0.6rem;
   font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
 
-  letter-spacing: 1.7px;
+.property-type {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  padding: 5px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 30px;
+  background: rgba(20, 17, 12, 0.3);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.6rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
 
-  backdrop-filter: blur(8px);
+.property-price {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  z-index: 10;
+  color: #fff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.1;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 
-/* =========================================================
-   SWIPER ARROWS
-========================================================= */
+/* ---------- SWIPER CONTROLS ---------- */
 
 .villa-carousel .swiper-button-next,
 .villa-carousel .swiper-button-prev {
-  width: 38px;
-  height: 38px;
-
-  margin-top: -19px;
-
+  width: 32px;
+  height: 32px;
+  margin-top: -16px;
   border-radius: 50%;
-
-  background: rgba(255, 255, 255, 0.22);
-
-  color: #fff;
-
-  backdrop-filter: blur(8px);
-
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--ink);
   opacity: 0;
-
-  transition:
-    opacity 0.3s ease,
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease;
-
   z-index: 5;
+  transition: opacity 0.3s ease, background 0.3s ease, transform 0.3s ease;
 }
 
-.card-image:hover
-.villa-carousel
-.swiper-button-next,
-
-.card-image:hover
-.villa-carousel
-.swiper-button-prev {
-  opacity: 1;
-}
+.card-image:hover .villa-carousel .swiper-button-next,
+.card-image:hover .villa-carousel .swiper-button-prev { opacity: 1; }
 
 .villa-carousel .swiper-button-next::after,
 .villa-carousel .swiper-button-prev::after {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
 }
 
 .villa-carousel .swiper-button-next:hover,
 .villa-carousel .swiper-button-prev:hover {
-  background: rgba(255, 255, 255, 0.85);
-
-  color: #25221e;
-
+  background: var(--gold);
+  color: #fff;
   transform: scale(1.08);
 }
 
-
-/* =========================================================
-   PAGINATION
-========================================================= */
-
 .villa-carousel .swiper-pagination {
-  bottom: 14px;
-
+  bottom: 10px;
   z-index: 10;
+  text-align: right;
+  padding-right: 14px;
+  box-sizing: border-box;
 }
 
 .villa-carousel .swiper-pagination-bullet {
-  width: 6px;
-  height: 6px;
-
-  margin: 0 3px !important;
-
+  width: 5px;
+  height: 5px;
+  margin: 0 2px !important;
   background: #fff;
-
-  opacity: 0.55;
-
-  transition:
-    width 0.3s ease,
-    opacity 0.3s ease;
+  opacity: 0.6;
+  transition: width 0.3s ease, opacity 0.3s ease;
 }
 
 .villa-carousel .swiper-pagination-bullet-active {
-  width: 20px;
-
-  border-radius: 10px;
-
+  width: 16px;
+  border-radius: 8px;
+  background: var(--gold);
   opacity: 1;
 }
 
 
-/* =========================================================
-   CONTENT
-========================================================= */
+/* ---------- CONTENT ---------- */
 
 .card-content {
-  width: 100%;
+  flex: 1;
   min-width: 0;
-
   display: flex;
   flex-direction: column;
-
-  padding-bottom: 20px;
-
+  padding: 20px 22px 22px;
   box-sizing: border-box;
 }
 
-
-/* =========================================================
-   MATERIAL UI HEADER
-========================================================= */
-
-.card-content .MuiCardHeader-root {
-  padding: 20px 22px 8px;
-
-  box-sizing: border-box;
-}
-
-.card-content .MuiCardHeader-content {
-  min-width: 0;
-}
-
-.card-content .MuiCardHeader-title {
-  display: block;
-
-  color: #28251f;
-
-  font-size: 1.05rem;
+.property-location {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 7px;
+  color: var(--gold-deep);
+  font-size: 0.66rem;
   font-weight: 600;
-
-  line-height: 1.35;
-
-  overflow-wrap: break-word;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
 }
 
-.card-content .MuiCardHeader-subheader {
-  margin-top: 4px;
+.property-location svg { color: var(--gold); font-size: 0.72rem; }
 
-  color: #999;
-
-  font-size: 0.7rem;
-}
-
-
-/* =========================================================
-   A2E AVATAR
-========================================================= */
-
-.a2e-avatar {
-  width: 36px !important;
-  height: 36px !important;
-
-  background: #c9a24a !important;
-
-  color: #fff !important;
-
-  font-size: 0.62rem !important;
-  font-weight: 700 !important;
-
-  letter-spacing: 1px;
-}
-
-
-/* =========================================================
-   MENU
-========================================================= */
-
-.property-menu {
-  color: #777 !important;
-}
-
-.property-menu:hover {
-  color: #c9a24a !important;
-}
-
-
-/* =========================================================
-   DESCRIPTION
-========================================================= */
-
-.description {
-  padding: 5px 22px 10px !important;
-
-  box-sizing: border-box;
-}
-
-.description .MuiTypography-root {
-  color: #68645d;
-
-  font-size: 0.78rem;
-
-  line-height: 1.55;
-
-  overflow-wrap: break-word;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-
+.property-location span {
   overflow: hidden;
-}
-
-
-/* =========================================================
-   PROPERTY DETAILS
-========================================================= */
-
-.property-details {
-  padding: 2px 22px 8px !important;
-
-  box-sizing: border-box;
-}
-
-
-/* =========================================================
-   PRICE
-========================================================= */
-
-.property-price {
-  margin-bottom: 12px !important;
-
-  color: #b08a36 !important;
-
-  font-size: 1.35rem !important;
-
-  font-weight: 700 !important;
-
-  line-height: 1.2;
-
-  overflow-wrap: break-word;
-}
-
-
-/* =========================================================
-   INTRO
-========================================================= */
-
-.property-intro {
-  display: none;
-}
-
-
-/* =========================================================
-   FEATURES
-========================================================= */
-
-.property-features {
-  width: 100%;
-
-  display: grid;
-
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-
-  gap: 7px 12px;
-}
-
-.property-features .MuiTypography-root {
-  width: 100%;
-
-  color: #69655e;
-
-  font-size: 0.76rem;
-
-  line-height: 1.4;
-
-  overflow-wrap: break-word;
-
   white-space: nowrap;
-
-  overflow: hidden;
-
   text-overflow: ellipsis;
 }
 
+.property-title {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.18rem;
+  font-weight: 500;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}
 
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.card-footer {
-  width: auto;
-
-  margin-top: 12px;
-
-  padding: 0 22px;
-
-  box-sizing: border-box;
+.description {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 
-/* =========================================================
-   PROPERTY BUTTON
-   PREMIUM COMPACT STYLE
-========================================================= */
+/* ---------- FEATURES ---------- */
 
-.property-button {
-  width: auto;
-
-  min-height: 42px;
-
-  padding: 10px 15px;
-
-  display: inline-flex;
-
+.property-features {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-
-  gap: 18px;
-
-  border: 1px solid rgba(201, 162, 74, 0.75);
-
-  border-radius: 3px;
-
-  background: transparent;
-
-  color: #9c772d;
-
-  text-decoration: none;
-
-  font-family: inherit;
-
-  font-size: 0.68rem;
-
-  font-weight: 700;
-
-  letter-spacing: 1.3px;
-
-  text-transform: uppercase;
-
-  cursor: pointer;
-
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease,
-    transform 0.3s ease;
+  gap: 8px 18px;
+  margin-top: auto;
+  padding: 13px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.property-button .action-text {
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #4d4942;
+  font-size: 0.78rem;
+  font-weight: 600;
   white-space: nowrap;
 }
+
+.feature svg { color: var(--gold); font-size: 0.85rem; }
+
+.property-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-bottom: 13px;
+}
+
+.property-tags span {
+  padding: 3px 9px;
+  border-radius: 30px;
+  background: rgba(201, 162, 74, 0.13);
+  color: var(--gold-deep);
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+
+/* ---------- BUTTON ---------- */
+
+.card-footer { margin-top: 2px; }
+
+.property-button {
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgba(201, 162, 74, 0.8);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--gold-deep);
+  text-decoration: none;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  transition: color 0.3s ease;
+}
+
+.property-button::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.4s var(--ease);
+}
+
+.property-button .action-text,
+.property-button .action-arrow { position: relative; z-index: 1; }
 
 .property-button .action-arrow {
   display: flex;
-
-  align-items: center;
-  justify-content: center;
-
   font-size: 11px;
-
   transition: transform 0.3s ease;
 }
 
-.property-button:hover {
-  background: #c9a24a;
+.property-button:hover,
+.property-button:focus-visible { color: #fff; }
 
-  border-color: #c9a24a;
+.property-button:hover::before,
+.property-button:focus-visible::before { width: 100%; }
 
-  color: #fff;
+.property-button:hover .action-arrow { transform: translateX(5px); }
 
-  transform: translateY(-2px);
+
+/* ---------- MORE OFFERS ---------- */
+
+.offers-more-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 80px;
 }
-
-.property-button:hover .action-arrow {
-  transform: translateX(5px);
-}
-
-
-/* =========================================================
-   PLUS D'OFFRES
-========================================================= */
 
 .offers-more-button {
-  flex: 0 0 auto;
-
-  align-self: center;
-
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
-
-  gap: 15px;
-
-  margin: 25px;
-
-  padding: 13px 25px;
-
-  background: transparent;
-
-  color: #2a2824;
-
+  gap: 14px;
+  padding: 13px 26px;
   border: 1px solid #9d8158;
-
+  background: transparent;
+  color: #2a2824;
   text-decoration: none;
-
-  font-size: 10px;
-
-  font-weight: 600;
-
-  letter-spacing: 2px;
-
-  text-transform: uppercase;
-
   white-space: nowrap;
-
-  transition:
-    background 0.35s ease,
-    color 0.35s ease,
-    border-color 0.35s ease,
-    transform 0.35s ease;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: background 0.35s ease, color 0.35s ease,
+    border-color 0.35s ease, transform 0.35s ease;
 }
 
 .offers-more-button span {
-  font-size: 18px;
-
+  font-size: 17px;
   transition: transform 0.35s ease;
 }
 
-.offers-more-button:hover {
+.offers-more-button:hover,
+.offers-more-button:focus-visible {
   background: #2a2824;
-
-  color: #f3efe8;
-
   border-color: #2a2824;
-
+  color: #f3efe8;
   transform: translateY(-3px);
 }
 
-.offers-more-button:hover span {
-  transform: translateX(6px);
-}
+.offers-more-button:hover span { transform: translateX(6px); }
 
 
-/* =========================================================
-   LARGE DESKTOP
-   1401px+
-   3 CARDS
-========================================================= */
+/* ---------- LARGE DESKTOP ---------- */
 
 @media (min-width: 1401px) {
-
-  .cards {
-    max-width: 1550px;
-
-    padding-left: 50px;
-    padding-right: 50px;
-
-    gap: 30px;
-  }
-
-  .cards .card {
-    flex-basis: calc((100% - 60px) / 3);
-
-    width: calc((100% - 60px) / 3);
-  }
-
-  .card-image {
-    height: 320px;
-  }
-
-  .card-content .MuiCardHeader-root {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-
-  .description {
-    padding-left: 24px !important;
-    padding-right: 24px !important;
-  }
-
-  .property-details {
-    padding-left: 24px !important;
-    padding-right: 24px !important;
-  }
-
-  .card-footer {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
+  .cards { max-width: 1550px; padding-left: 50px; padding-right: 50px; gap: 30px; }
+  .cards .card { flex-basis: calc((100% - 60px) / 3); width: calc((100% - 60px) / 3); }
+  .card-image { height: 265px; }
 }
 
 
-/* =========================================================
-   DESKTOP
-   1101px → 1400px
-   3 CARDS
-========================================================= */
+/* ---------- DESKTOP ---------- */
 
 @media (max-width: 1400px) {
-
-  .cards {
-    padding-left: 35px;
-    padding-right: 35px;
-
-    gap: 25px;
-  }
-
-  .cards .card {
-    flex-basis: calc((100% - 50px) / 3);
-
-    width: calc((100% - 50px) / 3);
-  }
-
-  .card-image {
-    height: 290px;
-  }
+  .cards { padding-left: 35px; padding-right: 35px; gap: 24px; }
+  .cards .card { flex-basis: calc((100% - 48px) / 3); width: calc((100% - 48px) / 3); }
 }
 
 
-/* =========================================================
-   TABLET
-   701px → 1100px
-   2 CARDS
-========================================================= */
+/* ---------- TABLET: 2 cards ---------- */
 
 @media (max-width: 1100px) {
-
-  .offers-title {
-    width: 90%;
-
-    margin-top: 60px;
-    margin-bottom: 35px;
-  }
-
-  .cards {
-    padding-left: 25px;
-    padding-right: 25px;
-
-    gap: 22px;
-  }
-
-  .cards .card {
-    flex-basis: calc((100% - 22px) / 2);
-
-    width: calc((100% - 22px) / 2);
-  }
-
-  .card-image {
-    height: 300px;
-  }
-
-  .card-content .MuiCardHeader-root {
-    padding: 20px 20px 8px;
-  }
-
-  .description {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-  }
-
-  .property-details {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-  }
-
-  .card-footer {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .property-features .MuiTypography-root {
-    font-size: 0.74rem;
-  }
+  .offers-title { margin-top: 60px; margin-bottom: 36px; }
+  .cards { padding-left: 25px; padding-right: 25px; gap: 22px; }
+  .cards .card { flex-basis: calc((100% - 22px) / 2); width: calc((100% - 22px) / 2); }
+  .card-image { height: 250px; }
 }
 
 
-/* =========================================================
-   MOBILE
-   0 → 700px
-   1 CARD
-========================================================= */
+/* ---------- MOBILE: swipe ---------- */
 
 @media (max-width: 700px) {
+  .offers-title { margin: 50px auto 30px; }
+  .offers-title h6 { font-size: 0.7rem; letter-spacing: 2.5px; }
+  .offers-title h6::before,
+  .offers-title h6::after { width: 20px; }
+  .offers-title h1 { font-size: 1.7rem; }
 
-  .offers-title {
-    width: 88%;
-
-    margin: 50px auto 30px;
-  }
-
-  .offers-title h6 {
-    font-size: 0.72rem;
-
-    letter-spacing: 2.5px;
-  }
-
-  .offers-title h1 {
-    font-size: 1.9rem;
-  }
-
-
-  /* HORIZONTAL SCROLL */
-
-  .cards {
-    padding: 0 15px 20px;
-
-    gap: 18px;
-
-    margin-bottom: 60px;
-  }
-
-  .cards .card {
-    flex: 0 0 88%;
-
-    width: 88%;
-
-    border-radius: 14px;
-  }
-
-
-  /* IMAGE */
-
-  .card-image {
-    height: 285px;
-  }
-
-
-  /* HEADER */
-
-  .card-content .MuiCardHeader-root {
-    padding: 20px 20px 8px;
-  }
-
-  .card-content .MuiCardHeader-title {
-    font-size: 1rem;
-  }
-
-
-  /* DESCRIPTION */
-
-  .description {
-    padding: 5px 20px 9px !important;
-  }
-
-  .description .MuiTypography-root {
-    font-size: 0.8rem;
-
-    line-height: 1.55;
-  }
-
-
-  /* DETAILS */
-
-  .property-details {
-    padding: 2px 20px 8px !important;
-  }
-
-  .property-price {
-    font-size: 1.25rem !important;
-  }
-
-  .property-features {
-    gap: 6px 10px;
-  }
-
-  .property-features .MuiTypography-root {
-    font-size: 0.74rem;
-  }
-
-
-  /* FOOTER */
-
-  .card-footer {
-    padding: 0 20px 20px;
-  }
-
-  .property-button {
-    min-height: 42px;
-
-    padding: 10px 14px;
-
-    font-size: 0.63rem;
-  }
-
-
-  /* SWIPER */
+  .cards { padding: 10px 15px 20px; gap: 16px; margin-bottom: 30px; }
+  .cards .card { flex: 0 0 86%; width: 86%; border-radius: 10px; }
+  .card-image { height: 220px; }
+  .property-price { font-size: 1.25rem; }
 
   .villa-carousel .swiper-button-next,
-  .villa-carousel .swiper-button-prev {
-    width: 36px;
-    height: 36px;
+  .villa-carousel .swiper-button-prev { opacity: 0.85; width: 30px; height: 30px; }
 
-    opacity: 0.8;
-  }
+  .card-content { padding: 18px 18px 20px; }
+  .property-title { font-size: 1.08rem; }
 
-  .villa-carousel .swiper-button-next::after,
-  .villa-carousel .swiper-button-prev::after {
-    font-size: 10px;
-  }
-
-
-  /* BADGE */
-
-  .property-badge {
-    top: 14px;
-    left: 14px;
-
-    padding: 6px 11px;
-
-    font-size: 0.58rem;
-  }
-
-
-  /* MORE OFFERS */
-
-  .offers-more-button {
-    margin-left: 5px;
-    margin-right: 5px;
-
-    padding: 13px 20px;
-
-    font-size: 9px;
-  }
+  .offers-more-wrapper { margin-bottom: 60px; }
 }
 
 
-/* =========================================================
-   SMALL MOBILE
-   376px → 500px
-========================================================= */
+/* ---------- SMALL PHONES ---------- */
 
-@media (max-width: 500px) {
-
-  .offers-title {
-    width: 90%;
-
-    margin-top: 40px;
-    margin-bottom: 25px;
-  }
-
-  .offers-title h1 {
-    font-size: 1.65rem;
-  }
-
-
-  .cards {
-    padding-left: 10px;
-    padding-right: 10px;
-
-    gap: 16px;
-  }
-
-  .cards .card {
-    flex: 0 0 91%;
-
-    width: 91%;
-
-    border-radius: 12px;
-  }
-
-
-  /* IMAGE */
-
-  .card-image {
-    height: 270px;
-  }
-
-
-  /* HEADER */
-
-  .card-content .MuiCardHeader-root {
-    padding: 19px 18px 7px;
-  }
-
-  .card-content .MuiCardHeader-title {
-    font-size: 0.95rem;
-
-    line-height: 1.35;
-  }
-
-  .card-content .MuiCardHeader-subheader {
-    font-size: 0.66rem;
-  }
-
-  .a2e-avatar {
-    width: 34px !important;
-    height: 34px !important;
-
-    font-size: 0.58rem !important;
-  }
-
-
-  /* DESCRIPTION */
-
-  .description {
-    padding: 5px 18px 8px !important;
-  }
-
-  .description .MuiTypography-root {
-    font-size: 0.77rem;
-
-    line-height: 1.5;
-  }
-
-
-  /* DETAILS */
-
-  .property-details {
-    padding: 2px 18px 8px !important;
-  }
-
-  .property-price {
-    margin-bottom: 11px !important;
-
-    font-size: 1.18rem !important;
-  }
-
-  .property-features .MuiTypography-root {
-    font-size: 0.71rem;
-  }
-
-
-  /* FOOTER */
-
-  .card-footer {
-    padding: 0 18px 18px;
-  }
-
-  .property-button {
-    min-height: 40px;
-
-    padding: 9px 13px;
-
-    font-size: 0.61rem;
-
-    letter-spacing: 1px;
-  }
-
-
-  /* MORE OFFERS */
-
-  .offers-more-button {
-    padding: 12px 19px;
-
-    font-size: 8.5px;
-
-    letter-spacing: 1.4px;
-
-    gap: 10px;
-  }
-
-  .offers-more-button span {
-    font-size: 16px;
-  }
-
-
-  /* SWIPER */
-
-  .villa-carousel .swiper-button-next,
-  .villa-carousel .swiper-button-prev {
-    width: 33px;
-    height: 33px;
-  }
-
-  .villa-carousel .swiper-pagination {
-    bottom: 9px;
-  }
+@media (max-width: 400px) {
+  .cards { padding-left: 10px; padding-right: 10px; }
+  .cards .card { flex-basis: 90%; width: 90%; }
+  .card-image { height: 205px; }
+  .offers-title h1 { font-size: 1.45rem; }
 }
 
 
-/* =========================================================
-   VERY SMALL PHONES
-   0 → 375px
-========================================================= */
+/* ---------- REDUCED MOTION ---------- */
 
-@media (max-width: 375px) {
-
-  .offers-title {
-    width: 92%;
-
-    margin-top: 35px;
-  }
-
-  .offers-title h6 {
-    font-size: 0.64rem;
-
-    letter-spacing: 1.8px;
-  }
-
-  .offers-title h1 {
-    font-size: 1.45rem;
-  }
-
-
-  .cards {
-    padding-left: 8px;
-    padding-right: 8px;
-
-    gap: 14px;
-  }
-
-  .cards .card {
-    flex: 0 0 92%;
-
-    width: 92%;
-
-    border-radius: 10px;
-  }
-
-
-  /* IMAGE */
-
-  .card-image {
-    height: 245px;
-  }
-
-
-  /* HEADER */
-
-  .card-content .MuiCardHeader-root {
-    padding: 17px 14px 6px;
-  }
-
-
-  /* DESCRIPTION */
-
-  .description {
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-  }
-
-
-  /* DETAILS */
-
-  .property-details {
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-  }
-
-  .property-features .MuiTypography-root {
-    font-size: 0.68rem;
-  }
-
-
-  /* FOOTER */
-
-  .card-footer {
-    padding-left: 14px;
-    padding-right: 14px;
-
-    padding-bottom: 16px;
-  }
-
-  .property-button {
-    min-height: 39px;
-
-    padding: 9px 12px;
-
-    font-size: 0.58rem;
-  }
-
-
-  .offers-more-button {
-    padding: 11px 17px;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .cards { scroll-behavior: auto; }
+  .cards .card,
+  .cards .card::after,
+  .villa-carousel .swiper-slide img,
+  .property-button,
+  .property-button::before,
+  .offers-more-button { transition: none; }
 }
