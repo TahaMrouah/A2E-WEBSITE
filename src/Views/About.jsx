@@ -1,5 +1,5 @@
 import React from "react";
-
+import {Link} from "react-router-dom"
 import "../Style/about.css";
 
 function About() {
@@ -192,14 +192,14 @@ function About() {
           </h2>
         </div>
 
-        <a href="/contact">
+        <Link  to="/contact">
           Nous contacter
 
           <i
             className="fa-solid fa-arrow-right"
             aria-hidden="true"
           ></i>
-        </a>
+        </Link>
 
       </section>
 

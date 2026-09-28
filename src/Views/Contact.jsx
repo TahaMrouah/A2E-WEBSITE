@@ -23,7 +23,7 @@ function Contact() {
       <div className="contact-container">
         {/* WhatsApp */}
         <a
-          href="https://wa.me/212600000000"
+          href="https://wa.me/212602991215"
           className="contact-card"
           target="_blank"
           rel="noopener noreferrer"
@@ -43,7 +43,7 @@ function Contact() {
 
         {/* Téléphone */}
         <a
-          href="tel:+212600000000"
+          href="tel:+212602991215"
           className="contact-card"
         >
           <div className="contact-card-icon">
@@ -63,7 +63,7 @@ function Contact() {
 
         {/* Email */}
         <a
-          href="mailto:contact@a2e-immobilier.ma"
+          href="mailto:a2eimmoo@gmail.com"
           className="contact-card"
         >
           <div className="contact-card-icon">
@@ -86,7 +86,7 @@ function Contact() {
           <h2>Votre projet commence par une conversation.</h2>
         </div>
 
-        <a href="mailto:contact@a2e-immobilier.ma">
+        <a href="tel:+212602991215">
           Nous contacter
           <i className="fa-solid fa-arrow-right"></i>
         </a>
