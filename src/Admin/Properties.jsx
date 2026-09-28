@@ -169,7 +169,7 @@ function Properties() {
           <div className="admin-properties-toolbar-line"></div>
 
           <span className="admin-properties-toolbar-text">
-            Base de données MongoDB
+            Base de données 
           </span>
         </div>
 

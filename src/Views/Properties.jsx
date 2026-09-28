@@ -536,7 +536,7 @@ function Properties() {
                                                     </small>
 
                                                     <strong>
-                                                        {property.surface}
+                                                        {property.surface} m²
                                                     </strong>
 
                                                 </div>

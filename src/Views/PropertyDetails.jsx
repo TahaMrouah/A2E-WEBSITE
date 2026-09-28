@@ -735,7 +735,7 @@ function PropertyDetails() {
                                         </span>
 
                                         <strong>
-                                            {property.surface}
+                                            {property.surface} m²
                                         </strong>
                                     </div>
 
@@ -757,8 +757,8 @@ function PropertyDetails() {
 
                                             <strong>
                                                 {
-                                                    property.landArea
-                                                }
+                                                    property.landArea 
+                                                } 
                                             </strong>
                                         </div>
 
