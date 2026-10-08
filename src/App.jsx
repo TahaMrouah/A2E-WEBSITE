@@ -16,11 +16,12 @@ import PropertyForm from "./Admin/PropertyForm";
 import ScrollToTop from "./hooks/scrollTop";
 import AdminProtectedRoute from "./Admin/adminProtectedRoute";
 import ScrollToTopButton from "./Components/scrollToTop";
+import Collaborer from "./Views/Collaborer";
 function App() {
   return (
     <>
       <Navb />
-  <ScrollToTop />
+      <ScrollToTop />
       <Routes>
         {/* Main Dashboard */}
         <Route
@@ -44,17 +45,21 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/offres/:id" element={<Offre />} />
+        <Route
+          path="/collaborer-avec-nous"
+          element={<Collaborer />}
+        />
         <Route path="/properties" element={<Properties />} />
         <Route path="/properties/:id" element={<PropertyDetails />} />
         <Route path="/admin/login" element={<Login />} />
         <Route
-    path="/admin"
-    element={
-        <AdminProtectedRoute>
-            <Dashboard />
-        </AdminProtectedRoute>
-    }
-/>
+          path="/admin"
+          element={
+            <AdminProtectedRoute>
+              <Dashboard />
+            </AdminProtectedRoute>
+          }
+        />
         <Route path="/admin/properties" element={
           <AdminProtectedRoute><AdminProperties /></AdminProtectedRoute>} />
         <Route

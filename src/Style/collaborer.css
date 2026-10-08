@@ -1,0 +1,590 @@
+/* =================================
+   COLLABORER PAGE
+================================= */
+
+.collaborer-page {
+  min-height: 100vh;
+  background: #f4f1eb;
+  color: #171713;
+}
+
+
+/* =================================
+   HERO
+================================= */
+
+.collaborer-hero {
+  min-height: 430px;
+
+  display: flex;
+  align-items: flex-end;
+
+  padding: 80px 7%;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(23, 23, 19, 0.96),
+      rgba(23, 23, 19, 0.78),
+      rgba(23, 23, 19, 0.35)
+    ),
+    url("/images/collaborer-hero.jpg")
+    center / cover no-repeat;
+
+  color: #ffffff;
+}
+
+.collaborer-hero-content {
+  max-width: 760px;
+}
+
+.collaborer-eyebrow {
+  display: block;
+
+  margin-bottom: 15px;
+
+  color: #c9a24a;
+
+  font-size: 0.68rem;
+  font-weight: 600;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+.collaborer-hero h1 {
+  margin: 0;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 400;
+
+  line-height: 0.95;
+}
+
+.collaborer-hero p {
+  max-width: 600px;
+
+  margin: 28px 0 0;
+
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+
+/* =================================
+   FORM SECTION
+================================= */
+
+.collaborer-form-section {
+  max-width: 1250px;
+
+  margin: 0 auto;
+
+  padding: 100px 30px;
+}
+
+
+/* =================================
+   INTRO
+================================= */
+
+.collaborer-form-intro {
+  display: grid;
+
+  grid-template-columns: 90px 1fr;
+
+  gap: 30px;
+
+  margin-bottom: 75px;
+}
+
+.collaborer-section-number {
+  color: #c9a24a;
+
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+}
+
+.collaborer-form-intro h2 {
+  margin: 0 0 15px;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 3rem;
+  font-weight: 400;
+}
+
+.collaborer-form-intro p {
+  max-width: 650px;
+
+  margin: 0;
+
+  color: #77736c;
+
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+
+/* =================================
+   FORM
+================================= */
+
+.collaborer-form {
+  background: #ffffff;
+
+  border: 1px solid rgba(23, 23, 19, 0.08);
+
+  box-shadow:
+    0 20px 60px rgba(23, 23, 19, 0.06);
+}
+
+
+/* =================================
+   FORM SECTIONS
+================================= */
+
+.form-section {
+  padding: 55px;
+
+  border-bottom: 1px solid rgba(23, 23, 19, 0.08);
+}
+
+.form-section-title {
+  display: flex;
+
+  gap: 25px;
+
+  margin-bottom: 40px;
+}
+
+.form-section-title > span {
+  color: #c9a24a;
+
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+}
+
+.form-section-title h3 {
+  margin: 0 0 7px;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.form-section-title p {
+  margin: 0;
+
+  color: #88837a;
+
+  font-size: 0.78rem;
+}
+
+
+/* =================================
+   GRID
+================================= */
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 28px 30px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field-full {
+  grid-column: 1 / -1;
+}
+
+
+/* =================================
+   LABELS
+================================= */
+
+.form-field label {
+  margin-bottom: 9px;
+
+  color: #35332e;
+
+  font-size: 0.68rem;
+  font-weight: 600;
+
+  letter-spacing: 1.2px;
+
+  text-transform: uppercase;
+}
+
+
+/* =================================
+   INPUTS
+================================= */
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+
+  border: none;
+  border-bottom: 1px solid #d7d3cb;
+
+  border-radius: 0;
+
+  padding: 13px 2px;
+
+  background: transparent;
+
+  color: #171713;
+
+  outline: none;
+
+  font-family: inherit;
+
+  font-size: 0.86rem;
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.form-field textarea {
+  resize: vertical;
+
+  min-height: 150px;
+
+  line-height: 1.7;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: #c9a24a;
+
+  box-shadow:
+    0 1px 0 #c9a24a;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: #aaa59c;
+}
+
+
+/* =================================
+   SELECT
+================================= */
+
+.form-field select {
+  cursor: pointer;
+}
+
+
+/* =================================
+   UNIT INPUT
+================================= */
+
+.input-with-unit {
+  position: relative;
+}
+
+.input-with-unit input {
+  padding-right: 55px;
+}
+
+.input-with-unit span {
+  position: absolute;
+
+  right: 2px;
+  bottom: 13px;
+
+  color: #8c877f;
+
+  font-size: 0.68rem;
+}
+
+
+/* =================================
+   CONSENT
+================================= */
+
+.form-consent {
+  padding: 35px 55px;
+}
+
+.consent-label {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 12px;
+
+  cursor: pointer;
+}
+
+.consent-label input {
+  margin-top: 3px;
+
+  accent-color: #c9a24a;
+
+  cursor: pointer;
+}
+
+.consent-label span {
+  max-width: 850px;
+
+  color: #77736c;
+
+  font-size: 0.7rem;
+
+  line-height: 1.7;
+}
+
+
+/* =================================
+   SUBMIT
+================================= */
+
+.form-submit {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  padding: 40px 55px;
+
+  background: #171713;
+
+  color: #ffffff;
+}
+
+.form-submit > div span {
+  color: #c9a24a;
+
+  font-size: 0.65rem;
+  font-weight: 600;
+
+  letter-spacing: 2px;
+}
+
+.form-submit p {
+  margin: 7px 0 0;
+
+  color: rgba(255, 255, 255, 0.5);
+
+  font-size: 0.72rem;
+}
+
+.collaborer-submit {
+  display: flex;
+
+  align-items: center;
+  gap: 35px;
+
+  padding: 16px 23px;
+
+  border: 1px solid #c9a24a;
+
+  background: #c9a24a;
+
+  color: #171713;
+
+  font-size: 0.68rem;
+  font-weight: 600;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.collaborer-submit span {
+  font-size: 1.1rem;
+}
+
+.collaborer-submit:hover {
+  background: transparent;
+
+  color: #c9a24a;
+
+  transform: translateY(-2px);
+}
+
+
+/* =================================
+   SUCCESS
+================================= */
+
+.collaborer-success {
+  min-height: 75vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 50px;
+
+  text-align: center;
+}
+
+.success-icon {
+  width: 60px;
+  height: 60px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 30px;
+
+  border: 1px solid #c9a24a;
+  border-radius: 50%;
+
+  color: #c9a24a;
+
+  font-size: 1.4rem;
+}
+
+.collaborer-success h1 {
+  margin: 0 0 20px;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 3rem;
+
+  font-weight: 400;
+}
+
+.collaborer-success p {
+  max-width: 600px;
+
+  margin: 0 0 35px;
+
+  color: #77736c;
+
+  font-size: 0.9rem;
+
+  line-height: 1.8;
+}
+
+.collaborer-back {
+  padding: 13px 20px;
+
+  border: 1px solid #c9a24a;
+
+  background: transparent;
+
+  color: #171713;
+
+  cursor: pointer;
+
+  font-size: 0.68rem;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+}
+
+.collaborer-back:hover {
+  background: #c9a24a;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 768px) {
+
+  .collaborer-hero {
+    min-height: 400px;
+
+    padding: 60px 25px;
+  }
+
+  .collaborer-hero h1 {
+    font-size: 3.2rem;
+  }
+
+  .collaborer-form-section {
+    padding: 65px 15px;
+  }
+
+  .collaborer-form-intro {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+
+    margin-bottom: 45px;
+  }
+
+  .collaborer-form-intro h2 {
+    font-size: 2.3rem;
+  }
+
+  .form-section {
+    padding: 35px 22px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+
+    gap: 25px;
+  }
+
+  .form-field-full {
+    grid-column: auto;
+  }
+
+  .form-section-title {
+    gap: 15px;
+
+    margin-bottom: 30px;
+  }
+
+  .form-section-title h3 {
+    font-size: 1.5rem;
+  }
+
+  .form-consent {
+    padding: 25px 22px;
+  }
+
+  .form-submit {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    padding: 35px 22px;
+  }
+
+  .collaborer-submit {
+    width: 100%;
+
+    justify-content: space-between;
+  }
+}
