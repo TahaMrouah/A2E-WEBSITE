@@ -1,4 +1,5 @@
 const API_URL = "https://api.a2eimmo.ma/api/properties";
+const API_LOCAL_URL = "http://localhost:5000/api/properties";
 
 // ========================================
 // GET ALL PROPERTIES
@@ -6,7 +7,7 @@ const API_URL = "https://api.a2eimmo.ma/api/properties";
 // ========================================
 
 export async function getProperties() {
-    const response = await fetch(API_URL);
+    const response = await fetch(API_LOCAL_URL);
 
     if (!response.ok) {
         throw new Error("Failed to load properties");
@@ -21,7 +22,7 @@ export async function getProperties() {
 // ========================================
 
 export async function getProperty(id) {
-    const response = await fetch(`${API_URL}/${id}`);
+    const response = await fetch(`${API_LOCAL_URL}/${id}`);
 
     if (!response.ok) {
         throw new Error("Property not found");
@@ -36,7 +37,7 @@ export async function getProperty(id) {
 // ========================================
 
 export async function addProperty(property) {
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_LOCAL_URL, {
         method: "POST",
 
         headers: {
@@ -66,7 +67,7 @@ export async function addProperty(property) {
 
 export async function updateProperty(id, property) {
     const response = await fetch(
-        `${API_URL}/${id}`,
+        `${API_LOCAL_URL}/${id}`,
         {
             method: "PUT",
 
@@ -98,7 +99,7 @@ export async function updateProperty(id, property) {
 
 export async function deleteProperty(id) {
     const response = await fetch(
-        `${API_URL}/${id}`,
+        `${API_LOCAL_URL}/${id}`,
         {
             method: "DELETE",
 

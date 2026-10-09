@@ -3,6 +3,8 @@ import "../Style/collaborer.css";
 
 function Collaborer() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const [formData, setFormData] = useState({
     // Contact
@@ -45,25 +47,21 @@ function Collaborer() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setSubmitError("");
 
     if (!formData.consent) {
-      alert(
+      setSubmitError(
         "Veuillez accepter que vos informations soient utilisées afin que notre équipe puisse vous contacter."
       );
-
       return;
     }
 
-    console.log("Collaboration request:", formData);
+    setSubmitting(true);
 
-    /*
-      TODO:
-      Connect this form to your A2E API.
-
-      Example:
-
-      await fetch(
-        "https://api.a2eimmo.ma/api/collaboration",
+    try {
+      const response = await fetch(
+       /* "https://api.a2eimmo.ma/api/collaboration",*/
+       "http://localhost:5000/api/collaboration",
         {
           method: "POST",
           headers: {
@@ -72,9 +70,26 @@ function Collaborer() {
           body: JSON.stringify(formData),
         }
       );
-    */
 
-    setSubmitted(true);
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+            "Votre demande n'a pas pu être envoyée. Veuillez réessayer dans quelques instants."
+        );
+      }
+
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Collaboration form submission failed:", error);
+      setSubmitError(
+        error.message ||
+          "Impossible de contacter le serveur. Vérifiez votre connexion puis réessayez."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -755,6 +770,12 @@ function Collaborer() {
               SUBMIT
           ================================= */}
 
+          {submitError && (
+            <p role="alert" className="collaborer-submit-error">
+              {submitError}
+            </p>
+          )}
+
           <div className="form-submit">
 
             <div>
@@ -771,9 +792,10 @@ function Collaborer() {
             <button
               type="submit"
               className="collaborer-submit"
+              disabled={submitting}
             >
-              Soumettre ma demande
-              <span>→</span>
+              {submitting ? "Envoi en cours..." : "Soumettre ma demande"}
+              {!submitting && <span>→</span>}
             </button>
 
           </div>

@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import API_URL from "../configs/api";
 
 import {
@@ -107,6 +108,40 @@ const handleLogout = async () => {
 
 };
 
+const [collaborations, setCollaborations] = useState([]);
+const [collaborationsLoading, setCollaborationsLoading] = useState(true);
+const [collaborationsError, setCollaborationsError] = useState("");
+
+useEffect(() => {
+    const fetchCollaborations = async () => {
+        try {
+            const response = await fetch(
+                `${API_URL}/collaboration`,
+                {
+                    method: "GET",
+                    credentials: "include",
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.message || "Impossible de charger les demandes."
+                );
+            }
+
+            setCollaborations(data.collaborations || []);
+        } catch (error) {
+            console.error("Collaboration requests error:", error);
+            setCollaborationsError(error.message);
+        } finally {
+            setCollaborationsLoading(false);
+        }
+    };
+
+    fetchCollaborations();
+}, []);
 
 
     /* ================================
@@ -632,6 +667,204 @@ const handleLogout = async () => {
                     </div>
 
 
+{/* SELLER COLLABORATION REQUESTS */}
+<section
+    style={{
+        margin: "30px 0",
+        padding: "24px",
+        background: "#fff",
+        border: "1px solid #e9e5dc",
+        borderRadius: "10px",
+    }}
+>
+    <div
+        style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "15px",
+            flexWrap: "wrap",
+            marginBottom: "22px",
+        }}
+    >
+        <div>
+            <span
+                className="admin-section-label"
+                style={{ color: "#9a8050" }}
+            >
+                CONTACTS CLIENTS
+            </span>
+
+            <h2 style={{ margin: "8px 0" }}>
+                Demandes de collaboration
+            </h2>
+
+            <p style={{ margin: 0, color: "#777", fontSize: "13px" }}>
+                Propriétaires souhaitant vendre ou confier leur bien à A2E.
+            </p>
+        </div>
+
+        <span
+            style={{
+                padding: "8px 13px",
+                borderRadius: "20px",
+                background: "#f5f0e6",
+                color: "#806b42",
+                fontWeight: 600,
+                fontSize: "13px",
+            }}
+        >
+            {collaborations.length} demande(s)
+        </span>
+    </div>
+
+    {collaborationsLoading ? (
+        <p>Chargement des demandes...</p>
+    ) : collaborationsError ? (
+        <div
+            role="alert"
+            style={{
+                padding: "14px",
+                background: "#fff6f4",
+                color: "#a4473c",
+                borderRadius: "6px",
+                fontSize: "13px",
+            }}
+        >
+            {collaborationsError}
+        </div>
+    ) : collaborations.length === 0 ? (
+        <p style={{ color: "#777", fontSize: "14px" }}>
+            Aucune demande pour le moment.
+        </p>
+    ) : (
+        <div style={{ display: "grid", gap: "16px" }}>
+            {collaborations.map((item) => (
+                <article
+                    key={item._id || item.id}
+                    style={{
+                        padding: "18px",
+                        border: "1px solid #eee9df",
+                        borderRadius: "8px",
+                        minWidth: 0,
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: "12px",
+                            flexWrap: "wrap",
+                            marginBottom: "14px",
+                        }}
+                    >
+                        <div>
+                            <h3 style={{ margin: "0 0 6px", fontSize: "17px" }}>
+                                {item.firstName} {item.lastName}
+                            </h3>
+
+                            <span style={{ color: "#8b754a", fontSize: "12px" }}>
+                                {item.propertyType || "Type de bien non précisé"}
+                            </span>
+                        </div>
+
+                        <small style={{ color: "#777" }}>
+                            {item.createdAt
+                                ? new Date(item.createdAt).toLocaleString("fr-FR")
+                                : "Date non disponible"}
+                        </small>
+                    </div>
+
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+                            gap: "12px",
+                            fontSize: "13px",
+                            lineHeight: 1.7,
+                        }}
+                    >
+                        <div>
+                            <strong>Téléphone :</strong>
+                            <div>{item.phone || "Non renseigné"}</div>
+                        </div>
+
+                        <div>
+                            <strong>E-mail :</strong>
+                            <div style={{ overflowWrap: "anywhere" }}>
+                                {item.email || "Non renseigné"}
+                            </div>
+                        </div>
+
+                        <div>
+                            <strong>Ville :</strong>
+                            <div>{item.city || "Non renseignée"}</div>
+                        </div>
+
+                        <div>
+                            <strong>Localisation du bien :</strong>
+                            <div>{item.propertyLocation || "Non renseignée"}</div>
+                        </div>
+
+                        <div>
+                            <strong>Surface du terrain :</strong>
+                            <div>
+                                {item.propertySurface != null
+                                    ? `${item.propertySurface} m²`
+                                    : "Non renseignée"}
+                            </div>
+                        </div>
+
+                        <div>
+                            <strong>Prix estimé :</strong>
+                            <div>
+                                {item.estimatedPrice != null
+                                    ? `${Number(item.estimatedPrice).toLocaleString("fr-FR")} MAD`
+                                    : "Non renseigné"}
+                            </div>
+                        </div>
+
+                        <div>
+                            <strong>Contact préféré :</strong>
+                            <div>{item.preferredContact || "Non précisé"}</div>
+                        </div>
+
+                        <div>
+                            <strong>Disponibilité :</strong>
+                            <div>{item.availability || "Non précisée"}</div>
+                        </div>
+                    </div>
+
+                    {item.description && (
+                        <div
+                            style={{
+                                marginTop: "14px",
+                                paddingTop: "12px",
+                                borderTop: "1px solid #eee9df",
+                            }}
+                        >
+                            <strong style={{ fontSize: "13px" }}>
+                                Description du propriétaire
+                            </strong>
+
+                            <p
+                                style={{
+                                    marginBottom: 0,
+                                    fontSize: "13px",
+                                    color: "#555",
+                                    whiteSpace: "pre-wrap",
+                                    overflowWrap: "anywhere",
+                                }}
+                            >
+                                {item.description}
+                            </p>
+                        </div>
+                    )}
+                </article>
+            ))}
+        </div>
+    )}
+</section>
                     {/* ======================================
                         QUICK ACTIONS
                     ====================================== */}

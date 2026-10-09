@@ -46,7 +46,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/offres/:id" element={<Offre />} />
         <Route
-          path="/collaborer-avec-nous"
+          path="/collaboration"
           element={<Collaborer />}
         />
         <Route path="/properties" element={<Properties />} />

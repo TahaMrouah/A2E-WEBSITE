@@ -17,7 +17,7 @@ import "../Style/Admin/login.css";
 // ========================================
 
 const API_URL = "https://api.a2eimmo.ma/api";
-
+const API_LOCAL_URL = "http://localhost:5000/api";
 
 function Login() {
 
@@ -46,7 +46,7 @@ function Login() {
             try {
 
                 const response = await fetch(
-                    `${API_URL}/auth/me`,
+                    `${API_LOCAL_URL}/auth/me`,
                     {
                         method: "GET",
                         credentials: "include",
@@ -119,7 +119,7 @@ function Login() {
         try {
 
             const response = await fetch(
-                `${API_URL}/auth/login`,
+                `${API_LOCAL_URL}/auth/login`,
                 {
                     method: "POST",
 
