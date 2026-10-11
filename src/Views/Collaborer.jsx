@@ -1,11 +1,26 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "../Style/collaborer.css";
 
+import {
+  FaUserTie,
+  FaHome,
+  FaClipboardList,
+  FaArrowRight,
+  FaShieldAlt,
+} from "react-icons/fa";
 function Collaborer() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
+  const errorRef = useRef(null);
+
+  const showError = (message) => {
+    setSubmitError(message);
+    setTimeout(() => {
+      errorRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 50);
+  };
   const [formData, setFormData] = useState({
     // Contact
     firstName: "",
@@ -36,6 +51,7 @@ function Collaborer() {
     consent: false,
   });
 
+
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
 
@@ -60,8 +76,8 @@ function Collaborer() {
 
     try {
       const response = await fetch(
-       /* "https://api.a2eimmo.ma/api/collaboration",*/
-       "http://localhost:5000/api/collaboration",
+        /* "https://api.a2eimmo.ma/api/collaboration",*/
+        "http://localhost:5000/api/collaboration",
         {
           method: "POST",
           headers: {
@@ -76,7 +92,7 @@ function Collaborer() {
       if (!response.ok) {
         throw new Error(
           data.message ||
-            "Votre demande n'a pas pu être envoyée. Veuillez réessayer dans quelques instants."
+          "Votre demande n'a pas pu être envoyée. Veuillez réessayer dans quelques instants."
         );
       }
 
@@ -85,7 +101,7 @@ function Collaborer() {
       console.error("Collaboration form submission failed:", error);
       setSubmitError(
         error.message ||
-          "Impossible de contacter le serveur. Vérifiez votre connexion puis réessayez."
+        "Impossible de contacter le serveur. Vérifiez votre connexion puis réessayez."
       );
     } finally {
       setSubmitting(false);
@@ -206,16 +222,10 @@ function Collaborer() {
           <div className="form-section">
 
             <div className="form-section-title">
-              <span>01</span>
-
+              <span><FaUserTie aria-hidden="true" /></span>
               <div>
-                <h3>
-                  Vos coordonnées
-                </h3>
-
-                <p>
-                  Comment pouvons-nous vous contacter ?
-                </p>
+                <h3>Vos coordonnées</h3>
+                <p>Comment pouvons-nous vous contacter ?</p>
               </div>
             </div>
 
@@ -347,17 +357,10 @@ function Collaborer() {
           <div className="form-section">
 
             <div className="form-section-title">
-              <span>02</span>
-
+              <span><FaHome aria-hidden="true" /></span>
               <div>
-                <h3>
-                  Votre propriété
-                </h3>
-
-                <p>
-                  Donnez-nous les principales informations
-                  concernant le bien.
-                </p>
+                <h3>Votre propriété</h3>
+                <p>Les informations essentielles concernant votre bien.</p>
               </div>
             </div>
 
@@ -606,19 +609,15 @@ function Collaborer() {
 
           <div className="form-section">
 
+
             <div className="form-section-title">
-              <span>03</span>
-
+              <span><FaClipboardList aria-hidden="true" /></span>
               <div>
-                <h3>
-                  Votre projet de vente
-                </h3>
-
-                <p>
-                  Aidez-nous à comprendre vos attentes.
-                </p>
+                <h3>Votre projet de vente</h3>
+                <p>Vos attentes, votre prix souhaité et vos disponibilités.</p>
               </div>
             </div>
+
 
 
             <div className="form-grid">
@@ -783,20 +782,36 @@ function Collaborer() {
                 A2E IMMOBILIER
               </span>
 
+              <p className="privacy-note">
+                <FaShieldAlt aria-hidden="true" /> 
+                <span>
+                   Vos informations restent confidentielles et sont utilisées
+                  pour étudier votre demande immobilière.
+                </span>
+              </p>
+
               <p>
                 Votre propriété mérite la bonne stratégie
                 de commercialisation.
               </p>
             </div>
 
+
             <button
               type="submit"
               className="collaborer-submit"
               disabled={submitting}
             >
-              {submitting ? "Envoi en cours..." : "Soumettre ma demande"}
-              {!submitting && <span>→</span>}
+              {submitting ? (
+                "Envoi en cours..."
+              ) : (
+                <>
+                  Soumettre ma demande
+                  <FaArrowRight aria-hidden="true" />
+                </>
+              )}
             </button>
+
 
           </div>
 

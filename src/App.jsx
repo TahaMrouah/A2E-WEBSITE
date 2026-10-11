@@ -17,6 +17,7 @@ import ScrollToTop from "./hooks/scrollTop";
 import AdminProtectedRoute from "./Admin/adminProtectedRoute";
 import ScrollToTopButton from "./Components/scrollToTop";
 import Collaborer from "./Views/Collaborer";
+import Collaborations from "./Admin/Collaboration";
 function App() {
   return (
     <>
@@ -59,7 +60,14 @@ function App() {
               <Dashboard />
             </AdminProtectedRoute>
           }
-        />
+        /><Route
+  path="/admin/collaborations"
+  element={
+    <AdminProtectedRoute>
+      <Collaborations />
+    </AdminProtectedRoute>
+  }
+/>
         <Route path="/admin/properties" element={
           <AdminProtectedRoute><AdminProperties /></AdminProtectedRoute>} />
         <Route
