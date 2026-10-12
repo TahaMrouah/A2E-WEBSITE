@@ -20,7 +20,7 @@ export default function Collaborations() {
   const [error, setError] = useState("");
   const [actionError, setActionError] = useState("");
   const [actionLoading, setActionLoading] = useState("");
-
+const [actionNotice, setActionNotice] = useState("");
   // Load all collaboration requests
   const fetchCollaborations = useCallback(async (signal) => {
     try {
@@ -63,7 +63,7 @@ export default function Collaborations() {
   // Accept a collaboration request
   const handleAccept = async (id) => {
     if (actionLoading) return;
-
+    
     try {
       setActionLoading(id);
       setActionError("");
@@ -89,7 +89,7 @@ export default function Collaborations() {
           data.message || "Impossible d'accepter cette demande."
         );
       }
-
+      setActionNotice(data.message || "Demande traitée.");
       setCollaborations((previous) =>
         previous.map((item) =>
           item._id === id
@@ -228,7 +228,11 @@ export default function Collaborations() {
             Fermer
           </button>
         </div>
-      )}
+      )}{actionNotice && (
+  <div role="status" className="collaborations-notice">
+    {actionNotice}
+  </div>
+)}
 
       {/* LOADING */}
       {loading && (

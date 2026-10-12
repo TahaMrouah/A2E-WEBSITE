@@ -6,7 +6,6 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import "../Style/navbar.css";
 import { Link, useNavigate } from "react-router-dom";
-
 import {
   FaSearch,
   FaTimes,
@@ -14,8 +13,14 @@ import {
   FaHandshake,
   FaCoins,
   FaChevronDown,
+  FaHome,
+  FaBuilding,
+  FaTools,
+  FaChartLine,
+  FaInfoCircle,
+  FaEnvelope,
 } from "react-icons/fa";
-
+import { useLocation } from "react-router-dom";
 import useProperties from "../hooks/useProperties";
 
 function Navb() {
@@ -26,14 +31,56 @@ function Navb() {
   const searchRef = useRef(null);
   const navigate = useNavigate();
 
-  const { properties, loading } = useProperties();
+  const { properties = [], loading } = useProperties();
 
   const closeNavbar = () => {
     setExpanded(false);
     setSearchOpen(false);
     setSearch("");
   };
+const location = useLocation();
 
+const handleSectionNavigation = (event, sectionId) => {
+  event.preventDefault();
+  closeNavbar();
+
+  if (location.pathname === "/") {
+    // Already on the landing page: scroll directly.
+    document.getElementById(sectionId)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    return;
+  }
+
+  // On another page: return home, then scroll to the section.
+  navigate("/", {
+    state: { scrollToSection: sectionId },
+  });
+};
+
+useEffect(() => {
+  const sectionId = location.state?.scrollToSection;
+
+  if (location.pathname !== "/" || !sectionId) return;
+
+  // Wait for the landing page to render before scrolling.
+  const timer = setTimeout(() => {
+    document.getElementById(sectionId)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    // Clear the pending scroll request.
+    navigate("/", {
+      replace: true,
+      state: null,
+    });
+  }, 150);
+
+  return () => clearTimeout(timer);
+}, [location.pathname, location.state, navigate]);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -94,6 +141,13 @@ function Navb() {
     closeNavbar();
   };
 
+  const dropdownTitle = (label) => (
+    <span className="partner-dropdown-title">
+      {label}
+      <FaChevronDown className="partner-chevron" />
+    </span>
+  );
+
   return (
     <Navbar
       collapseOnSelect
@@ -133,29 +187,108 @@ function Navb() {
               Accueil
             </Nav.Link>
 
-            <Nav.Link
-              href="/#services"
-              className="link"
-              onClick={closeNavbar}
+            {/* DISCOVER A2E DROPDOWN */}
+            <NavDropdown
+              title={dropdownTitle("Découvrir A2E")}
+              id="discover-dropdown"
+              className="partner-dropdown discover-dropdown"
             >
-              Nos Services
-            </Nav.Link>
+              <NavDropdown.Item
+                as={Link}
+                to="/#services"
+                className="partner-dropdown-item"
+                onClick={closeNavbar}
+                onClick={(event) =>
+    handleSectionNavigation(event, "services")
+  }
+              >
+                <span className="partner-icon">
+                  <FaTools />
+                </span>
 
-            <Nav.Link
-              href="/#offres"
-              className="link"
-              onClick={closeNavbar}
-            >
-              Nos Offres
-            </Nav.Link>
+                <span className="partner-item-text">
+                  <strong>Nos Services</strong>
+                  <small>
+                    Découvrez nos solutions immobilières
+                  </small>
+                </span>
 
-            <Nav.Link
-              href="/#expertise"
-              className="link"
-              onClick={closeNavbar}
-            >
-              Notre Expertise
-            </Nav.Link>
+                <FaArrowRight className="partner-item-arrow" />
+              </NavDropdown.Item>
+
+              <NavDropdown.Divider />
+
+              <NavDropdown.Item
+                as={Link}
+                to="/#offres"
+                className="partner-dropdown-item"
+                onClick={closeNavbar}
+                 onClick={(event) =>
+    handleSectionNavigation(event, "offres")
+  }
+                
+              >
+                <span className="partner-icon">
+                  <FaBuilding />
+                </span>
+
+                <span className="partner-item-text">
+                  <strong>Nos Offres</strong>
+                  <small>
+                    Explorez nos biens immobiliers
+                  </small>
+                </span>
+
+                <FaArrowRight className="partner-item-arrow" />
+              </NavDropdown.Item>
+
+              <NavDropdown.Divider />
+
+              <NavDropdown.Item
+                as={Link}
+                to="/#expertise"
+                className="partner-dropdown-item"
+                onClick={closeNavbar}
+                onClick={(event) =>
+    handleSectionNavigation(event, "expertise")
+  }
+              >
+                <span className="partner-icon">
+                  <FaChartLine />
+                </span>
+
+                <span className="partner-item-text">
+                  <strong>Notre Expertise</strong>
+                  <small>
+                    Notre savoir-faire à votre service
+                  </small>
+                </span>
+
+                <FaArrowRight className="partner-item-arrow" />
+              </NavDropdown.Item>
+
+              <NavDropdown.Divider />
+
+              <NavDropdown.Item
+                as={Link}
+                to="/properties"
+                className="partner-dropdown-item"
+                onClick={closeNavbar}
+              >
+                <span className="partner-icon">
+                  <FaHome />
+                </span>
+
+                <span className="partner-item-text">
+                  <strong>Nos Propriétés</strong>
+                  <small>
+                    Trouvez votre prochain bien
+                  </small>
+                </span>
+
+                <FaArrowRight className="partner-item-arrow" />
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
 
           <Nav className="navbar-right">
@@ -168,22 +301,11 @@ function Navb() {
               À propos
             </Nav.Link>
 
-            {/* PREMIUM PARTNER DROPDOWN */}
+            {/* PARTNERS DROPDOWN */}
             <NavDropdown
-              title={
-                <span className="partner-dropdown-title">
-                  Espace partenaires
-                  <FaChevronDown className="partner-chevron" />
-                </span>
-              }
+              title={dropdownTitle("Espace partenaires")}
               id="partner-dropdown"
               className="partner-dropdown"
-              onClick={(event) => {
-                // On mobile, close after choosing a destination.
-                if (event.target.closest(".partner-dropdown-item")) {
-                  closeNavbar();
-                }
-              }}
             >
               <NavDropdown.Item
                 as={Link}
@@ -197,7 +319,9 @@ function Navb() {
 
                 <span className="partner-item-text">
                   <strong>Collaborer avec A2E</strong>
-                  <small>Confiez-nous votre bien immobilier</small>
+                  <small>
+                    Confiez-nous votre bien immobilier
+                  </small>
                 </span>
 
                 <FaArrowRight className="partner-item-arrow" />
@@ -217,14 +341,16 @@ function Navb() {
 
                 <span className="partner-item-text">
                   <strong>Financer mon bien</strong>
-                  <small>Explorez vos solutions de financement</small>
+                  <small>
+                    Explorez vos solutions de financement
+                  </small>
                 </span>
 
                 <FaArrowRight className="partner-item-arrow" />
               </NavDropdown.Item>
             </NavDropdown>
 
-            {/* SEARCH */}
+            {/* PROPERTY SEARCH */}
             <div
               className={`navbar-search ${
                 searchOpen ? "search-open" : ""
@@ -239,7 +365,8 @@ function Navb() {
                   type="button"
                   className="search-button"
                   aria-label="Rechercher"
-                  onClick={() => setSearchOpen(true)}
+                  aria-expanded={searchOpen}
+                  onClick={() => setSearchOpen((open) => !open)}
                 >
                   <FaSearch />
                 </button>
@@ -251,6 +378,7 @@ function Navb() {
                   onFocus={() => setSearchOpen(true)}
                   placeholder="Rechercher un bien..."
                   autoComplete="off"
+                  aria-label="Rechercher un bien immobilier"
                 />
 
                 {search.length > 0 && (
@@ -258,7 +386,7 @@ function Navb() {
                     type="button"
                     className="search-clear"
                     onClick={() => setSearch("")}
-                    aria-label="Effacer"
+                    aria-label="Effacer la recherche"
                   >
                     <FaTimes />
                   </button>
@@ -268,7 +396,9 @@ function Navb() {
               {searchOpen && search.trim() && (
                 <div className="search-results">
                   {loading ? (
-                    <div className="search-message">Chargement...</div>
+                    <div className="search-message">
+                      Chargement...
+                    </div>
                   ) : searchResults.length > 0 ? (
                     <>
                       <div className="search-results-header">
@@ -327,6 +457,7 @@ function Navb() {
               className="link contact-link"
               onClick={closeNavbar}
             >
+              <FaEnvelope className="nav-contact-icon" />
               Contact
             </Nav.Link>
           </Nav>
