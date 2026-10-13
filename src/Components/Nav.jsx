@@ -5,7 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import "../Style/navbar.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   FaSearch,
   FaTimes,
@@ -20,17 +20,20 @@ import {
   FaInfoCircle,
   FaEnvelope,
 } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
 import useProperties from "../hooks/useProperties";
 
 function Navb() {
   const [expanded, setExpanded] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [search, setSearch] = useState("");
-const searchRef = useRef(null);
-const searchInputRef = useRef(null);
-  
+  const [projectUnits, setProjectUnits] = useState([]);
+  const [projectUnitsLoading, setProjectUnitsLoading] = useState(false);
+
+  const searchRef = useRef(null);
+  const searchInputRef = useRef(null);
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { properties = [], loading } = useProperties();
 
@@ -39,57 +42,152 @@ const searchInputRef = useRef(null);
     setSearchOpen(false);
     setSearch("");
   };
-const location = useLocation();
 
-const handleSectionNavigation = (event, sectionId) => {
-  event.preventDefault();
-  closeNavbar();
+  // Normalize accents, uppercase/lowercase and surrounding spaces.
+  const normalizeText = (value) =>
+    String(value ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
 
-  if (location.pathname === "/") {
-    // Already on the landing page: scroll directly.
-    document.getElementById(sectionId)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
+  // Collect searchable values from all fields, including nested objects.
+  const getSearchableText = (value) => {
+    if (value === null || value === undefined) return "";
+
+    if (
+      typeof value === "string" ||
+      typeof value === "number" ||
+      typeof value === "boolean"
+    ) {
+      return String(value);
+    }
+
+    if (Array.isArray(value)) {
+      return value.map(getSearchableText).join(" ");
+    }
+
+    if (typeof value === "object") {
+      return Object.entries(value)
+        .filter(
+          ([key]) =>
+            !/image|buffer|base64|binary|password|token/i.test(key)
+        )
+        .map(
+          ([key, fieldValue]) =>
+            `${key} ${getSearchableText(fieldValue)}`
+        )
+        .join(" ");
+    }
+
+    return "";
+  };
+
+  // Allow searches such as "bureau 500 m2" to match separate fields.
+  const matchesSearch = (text, query) => {
+    const normalizedText = normalizeText(text);
+    const terms = normalizeText(query).split(/\s+/).filter(Boolean);
+
+    return terms.every((term) => normalizedText.includes(term));
+  };
+
+  const handleSectionNavigation = (event, sectionId) => {
+    event.preventDefault();
+    closeNavbar();
+
+    if (location.pathname === "/") {
+      document.getElementById(sectionId)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      return;
+    }
+
+    navigate("/", {
+      state: { scrollToSection: sectionId },
     });
+  };
 
-    return;
-  }
+  // Fetch offices and commercial units from the projects API.
+  useEffect(() => {
+    const controller = new AbortController();
 
-  // On another page: return home, then scroll to the section.
-  navigate("/", {
-    state: { scrollToSection: sectionId },
-  });
-};
-useEffect(() => {
-  if (searchOpen) {
+    async function fetchProjectUnits() {
+      setProjectUnitsLoading(true);
+
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/projects",
+          { signal: controller.signal }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Projects API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        const units = Array.isArray(data)
+          ? data
+          : Array.isArray(data.projects)
+            ? data.projects
+            : Array.isArray(data.data)
+              ? data.data
+              : [];
+
+        setProjectUnits(units);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error(
+            "Could not load offices and commercial units:",
+            error
+          );
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setProjectUnitsLoading(false);
+        }
+      }
+    }
+
+    fetchProjectUnits();
+
+    return () => controller.abort();
+  }, []);
+
+  // Focus the input whenever the search panel opens.
+  useEffect(() => {
+    if (!searchOpen) return;
+
     const timer = setTimeout(() => {
       searchInputRef.current?.focus();
     }, 100);
 
     return () => clearTimeout(timer);
-  }
-}, [searchOpen]);
-useEffect(() => {
-  const sectionId = location.state?.scrollToSection;
+  }, [searchOpen]);
 
-  if (location.pathname !== "/" || !sectionId) return;
+  // Handle section navigation when returning to the landing page.
+  useEffect(() => {
+    const sectionId = location.state?.scrollToSection;
 
-  // Wait for the landing page to render before scrolling.
-  const timer = setTimeout(() => {
-    document.getElementById(sectionId)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    if (location.pathname !== "/" || !sectionId) return;
 
-    // Clear the pending scroll request.
-    navigate("/", {
-      replace: true,
-      state: null,
-    });
-  }, 150);
+    const timer = setTimeout(() => {
+      document.getElementById(sectionId)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
 
-  return () => clearTimeout(timer);
-}, [location.pathname, location.state, navigate]);
+      navigate("/", {
+        replace: true,
+        state: null,
+      });
+    }, 150);
+
+    return () => clearTimeout(timer);
+  }, [location.pathname, location.state, navigate]);
+
+  // Close the search panel when clicking outside it.
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -107,29 +205,154 @@ useEffect(() => {
     };
   }, []);
 
+  // Classify project units without assigning unknown units to the wrong project.
+  const normalizeProjectSearchItem = (unit) => {
+    const reference = String(unit.reference || unit.id || "");
+    const project = String(unit.project || "");
+    const category = String(unit.category || "");
+
+    const referenceText = normalizeText(reference);
+    const categoryText = normalizeText(category);
+    const projectText = normalizeText(project);
+
+    const isCommercial =
+      referenceText.startsWith("lot commercial") ||
+      referenceText.startsWith("cc-") ||
+      categoryText.includes("commercial") ||
+      categoryText.includes("magasin") ||
+      categoryText.includes("local") ||
+      projectText.includes("central hills");
+
+    const isOffice =
+      referenceText.startsWith("bureau building") ||
+      referenceText.startsWith("bureau ") ||
+      referenceText.startsWith("bb-") ||
+      categoryText.includes("bureau") ||
+      categoryText.includes("office") ||
+      projectText.includes("green lotus");
+
+    // Central Hills = commercial units.
+    // Green Lotus = offices.
+    let projectKey = "unknown";
+
+    if (isCommercial) {
+      projectKey = "central";
+    } else if (isOffice) {
+      projectKey = "green";
+    }
+
+    const projectName =
+      projectKey === "central"
+        ? "Central Hills"
+        : projectKey === "green"
+          ? "Green Lotus"
+          : project || "Projet immobilier";
+
+    const unitType = isCommercial
+      ? "Local commercial"
+      : isOffice
+        ? "Bureau"
+        : category || "Lot immobilier";
+
+    const searchText = normalizeText(
+      getSearchableText({
+        ...unit,
+        reference,
+        projectName,
+        unitType,
+      })
+    );
+
+    return {
+      ...unit,
+      reference,
+      projectKey,
+      projectName,
+      unitType,
+      searchText,
+    };
+  };
+
+  const searchableProjectUnits = useMemo(
+    () => projectUnits.map(normalizeProjectSearchItem),
+    [projectUnits]
+  );
+
+  // Combine property listings, offices and commercial units in one search.
   const searchResults = useMemo(() => {
-    const query = search.trim().toLowerCase();
+    const query = search.trim();
 
     if (!query) return [];
 
-    return properties
-      .filter((property) => {
-        const title = String(property.title || "").toLowerCase();
-        const location = String(
-          property.location || property.subheader || ""
-        ).toLowerCase();
-        const id = String(property._id || "").toLowerCase();
-        const type = String(property.type || "").toLowerCase();
-
-        return (
-          title.includes(query) ||
-          location.includes(query) ||
-          id.includes(query) ||
-          type.includes(query)
+    const propertyResults = properties
+      .map((property) => {
+        const reference = String(
+          property.reference ||
+            property.ref ||
+            property._id ||
+            ""
         );
+
+        return {
+          kind: "property",
+          item: property,
+          title: property.title || property.name || "Bien immobilier",
+          location:
+            property.location ||
+            property.subheader ||
+            property.address ||
+            "Localisation non renseignée",
+          type: property.type || property.category || "Bien immobilier",
+          reference,
+          searchText: normalizeText(
+            getSearchableText({
+              ...property,
+              reference,
+            })
+          ),
+        };
       })
-      .slice(0, 6);
-  }, [search, properties]);
+      .filter((result) => matchesSearch(result.searchText, query));
+
+    const unitResults = searchableProjectUnits
+      .map((unit) => ({
+        kind: "projectUnit",
+        item: unit,
+        title: unit.reference || "Lot sans référence",
+        location: unit.projectName,
+        type: unit.unitType,
+        reference: unit.reference,
+        projectName: unit.projectName,
+        projectKey: unit.projectKey,
+        searchText: unit.searchText,
+      }))
+      .filter((result) => matchesSearch(result.searchText, query));
+
+    return [...propertyResults, ...unitResults].slice(0, 10);
+  }, [search, properties, searchableProjectUnits]);
+
+  // Open the correct destination for each result type.
+  const openSearchResult = (result) => {
+    if (result.kind === "property") {
+      const propertyId = result.item._id || result.item.id;
+
+      if (propertyId) {
+        navigate(`/properties/${propertyId}`);
+      } else {
+        navigate("/properties");
+      }
+    } else if (result.kind === "projectUnit") {
+      if (result.projectKey === "central") {
+        navigate("/projects#central-hills");
+      } else if (result.projectKey === "green") {
+        navigate("/projects#green-lotus");
+      } else {
+        navigate("/projects");
+      }
+    }
+
+    closeNavbar();
+  };
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
@@ -137,17 +360,39 @@ useEffect(() => {
     if (!search.trim()) return;
 
     if (searchResults.length === 1) {
-      navigate(`/properties/${searchResults[0]._id}`);
-    } else {
-      navigate("/properties");
+      openSearchResult(searchResults[0]);
+      return;
     }
 
-    closeNavbar();
-  };
+    if (
+      searchResults.length > 0 &&
+      searchResults.every((result) => result.kind === "property")
+    ) {
+      navigate("/properties");
+      closeNavbar();
+      return;
+    }
 
-  const openProperty = (property) => {
-    navigate(`/properties/${property._id}`);
-    closeNavbar();
+    if (
+      searchResults.length > 0 &&
+      searchResults.every((result) => result.kind === "projectUnit")
+    ) {
+      const projectKeys = new Set(
+        searchResults.map((result) => result.projectKey)
+      );
+
+      if (projectKeys.size === 1 && projectKeys.has("central")) {
+        navigate("/projects#central-hills");
+      } else if (projectKeys.size === 1 && projectKeys.has("green")) {
+        navigate("/projects#green-lotus");
+      } else {
+        navigate("/projects");
+      }
+
+      closeNavbar();
+    }
+
+    // Mixed results remain in the popup so the user can choose.
   };
 
   const dropdownTitle = (label) => (
@@ -206,10 +451,9 @@ useEffect(() => {
                 as={Link}
                 to="/#services"
                 className="partner-dropdown-item"
-                onClick={closeNavbar}
                 onClick={(event) =>
-    handleSectionNavigation(event, "services")
-  }
+                  handleSectionNavigation(event, "services")
+                }
               >
                 <span className="partner-icon">
                   <FaTools />
@@ -231,11 +475,9 @@ useEffect(() => {
                 as={Link}
                 to="/#offres"
                 className="partner-dropdown-item"
-                onClick={closeNavbar}
-                 onClick={(event) =>
-    handleSectionNavigation(event, "offres")
-  }
-                
+                onClick={(event) =>
+                  handleSectionNavigation(event, "offres")
+                }
               >
                 <span className="partner-icon">
                   <FaBuilding />
@@ -257,10 +499,9 @@ useEffect(() => {
                 as={Link}
                 to="/#expertise"
                 className="partner-dropdown-item"
-                onClick={closeNavbar}
                 onClick={(event) =>
-    handleSectionNavigation(event, "expertise")
-  }
+                  handleSectionNavigation(event, "expertise")
+                }
               >
                 <span className="partner-icon">
                   <FaChartLine />
@@ -309,6 +550,7 @@ useEffect(() => {
             >
               À propos
             </Nav.Link>
+
             <Nav.Link
               as={Link}
               to="/projects"
@@ -367,185 +609,206 @@ useEffect(() => {
               </NavDropdown.Item>
             </NavDropdown>
 
-            
-{/* PROPERTY SEARCH — FLOATING PANEL */}
-<div
-  className={`navbar-search ${searchOpen ? "search-open" : ""}`}
-  ref={searchRef}
->
-  <button
-    type="button"
-    className="search-button"
-    aria-label="Ouvrir la recherche"
-    aria-expanded={searchOpen}
-    onClick={() => {
-      setSearchOpen((open) => !open);
-      setSearch("");
-    }}
-  >
-    {searchOpen ? <FaTimes /> : <FaSearch />}
-  </button>
-
-  {searchOpen && (
-    <div className="search-popup">
-      <div className="search-popup-heading">
-        <div>
-          <span className="search-eyebrow">A2E IMMOBILIER</span>
-          <h3>Quel bien recherchez-vous ?</h3>
-          <p>Trouvez le bien qui correspond à votre projet.</p>
-        </div>
-
-        <button
-          type="button"
-          className="search-popup-close"
-          aria-label="Fermer la recherche"
-          onClick={() => {
-            setSearchOpen(false);
-            setSearch("");
-          }}
-        >
-          <FaTimes />
-        </button>
-      </div>
-
-      <form
-        className="navbar-search-form"
-        onSubmit={handleSearchSubmit}
-      >
-        <FaSearch className="search-popup-input-icon" />
-
-        <input
-          ref={searchInputRef}
-          type="text"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          placeholder="Villa, appartement, Casablanca..."
-          autoComplete="off"
-          aria-label="Rechercher un bien immobilier"
-        />
-
-        {search && (
-          <button
-            type="button"
-            className="search-clear"
-            onClick={() => setSearch("")}
-            aria-label="Effacer la recherche"
-          >
-            <FaTimes />
-          </button>
-        )}
-
-        <button type="submit" className="search-submit">
-          Rechercher
-        </button>
-      </form>
-
-      {!search.trim() ? (
-        <div className="search-suggestions">
-          <span className="search-section-label">
-            RECHERCHES POPULAIRES
-          </span>
-
-          <div className="search-chips">
-            {[
-              "Villa",
-              "Appartement",
-              "Bureau",
-              "Local commercial",
-            ].map((term) => (
+            {/* PROPERTY SEARCH — FLOATING PANEL */}
+            <div
+              className={`navbar-search ${searchOpen ? "search-open" : ""}`}
+              ref={searchRef}
+            >
               <button
                 type="button"
-                className="search-chip"
-                key={term}
+                className="search-button"
+                aria-label="Ouvrir la recherche"
+                aria-expanded={searchOpen}
                 onClick={() => {
-                  setSearch(term);
-                  searchInputRef.current?.focus();
+                  setSearchOpen((open) => !open);
+                  setSearch("");
                 }}
               >
-                {term}
-                <FaArrowRight />
+                {searchOpen ? <FaTimes /> : <FaSearch />}
               </button>
-            ))}
-          </div>
 
-          <div className="search-help">
-            <FaInfoCircle />
-            <span>
-              Conseil : recherchez par type de bien, ville,
-              quartier ou identifiant.
-            </span>
-          </div>
-        </div>
-      ) : (
-        <div className="search-results">
-          {loading ? (
-            <div className="search-message">
-              Chargement des propriétés...
-            </div>
-          ) : searchResults.length > 0 ? (
-            <>
-              <div className="search-results-header">
-                <span>Biens correspondants</span>
-                <span>{searchResults.length}</span>
-              </div>
+              {searchOpen && (
+                <div className="search-popup">
+                  <div className="search-popup-heading">
+                    <div>
+                      <span className="search-eyebrow">
+                        A2E IMMOBILIER
+                      </span>
+                      <h3>Quel bien recherchez-vous ?</h3>
+                      <p>
+                        Trouvez le bien qui correspond à votre projet.
+                      </p>
+                    </div>
 
-              {searchResults.map((property) => (
-                <button
-                  key={property._id}
-                  type="button"
-                  className="search-result"
-                  onClick={() => openProperty(property)}
-                >
-                  <div className="search-result-content">
-                    <strong>{property.title}</strong>
-                    <span>
-                      {property.location ||
-                        property.subheader ||
-                        "Localisation non renseignée"}
-                    </span>
-                    <small>
-                      {property.type || "Bien immobilier"}
-                      {" · "}
-                      Réf. {property._id}
-                    </small>
+                    <button
+                      type="button"
+                      className="search-popup-close"
+                      aria-label="Fermer la recherche"
+                      onClick={() => {
+                        setSearchOpen(false);
+                        setSearch("");
+                      }}
+                    >
+                      <FaTimes />
+                    </button>
                   </div>
 
-                  <FaArrowRight />
-                </button>
-              ))}
+                  <form
+                    className="navbar-search-form"
+                    onSubmit={handleSearchSubmit}
+                  >
+                    <FaSearch className="search-popup-input-icon" />
 
-              <Link
-                to="/properties"
-                className="search-see-all"
-                onClick={closeNavbar}
-              >
-                Voir toutes les propriétés
-                <FaArrowRight />
-              </Link>
-            </>
-          ) : (
-            <div className="search-no-results">
-              <FaSearch />
-              <strong>Aucun bien trouvé</strong>
-              <span>
-                Essayez un autre type de bien, une autre
-                localisation ou un identifiant.
-              </span>
-              <button
-                type="button"
-                className="search-reset"
-                onClick={() => setSearch("")}
-              >
-                Voir les suggestions
-              </button>
+                    <input
+                      ref={searchInputRef}
+                      type="text"
+                      value={search}
+                      onChange={(event) => setSearch(event.target.value)}
+                      placeholder="Villa, bureau, référence, prix..."
+                      autoComplete="off"
+                      aria-label="Rechercher un bien immobilier"
+                    />
+
+                    {search && (
+                      <button
+                        type="button"
+                        className="search-clear"
+                        onClick={() => setSearch("")}
+                        aria-label="Effacer la recherche"
+                      >
+                        <FaTimes />
+                      </button>
+                    )}
+
+                    <button type="submit" className="search-submit">
+                      Rechercher
+                    </button>
+                  </form>
+
+                  {!search.trim() ? (
+                    <div className="search-suggestions">
+                      <span className="search-section-label">
+                        RECHERCHES POPULAIRES
+                      </span>
+
+                      <div className="search-chips">
+                        {[
+                          "Villa",
+                          "Appartement",
+                          "Bureau",
+                          "Local commercial",
+                        ].map((term) => (
+                          <button
+                            type="button"
+                            className="search-chip"
+                            key={term}
+                            onClick={() => {
+                              setSearch(term);
+                              searchInputRef.current?.focus();
+                            }}
+                          >
+                            {term}
+                            <FaArrowRight />
+                          </button>
+                        ))}
+                      </div>
+
+                      <div className="search-help">
+                        <FaInfoCircle />
+                        <span>
+                          Recherchez par type, référence, projet,
+                          localisation, surface ou prix.
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="search-results">
+                      {loading && projectUnitsLoading ? (
+                        <div className="search-message">
+                          Chargement des résultats...
+                        </div>
+                      ) : searchResults.length > 0 ? (
+                        <>
+                          <div className="search-results-header">
+                            <span>Biens correspondants</span>
+                            <span>{searchResults.length}</span>
+                          </div>
+
+                          {searchResults.map((result, index) => (
+                            <button
+                              key={`${result.kind}-${result.reference || index}`}
+                              type="button"
+                              className="search-result"
+                              onClick={() => openSearchResult(result)}
+                            >
+                              <div className="search-result-content">
+                                <strong>{result.title}</strong>
+
+                                <span>{result.location}</span>
+
+                                <small>
+                                  {result.type}
+                                  {result.reference
+                                    ? ` · Réf. ${result.reference}`
+                                    : ""}
+                                  {result.kind === "projectUnit"
+                                    ? ` · ${result.projectName}`
+                                    : ""}
+                                </small>
+                              </div>
+
+                              <FaArrowRight />
+                            </button>
+                          ))}
+
+                          {searchResults.some(
+                            (result) => result.kind === "property"
+                          ) && (
+                            <Link
+                              to="/properties"
+                              className="search-see-all"
+                              onClick={closeNavbar}
+                            >
+                              Voir toutes les propriétés
+                              <FaArrowRight />
+                            </Link>
+                          )}
+
+                          {searchResults.some(
+                            (result) => result.kind === "projectUnit"
+                          ) && (
+                            <Link
+                              to="/projects"
+                              className="search-see-all"
+                              onClick={closeNavbar}
+                            >
+                              Voir tous les bureaux et locaux
+                              <FaArrowRight />
+                            </Link>
+                          )}
+                        </>
+                      ) : (
+                        <div className="search-no-results">
+                          <FaSearch />
+                          <strong>Aucun bien trouvé</strong>
+                          <span>
+                            Essayez une autre référence, un autre
+                            type de bien ou une localisation différente.
+                          </span>
+                          <button
+                            type="button"
+                            className="search-reset"
+                            onClick={() => setSearch("")}
+                          >
+                            Voir les suggestions
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      )}
-    </div>
-  )}
-</div>
-
 
             <Nav.Link
               as={Link}

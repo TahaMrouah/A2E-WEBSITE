@@ -6,66 +6,96 @@ import ScrollToTopButton from "../Components/scrollToTop";
 const API_URL = "http://localhost:5000/api/projects";
 const WHATSAPP_NUMBER = "212602991215";
 
-const money = (value) =>
-  new Intl.NumberFormat("fr-FR", {
-    maximumFractionDigits: 0,
-  }).format(Number(value) || 0) + " DH";
+const money = (value) => {
+  if (value === null || value === undefined || value === "") return "—";
 
-const num = (value) =>
-  value == null
-    ? "—"
-    : new Intl.NumberFormat("fr-FR", {
-        maximumFractionDigits: 1,
-      }).format(Number(value) || 0);
+  const number = Number(value);
+  if (!Number.isFinite(number)) return "—";
+
+  return (
+    new Intl.NumberFormat("fr-FR", {
+      maximumFractionDigits: 0,
+    }).format(number) + " DH"
+  );
+};
+
+const num = (value) => {
+  if (value === null || value === undefined || value === "") return "—";
+
+  const number = Number(value);
+  if (!Number.isFinite(number)) return "—";
+
+  return new Intl.NumberFormat("fr-FR", {
+    maximumFractionDigits: 2,
+  }).format(number);
+};
+
+const surface = (value) => {
+  const formatted = num(value);
+  return formatted === "—" ? "—" : `${formatted} m²`;
+};
 
 function normalizeUnit(unit) {
-  const projectName = String(unit.project || "").toLowerCase();
+  const reference = String(unit.reference || unit.id || "").trim();
   const category = String(unit.category || "").toLowerCase();
+  const projectName = String(unit.project || "").toLowerCase();
+  const referenceLower = reference.toLowerCase();
 
+  const isCommercial =
+    referenceLower.startsWith("lot commercial") ||
+    referenceLower.startsWith("cc-") ||
+    category.includes("commercial") ||
+    category.includes("magasin") ||
+    category.includes("local");
+
+  const isOffice =
+    referenceLower.startsWith("bureau building") ||
+    referenceLower.startsWith("bureau ") ||
+    referenceLower.startsWith("bb-") ||
+    category.includes("bureau") ||
+    category.includes("office");
+
+  let displayType = "unknown";
+
+  if (isCommercial) {
+    displayType = "commercial";
+  } else if (isOffice) {
+    displayType = "office";
+  }
+
+  // Correct project association:
+  // Central Hills = commercial units
+  // Green Lotus = offices
   let projectKey = unit.projectKey;
 
-  if (!projectKey) {
-    if (
-      projectName.includes("green lotus") ||
-      projectName.includes("greenlotus")
-    ) {
-      projectKey = "green";
-    } else if (
-      projectName.includes("central hills") ||
-      projectName.includes("centralhills")
-    ) {
-      projectKey = "central";
-    } else if (
-      category.includes("commercial") ||
-      category.includes("store") ||
-      category.includes("magasin") ||
-      category.includes("local")
-    ) {
-      projectKey = "green";
-    } else if (
-      category.includes("office") ||
-      category.includes("bureau")
-    ) {
-      projectKey = "central";
-    }
+  if (displayType === "commercial") {
+    projectKey = "central";
+  } else if (displayType === "office") {
+    projectKey = "green";
+  } else if (projectName.includes("central hills")) {
+    projectKey = "central";
+  } else if (projectName.includes("green lotus")) {
+    projectKey = "green";
   }
 
   return {
     ...unit,
-    id: unit.reference || unit.id,
+    id: reference,
+    reference,
+    displayType,
     projectKey,
   };
 }
 
 function getWhatsAppLink(item, projectName) {
-  const message = `Bonjour A2E, je souhaite des informations sur ${
-    item.category?.toLowerCase().includes("bureau") ||
-    item.category?.toLowerCase().includes("office")
-      ? "le bureau"
-      : item.projectKey === "green"
-        ? "le local commercial"
-        : "le bien"
-  } ${item.id} du projet ${projectName}.`;
+  const type =
+    item.displayType === "commercial"
+      ? "le local commercial"
+      : "le bureau";
+
+  const message =
+    `Bonjour A2E, je souhaite obtenir des informations sur ${type} ` +
+    `${item.reference} du projet ${projectName}.`;
 
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     message
@@ -93,10 +123,10 @@ function StoreCard({ item }) {
     <article className="projects-unit-card">
       <div className="unit-card-meta">
         <span>LOCAL COMMERCIAL</span>
-        <span>Phase {item.phase ?? "—"}</span>
+        <span>{item.status || `Phase ${item.phase ?? "—"}`}</span>
       </div>
 
-      <h3>{item.id}</h3>
+      <h3>{item.reference}</h3>
 
       <p className="unit-location">
         {item.location || "Emplacement à confirmer"}
@@ -108,104 +138,27 @@ function StoreCard({ item }) {
       <div className="unit-specs">
         <div>
           <span>Surface RDC</span>
-          <strong>{num(item.rdc)} m²</strong>
+          <strong>{surface(item.rdc)}</strong>
         </div>
 
         <div>
           <span>Mezzanine</span>
-          <strong>{num(item.mezzanine)} m²</strong>
+          <strong>{surface(item.mezzanine)}</strong>
         </div>
 
         <div>
           <span>Surface totale</span>
-          <strong>{num(item.total)} m²</strong>
+          <strong>{surface(item.total)}</strong>
         </div>
 
         <div>
           <span>Surface pondérée</span>
-          <strong>{num(item.weighted)} m²</strong>
+          <strong>{surface(item.weighted)}</strong>
         </div>
 
         <div>
-          <span>Prix/m² indiqué</span>
-          <strong>{num(item.priceM2)} DH</strong>
-        </div>
-      </div>
-
-      <a
-        className="projects-unit-link"
-        href={getWhatsAppLink(item, "Green Lotus")}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Demander des informations <span>↗</span>
-      </a>
-    </article>
-  );
-}
-
-function OfficeCard({ item }) {
-  return (
-    <article className="projects-unit-card">
-      <div className="unit-card-meta">
-        <span>BUREAU · IMM{item.building ?? "—"}</span>
-        <span>{item.status || "Disponibilité à confirmer"}</span>
-      </div>
-
-      <h3>{item.id}</h3>
-
-      <p className="unit-location">
-        {item.floor || "Étage à confirmer"}
-        {item.orientation
-          ? ` · Orientation ${item.orientation}`
-          : ""}
-      </p>
-
-      <p className="unit-price">{money(item.price)}</p>
-
-      <div className="unit-specs">
-        <div>
-          <span>Habitable</span>
-          <strong>{num(item.habitable)} m²</strong>
-        </div>
-
-        <div>
-          <span>Surface totale</span>
-          <strong>{num(item.total)} m²</strong>
-        </div>
-
-        <div>
-          <span>Surface vendable</span>
-          <strong>{num(item.saleable)} m²</strong>
-        </div>
-
-        <div>
-          <span>Terrasse couverte</span>
-          <strong>{num(item.covered)} m²</strong>
-        </div>
-
-        <div>
-          <span>Terrasse cour</span>
-          <strong>{num(item.courtyard)} m²</strong>
-        </div>
-
-        <div>
-          <span>Parking</span>
-          <strong>
-            {item.parking == null
-              ? "Non précisé"
-              : `${num(item.parking)} m²`}
-          </strong>
-        </div>
-
-        <div>
-          <span>Façades</span>
-          <strong>{item.facades ?? "—"}</strong>
-        </div>
-
-        <div>
-          <span>Prix/m² indiqué</span>
-          <strong>{num(item.priceM2)} DH</strong>
+          <span>Prix/m²</span>
+          <strong>{money(item.priceM2)}</strong>
         </div>
       </div>
 
@@ -221,17 +174,90 @@ function OfficeCard({ item }) {
   );
 }
 
+function OfficeCard({ item }) {
+  return (
+    <article className="projects-unit-card">
+      <div className="unit-card-meta">
+        <span>BUREAU · IMM {item.building ?? "—"}</span>
+        <span>{item.status || "Disponibilité à confirmer"}</span>
+      </div>
+
+      <h3>{item.reference}</h3>
+
+      <p className="unit-location">
+        {item.floor || "Étage à confirmer"}
+        {item.orientation ? ` · Orientation ${item.orientation}` : ""}
+      </p>
+
+      <p className="unit-price">{money(item.price)}</p>
+
+      <div className="unit-specs">
+        <div>
+          <span>Surface habitable</span>
+          <strong>{surface(item.habitable)}</strong>
+        </div>
+
+        <div>
+          <span>Surface totale</span>
+          <strong>{surface(item.total)}</strong>
+        </div>
+
+        <div>
+          <span>Surface vendable</span>
+          <strong>{surface(item.saleable)}</strong>
+        </div>
+
+        <div>
+          <span>Terrasse couverte</span>
+          <strong>{surface(item.covered)}</strong>
+        </div>
+
+        <div>
+          <span>Terrasse cour</span>
+          <strong>{surface(item.courtyard)}</strong>
+        </div>
+
+        <div>
+          <span>Parking</span>
+          <strong>{surface(item.parking)}</strong>
+        </div>
+
+        <div>
+          <span>Façades</span>
+          <strong>{item.facades ?? "—"}</strong>
+        </div>
+
+        <div>
+          <span>Prix/m²</span>
+          <strong>{money(item.priceM2)}</strong>
+        </div>
+      </div>
+
+      <a
+        className="projects-unit-link"
+        href={getWhatsAppLink(item, "Green Lotus")}
+        target="_blank"
+        rel="noreferrer"
+      >
+        Demander des informations <span>↗</span>
+      </a>
+    </article>
+  );
+}
+
 export default function ProjectsPage() {
   const [units, setUnits] = useState([]);
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState("");
 
   const [project, setProject] = useState("all");
-  const [search, setSearch] = useState("");
+  const [commercialSearch, setCommercialSearch] = useState("");
+  const [officeSearch, setOfficeSearch] = useState("");
   const [phase, setPhase] = useState("all");
   const [building, setBuilding] = useState("all");
   const [floor, setFloor] = useState("all");
-  const [budget, setBudget] = useState("all");
+  const [commercialBudget, setCommercialBudget] = useState("all");
+  const [officeBudget, setOfficeBudget] = useState("all");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -246,29 +272,21 @@ export default function ProjectsPage() {
         });
 
         if (!response.ok) {
-          throw new Error(
-            `Erreur API : ${response.status}`
-          );
+          throw new Error(`Erreur API : ${response.status}`);
         }
 
         const data = await response.json();
 
         if (!Array.isArray(data)) {
-          throw new Error(
-            "L'API n'a pas retourné une liste de lots."
-          );
+          throw new Error("La réponse de l'API n'est pas une liste.");
         }
 
         setUnits(data.map(normalizeUnit));
       } catch (error) {
         if (error.name !== "AbortError") {
-          console.error(
-            "Erreur de chargement des projets :",
-            error
-          );
-
+          console.error("Erreur lors du chargement des lots :", error);
           setApiError(
-            "Impossible de charger les programmes pour le moment. Veuillez réessayer plus tard."
+            "Impossible de charger les lots. Vérifiez que votre serveur backend fonctionne."
           );
         }
       } finally {
@@ -283,96 +301,142 @@ export default function ProjectsPage() {
     return () => controller.abort();
   }, []);
 
+  // Central Hills: commercial units.
   const storesData = useMemo(
-    () => units.filter((item) => item.projectKey === "green"),
+    () => units.filter((item) => item.displayType === "commercial"),
     [units]
   );
 
+  // Green Lotus: offices.
   const officesData = useMemo(
-    () => units.filter((item) => item.projectKey === "central"),
+    () => units.filter((item) => item.displayType === "office"),
     [units]
   );
 
-  const matches = (item) => {
-    const query = [
-      item.id,
-      item.location,
-      item.frontage,
-      item.floor,
-      item.orientation,
-      item.building,
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
+  const filterItems = (items, search, maxBudget) => {
+    const query = search.trim().toLowerCase();
 
-    const matchesSearch = query.includes(
-      search.trim().toLowerCase()
-    );
+    return items.filter((item) => {
+      const searchableText = [
+        item.reference,
+        item.project,
+        item.category,
+        item.status,
+        item.location,
+        item.frontage,
+        item.orientation,
+        item.floor,
+        item.building,
+        item.phase,
+      ]
+        .filter((value) => value !== null && value !== undefined)
+        .join(" ")
+        .toLowerCase();
 
-    const matchesBudget =
-      budget === "all" ||
-      Number(item.price) <= Number(budget);
+      const matchesSearch =
+        !query || searchableText.includes(query);
 
-    return matchesSearch && matchesBudget;
+      const matchesBudget =
+        maxBudget === "all" ||
+        (item.price != null &&
+          Number.isFinite(Number(item.price)) &&
+          Number(item.price) <= Number(maxBudget));
+
+      return matchesSearch && matchesBudget;
+    });
   };
 
-  const stores = useMemo(
-    () =>
+  const stores = useMemo(() => {
+    return filterItems(
       storesData.filter(
         (item) =>
-          matches(item) &&
-          (phase === "all" ||
-            Number(item.phase) === Number(phase))
+          phase === "all" || String(item.phase) === phase
       ),
-    [storesData, search, phase, budget]
-  );
+      commercialSearch,
+      commercialBudget
+    );
+  }, [
+    storesData,
+    commercialSearch,
+    commercialBudget,
+    phase,
+  ]);
 
-  const offices = useMemo(
-    () =>
-      officesData.filter(
-        (item) =>
-          matches(item) &&
-          (building === "all" ||
-            Number(item.building) === Number(building)) &&
-          (floor === "all" || item.floor === floor)
-      ),
-    [officesData, search, budget, building, floor]
-  );
+  const offices = useMemo(() => {
+    return filterItems(
+      officesData.filter((item) => {
+        const matchesBuilding =
+          building === "all" ||
+          String(item.building) === building;
 
-  const resetFilters = () => {
-    setSearch("");
+        const matchesFloor =
+          floor === "all" || String(item.floor) === floor;
+
+        return matchesBuilding && matchesFloor;
+      }),
+      officeSearch,
+      officeBudget
+    );
+  }, [
+    officesData,
+    officeSearch,
+    officeBudget,
+    building,
+    floor,
+  ]);
+
+  const resetCommercialFilters = () => {
+    setCommercialSearch("");
     setPhase("all");
-    setBuilding("all");
-    setFloor("all");
-    setBudget("all");
+    setCommercialBudget("all");
   };
 
-  const storePrices = storesData
-    .map((item) => Number(item.price))
-    .filter(Number.isFinite);
+  const resetOfficeFilters = () => {
+    setOfficeSearch("");
+    setBuilding("all");
+    setFloor("all");
+    setOfficeBudget("all");
+  };
 
-  const officePrices = officesData
-    .map((item) => Number(item.price))
-    .filter(Number.isFinite);
+  const getPriceRange = (items) => {
+    const prices = items
+      .map((item) => item.price)
+      .filter(
+        (value) =>
+          value !== null &&
+          value !== undefined &&
+          value !== "" &&
+          Number.isFinite(Number(value))
+      )
+      .map(Number);
 
-  const storeAreas = storesData
-    .map((item) => Number(item.total))
-    .filter(Number.isFinite);
+    if (prices.length === 0) return "—";
 
-  const officeAreas = officesData
-    .map((item) => Number(item.total))
-    .filter(Number.isFinite);
+    return `${money(Math.min(...prices))} – ${money(
+      Math.max(...prices)
+    )}`;
+  };
 
-  const range = (values) => {
-    if (!values.length) return "—";
+  const getSurfaceRange = (items, field) => {
+    const values = items
+      .map((item) => item[field])
+      .filter(
+        (value) =>
+          value !== null &&
+          value !== undefined &&
+          value !== "" &&
+          Number.isFinite(Number(value))
+      )
+      .map(Number);
+
+    if (values.length === 0) return "—";
 
     const min = Math.min(...values);
     const max = Math.max(...values);
 
-    if (min === max) return num(min);
+    if (min === max) return surface(min);
 
-    return `${num(min)} – ${num(max)}`;
+    return `${surface(min)} – ${surface(max)}`;
   };
 
   return (
@@ -404,9 +468,8 @@ export default function ProjectsPage() {
           </h1>
 
           <p>
-            Découvrez des opportunités immobilières
-            sélectionnées pour vos ambitions professionnelles
-            et vos investissements.
+            Découvrez nos opportunités immobilières sélectionnées
+            pour vos ambitions professionnelles et vos investissements.
           </p>
 
           <a className="projects-button" href="#nos-projets">
@@ -421,9 +484,7 @@ export default function ProjectsPage() {
 
       <section className="projects-intro" id="nos-projets">
         <div>
-          <span className="projects-kicker">
-            LA SÉLECTION A2E
-          </span>
+          <span className="projects-kicker">LA SÉLECTION A2E</span>
 
           <h2>
             Deux projets.
@@ -433,15 +494,15 @@ export default function ProjectsPage() {
         </div>
 
         <p>
-          Explorez les locaux commerciaux de Green Lotus et
-          les bureaux de Central Hills. Consultez les surfaces
-          et les prix, puis contactez notre équipe pour
-          confirmer la disponibilité.
+          Découvrez les locaux commerciaux de Central Hills et les
+          bureaux de Green Lotus. Consultez les surfaces et les prix,
+          puis contactez notre équipe pour plus d’informations.
         </p>
       </section>
 
       <div className="projects-tabs" aria-label="Choisir un projet">
         <button
+          type="button"
           className={project === "all" ? "selected" : ""}
           onClick={() => setProject("all")}
         >
@@ -449,22 +510,25 @@ export default function ProjectsPage() {
         </button>
 
         <button
-          className={project === "green" ? "selected" : ""}
-          onClick={() => setProject("green")}
-        >
-          Green Lotus <small>Commerces</small>
-        </button>
-
-        <button
+          type="button"
           className={project === "central" ? "selected" : ""}
           onClick={() => setProject("central")}
         >
-          Central Hills <small>Bureaux</small>
+          Central Hills <small>Locaux commerciaux</small>
+        </button>
+
+        <button
+          type="button"
+          className={project === "green" ? "selected" : ""}
+          onClick={() => setProject("green")}
+        >
+          Green Lotus <small>Bureaux</small>
         </button>
       </div>
 
-      {(project === "all" || project === "green") && (
-        <section className="projects-section" id="green-lotus">
+      {/* CENTRAL HILLS — COMMERCIAL UNITS */}
+      {(project === "all" || project === "central") && (
+        <section className="projects-section" id="central-hills">
           <div className="projects-section-heading">
             <div>
               <span className="projects-kicker">
@@ -472,12 +536,12 @@ export default function ProjectsPage() {
               </span>
 
               <h2>
-                Green <em>Lotus</em>
+                Central <em>Hills</em>
               </h2>
 
               <p>
-                Des espaces commerciaux pour donner de la
-                visibilité à votre activité.
+                Des locaux commerciaux adaptés à vos projets
+                professionnels et à vos investissements.
               </p>
             </div>
 
@@ -490,38 +554,25 @@ export default function ProjectsPage() {
           </div>
 
           <div className="projects-gallery">
-            <MediaSlot title="Photo principale — Green Lotus" />
-            <MediaSlot title="Vue du projet" />
-            <MediaSlot
-              title="Vidéo de présentation"
-              video
-            />
+            <MediaSlot title="Photo principale — Central Hills" />
+            <MediaSlot title="Vue du projet commercial" />
+            <MediaSlot title="Vidéo de présentation" video />
           </div>
 
           <div className="projects-stat-row">
             <div>
-              <span>Prix indiqués</span>
-              <strong>
-                {range(storePrices) === "—"
-                  ? "—"
-                  : `${money(Math.min(...storePrices))} – ${money(
-                      Math.max(...storePrices)
-                    )}`}
-              </strong>
+              <span>Fourchette de prix</span>
+              <strong>{getPriceRange(storesData)}</strong>
             </div>
 
             <div>
               <span>Surfaces totales</span>
-              <strong>
-                {range(storeAreas) === "—"
-                  ? "—"
-                  : `${range(storeAreas)} m²`}
-              </strong>
+              <strong>{getSurfaceRange(storesData, "total")}</strong>
             </div>
 
             <div>
-              <span>Phases</span>
-              <strong>Selon disponibilité</strong>
+              <span>Surface pondérée</span>
+              <strong>{getSurfaceRange(storesData, "weighted")}</strong>
             </div>
           </div>
 
@@ -529,7 +580,7 @@ export default function ProjectsPage() {
             <div>
               <h3>Les locaux commerciaux</h3>
               <p>
-                Filtrez par phase, budget ou référence du lot.
+                Recherchez un lot par référence, phase ou budget.
               </p>
             </div>
 
@@ -538,13 +589,13 @@ export default function ProjectsPage() {
 
           <div className="projects-filters">
             <label>
-              Référence
+              Référence du lot
               <input
-                value={search}
+                value={commercialSearch}
                 onChange={(event) =>
-                  setSearch(event.target.value)
+                  setCommercialSearch(event.target.value)
                 }
-                placeholder="Ex. CC-20-01"
+                placeholder="Ex. Lot Commercial-20-01"
               />
             </label>
 
@@ -552,9 +603,7 @@ export default function ProjectsPage() {
               Phase
               <select
                 value={phase}
-                onChange={(event) =>
-                  setPhase(event.target.value)
-                }
+                onChange={(event) => setPhase(event.target.value)}
               >
                 <option value="all">Toutes les phases</option>
                 <option value="1">Phase 1</option>
@@ -565,9 +614,9 @@ export default function ProjectsPage() {
             <label>
               Budget maximum
               <select
-                value={budget}
+                value={commercialBudget}
                 onChange={(event) =>
-                  setBudget(event.target.value)
+                  setCommercialBudget(event.target.value)
                 }
               >
                 <option value="all">Tous les budgets</option>
@@ -578,8 +627,9 @@ export default function ProjectsPage() {
             </label>
 
             <button
+              type="button"
               className="projects-reset"
-              onClick={resetFilters}
+              onClick={resetCommercialFilters}
             >
               Réinitialiser
             </button>
@@ -587,22 +637,26 @@ export default function ProjectsPage() {
 
           <div className="projects-units">
             {stores.map((item) => (
-              <StoreCard key={item.id} item={item} />
+              <StoreCard
+                key={item._id || item.reference}
+                item={item}
+              />
             ))}
 
             {!loading && !apiError && stores.length === 0 && (
               <p className="projects-empty">
-                Aucun lot ne correspond à ces filtres.
+                Aucun local commercial ne correspond à ces filtres.
               </p>
             )}
           </div>
         </section>
       )}
 
-      {(project === "all" || project === "central") && (
+      {/* GREEN LOTUS — OFFICES */}
+      {(project === "all" || project === "green") && (
         <section
           className="projects-section projects-section-cream"
-          id="central-hills"
+          id="green-lotus"
         >
           <div className="projects-section-heading">
             <div>
@@ -611,12 +665,12 @@ export default function ProjectsPage() {
               </span>
 
               <h2>
-                Central <em>Hills</em>
+                Green <em>Lotus</em>
               </h2>
 
               <p>
-                Des bureaux aux configurations variées, avec
-                des surfaces et des orientations différentes.
+                Des bureaux aux configurations variées pour
+                accompagner votre activité professionnelle.
               </p>
             </div>
 
@@ -629,38 +683,25 @@ export default function ProjectsPage() {
           </div>
 
           <div className="projects-gallery">
-            <MediaSlot title="Photo principale — Central Hills" />
+            <MediaSlot title="Photo principale — Green Lotus" />
             <MediaSlot title="Vue des bureaux" />
-            <MediaSlot
-              title="Vidéo de présentation"
-              video
-            />
+            <MediaSlot title="Vidéo de présentation" video />
           </div>
 
           <div className="projects-stat-row">
             <div>
-              <span>Prix indiqués</span>
-              <strong>
-                {officePrices.length
-                  ? `${money(Math.min(...officePrices))} – ${money(
-                      Math.max(...officePrices)
-                    )}`
-                  : "—"}
-              </strong>
+              <span>Fourchette de prix</span>
+              <strong>{getPriceRange(officesData)}</strong>
             </div>
 
             <div>
               <span>Surfaces totales</span>
-              <strong>
-                {range(officeAreas) === "—"
-                  ? "—"
-                  : `${range(officeAreas)} m²`}
-              </strong>
+              <strong>{getSurfaceRange(officesData, "total")}</strong>
             </div>
 
             <div>
-              <span>Immeubles</span>
-              <strong>Imm1 & Imm2</strong>
+              <span>Surfaces vendables</span>
+              <strong>{getSurfaceRange(officesData, "saleable")}</strong>
             </div>
           </div>
 
@@ -668,8 +709,7 @@ export default function ProjectsPage() {
             <div>
               <h3>Les bureaux</h3>
               <p>
-                Les disponibilités sont à confirmer auprès
-                d’A2E.
+                Filtrez par référence, immeuble, étage ou budget.
               </p>
             </div>
 
@@ -678,13 +718,13 @@ export default function ProjectsPage() {
 
           <div className="projects-filters projects-filters-office">
             <label>
-              Référence
+              Référence du bureau
               <input
-                value={search}
+                value={officeSearch}
                 onChange={(event) =>
-                  setSearch(event.target.value)
+                  setOfficeSearch(event.target.value)
                 }
-                placeholder="Ex. BB2-0-01"
+                placeholder="Ex. Bureau Building2-0-01"
               />
             </label>
 
@@ -692,9 +732,7 @@ export default function ProjectsPage() {
               Immeuble
               <select
                 value={building}
-                onChange={(event) =>
-                  setBuilding(event.target.value)
-                }
+                onChange={(event) => setBuilding(event.target.value)}
               >
                 <option value="all">Tous les immeubles</option>
                 <option value="1">Immeuble 1</option>
@@ -706,9 +744,7 @@ export default function ProjectsPage() {
               Étage
               <select
                 value={floor}
-                onChange={(event) =>
-                  setFloor(event.target.value)
-                }
+                onChange={(event) => setFloor(event.target.value)}
               >
                 <option value="all">Tous les étages</option>
                 {[
@@ -730,9 +766,9 @@ export default function ProjectsPage() {
             <label>
               Budget maximum
               <select
-                value={budget}
+                value={officeBudget}
                 onChange={(event) =>
-                  setBudget(event.target.value)
+                  setOfficeBudget(event.target.value)
                 }
               >
                 <option value="all">Tous les budgets</option>
@@ -745,8 +781,9 @@ export default function ProjectsPage() {
             </label>
 
             <button
+              type="button"
               className="projects-reset"
-              onClick={resetFilters}
+              onClick={resetOfficeFilters}
             >
               Réinitialiser
             </button>
@@ -754,7 +791,10 @@ export default function ProjectsPage() {
 
           <div className="projects-units">
             {offices.map((item) => (
-              <OfficeCard key={item.id} item={item} />
+              <OfficeCard
+                key={item._id || item.reference}
+                item={item}
+              />
             ))}
 
             {!loading && !apiError && offices.length === 0 && (
@@ -768,9 +808,7 @@ export default function ProjectsPage() {
 
       <section className="projects-contact">
         <div>
-          <span className="projects-kicker">
-            UN PROJET EN TÊTE ?
-          </span>
+          <span className="projects-kicker">UN PROJET EN TÊTE ?</span>
 
           <h2>
             Parlons de votre
@@ -780,7 +818,7 @@ export default function ProjectsPage() {
 
           <p>
             Contactez A2E pour confirmer les disponibilités,
-            obtenir les documents et organiser une visite.
+            obtenir les informations détaillées et organiser une visite.
           </p>
         </div>
 
@@ -795,8 +833,8 @@ export default function ProjectsPage() {
       </section>
 
       <p className="projects-disclaimer">
-        Prix, surfaces et disponibilités à confirmer auprès
-        d’A2E avant publication définitive ou engagement.
+        Les prix, les surfaces et les disponibilités sont à confirmer
+        auprès d’A2E avant tout engagement.
       </p>
     </main>
   );
