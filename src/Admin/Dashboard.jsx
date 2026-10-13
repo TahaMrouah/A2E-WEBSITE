@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -15,6 +14,7 @@ import {
   FaEdit,
   FaRulerCombined,
   FaHandshake,
+  FaLeaf,
 } from "react-icons/fa";
 
 import API_URL from "../configs/api";
@@ -28,19 +28,18 @@ export default function Dashboard() {
   const { properties = [], loading, error } = useProperties();
 
   const [collaborations, setCollaborations] = useState([]);
-  const [collaborationsLoading, setCollaborationsLoading] =
-    useState(true);
+  const [collaborationsLoading, setCollaborationsLoading] = useState(true);
   const [collaborationsError, setCollaborationsError] = useState("");
 
   // Property statistics
   const totalProperties = properties.length;
 
   const propertiesForSale = properties.filter((property) =>
-    property.status?.toLowerCase().includes("vendre")
+    property.status?.toLowerCase().includes("vendre"),
   ).length;
 
   const propertiesForRent = properties.filter((property) =>
-    property.status?.toLowerCase().includes("louer")
+    property.status?.toLowerCase().includes("louer"),
   ).length;
 
   // Load collaboration requests
@@ -61,16 +60,14 @@ export default function Dashboard() {
 
         if (!response.ok) {
           throw new Error(
-            data.message || "Impossible de charger les demandes."
+            data.message || "Impossible de charger les demandes.",
           );
         }
 
         setCollaborations(data.collaborations || []);
       } catch (err) {
         if (err.name !== "AbortError") {
-          setCollaborationsError(
-            err.message || "Une erreur est survenue."
-          );
+          setCollaborationsError(err.message || "Une erreur est survenue.");
         }
       } finally {
         if (!controller.signal.aborted) {
@@ -117,7 +114,7 @@ export default function Dashboard() {
               color: "#292620",
             }}
           >
-            Chargement des propriétés...
+            Chargement des données...
           </div>
         </section>
       </main>
@@ -146,12 +143,13 @@ export default function Dashboard() {
             <span>Propriétés</span>
           </Link>
 
-          <Link
-            to="/admin/collaborations"
-            className="admin-nav-link"
-          >
+          <Link to="/admin/collaborations" className="admin-nav-link">
             <FaHandshake />
             <span>Collaborations</span>
+          </Link>
+          <Link to="/admin/projects" className="admin-nav-link">
+            <FaLeaf />
+            <span>Nos Projets</span>
           </Link>
         </nav>
 
@@ -161,11 +159,7 @@ export default function Dashboard() {
             <FaArrowRight />
           </Link>
 
-          <button
-            type="button"
-            className="admin-logout"
-            onClick={handleLogout}
-          >
+          <button type="button" className="admin-logout" onClick={handleLogout}>
             <FaSignOutAlt />
             <span>Déconnexion</span>
           </button>
@@ -176,9 +170,7 @@ export default function Dashboard() {
       <section className="admin-dashboard-content">
         <header className="admin-dashboard-header">
           <div>
-            <span className="admin-dashboard-label">
-              A2E IMMOBILIER
-            </span>
+            <span className="admin-dashboard-label">A2E IMMOBILIER</span>
             <h1>Dashboard</h1>
           </div>
 
@@ -210,8 +202,7 @@ export default function Dashboard() {
         <section
           className="admin-statistics"
           style={{
-            gridTemplateColumns:
-              "repeat(auto-fit, minmax(200px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           }}
         >
           <div className="admin-stat-card">
@@ -271,10 +262,7 @@ export default function Dashboard() {
                 <h2>Propriétés récentes</h2>
               </div>
 
-              <Link
-                to="/admin/properties"
-                className="admin-section-link"
-              >
+              <Link to="/admin/properties" className="admin-section-link">
                 Voir tout <FaArrowRight />
               </Link>
             </div>
@@ -285,16 +273,12 @@ export default function Dashboard() {
               ) : (
                 properties.slice(0, 5).map((property) => {
                   const propertyImage =
-                    Array.isArray(property.images) &&
-                    property.images.length > 0
+                    Array.isArray(property.images) && property.images.length > 0
                       ? resolvePropertyImage(property.images[0])
                       : null;
 
                   return (
-                    <div
-                      className="admin-property-row"
-                      key={property._id}
-                    >
+                    <div className="admin-property-row" key={property._id}>
                       <div className="admin-property-image">
                         {propertyImage ? (
                           <img
@@ -340,7 +324,7 @@ export default function Dashboard() {
                           <small>PRIX</small>
                           <strong>
                             {Number(property.price || 0).toLocaleString(
-                              "fr-FR"
+                              "fr-FR",
                             )}{" "}
                             MAD
                           </strong>
@@ -350,9 +334,7 @@ export default function Dashboard() {
                       <div className="admin-property-status">
                         <span
                           className={
-                            property.status
-                              ?.toLowerCase()
-                              .includes("vendre")
+                            property.status?.toLowerCase().includes("vendre")
                               ? "for-sale"
                               : "for-rent"
                           }
@@ -399,10 +381,7 @@ export default function Dashboard() {
                 <FaArrowRight className="admin-action-arrow" />
               </Link>
 
-              <Link
-                to="/admin/properties"
-                className="admin-action-card"
-              >
+              <Link to="/admin/properties" className="admin-action-card">
                 <div className="admin-action-icon">
                   <FaBuilding />
                 </div>
@@ -413,10 +392,7 @@ export default function Dashboard() {
                 <FaArrowRight className="admin-action-arrow" />
               </Link>
 
-              <Link
-                to="/properties"
-                className="admin-action-card"
-              >
+              <Link to="/properties" className="admin-action-card">
                 <div className="admin-action-icon">
                   <FaHome />
                 </div>
@@ -438,17 +414,12 @@ export default function Dashboard() {
                 borderRadius: 10,
               }}
             >
-              <span className="admin-section-label">
-                CONTACTS CLIENTS
-              </span>
+              <span className="admin-section-label">CONTACTS CLIENTS</span>
 
-              <h2 style={{ margin: "8px 0" }}>
-                Demandes de collaboration
-              </h2>
+              <h2 style={{ margin: "8px 0" }}>Demandes de collaboration</h2>
 
               <p style={{ color: "#777", fontSize: 13 }}>
-                Consultez les propriétaires souhaitant confier leur bien
-                à A2E.
+                Consultez les propriétaires souhaitant confier leur bien à A2E.
               </p>
 
               {collaborationsError && (
@@ -464,10 +435,7 @@ export default function Dashboard() {
                 demande(s) reçue(s)
               </p>
 
-              <Link
-                to="/admin/collaborations"
-                className="admin-section-link"
-              >
+              <Link to="/admin/collaborations" className="admin-section-link">
                 Gérer les demandes <FaArrowRight />
               </Link>
 
@@ -487,12 +455,58 @@ export default function Dashboard() {
                     <div style={{ color: "#777", fontSize: 13 }}>
                       {item.propertyType || "Type de bien non précisé"}
                     </div>
-                    <small>
-                      Statut : {item.status || "pending"}
-                    </small>
+                    <small>Statut : {item.status || "pending"}</small>
                   </div>
                 ))}
             </section>
+          </div>
+        </section>
+        {/* PROJECT MANAGEMENT */}
+        <section className="admin-projects-section" style={{ marginTop: 40 }}>
+          <div className="admin-section-header">
+            <div>
+              <span className="admin-section-label">
+                GESTION DES PROGRAMMES
+              </span>
+              <h2>Projets immobiliers</h2>
+              <p>Gérez les lots, les bureaux et leur disponibilité.</p>
+            </div>
+          </div>
+
+          <div className="admin-projects-grid">
+            <Link
+              to="/admin/projects/green-lotus"
+              className="admin-project-card"
+            >
+              <div className="admin-project-icon">
+                <FaLeaf />
+              </div>
+
+              <div className="admin-project-info">
+                <span>PROJET IMMOBILIER</span>
+                <h3>Green Lotus</h3>
+                <p>Gérer les magasins commerciaux, les prix et les statuts.</p>
+              </div>
+
+              <FaArrowRight className="admin-project-arrow" />
+            </Link>
+
+            <Link
+              to="/admin/projects/central-hills"
+              className="admin-project-card"
+            >
+              <div className="admin-project-icon">
+                <FaBuilding />
+              </div>
+
+              <div className="admin-project-info">
+                <span>PROJET IMMOBILIER</span>
+                <h3>Central Hills</h3>
+                <p>Gérer les bureaux, les surfaces, les prix et les statuts.</p>
+              </div>
+
+              <FaArrowRight className="admin-project-arrow" />
+            </Link>
           </div>
         </section>
 

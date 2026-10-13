@@ -27,8 +27,9 @@ function Navb() {
   const [expanded, setExpanded] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [search, setSearch] = useState("");
-
-  const searchRef = useRef(null);
+const searchRef = useRef(null);
+const searchInputRef = useRef(null);
+  
   const navigate = useNavigate();
 
   const { properties = [], loading } = useProperties();
@@ -59,7 +60,15 @@ const handleSectionNavigation = (event, sectionId) => {
     state: { scrollToSection: sectionId },
   });
 };
+useEffect(() => {
+  if (searchOpen) {
+    const timer = setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 100);
 
+    return () => clearTimeout(timer);
+  }
+}, [searchOpen]);
 useEffect(() => {
   const sectionId = location.state?.scrollToSection;
 
@@ -300,6 +309,14 @@ useEffect(() => {
             >
               À propos
             </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/projects"
+              className="link"
+              onClick={closeNavbar}
+            >
+              Nos Projets
+            </Nav.Link>
 
             {/* PARTNERS DROPDOWN */}
             <NavDropdown
@@ -350,106 +367,185 @@ useEffect(() => {
               </NavDropdown.Item>
             </NavDropdown>
 
-            {/* PROPERTY SEARCH */}
-            <div
-              className={`navbar-search ${
-                searchOpen ? "search-open" : ""
-              }`}
-              ref={searchRef}
-            >
-              <form
-                className="navbar-search-form"
-                onSubmit={handleSearchSubmit}
+            
+{/* PROPERTY SEARCH — FLOATING PANEL */}
+<div
+  className={`navbar-search ${searchOpen ? "search-open" : ""}`}
+  ref={searchRef}
+>
+  <button
+    type="button"
+    className="search-button"
+    aria-label="Ouvrir la recherche"
+    aria-expanded={searchOpen}
+    onClick={() => {
+      setSearchOpen((open) => !open);
+      setSearch("");
+    }}
+  >
+    {searchOpen ? <FaTimes /> : <FaSearch />}
+  </button>
+
+  {searchOpen && (
+    <div className="search-popup">
+      <div className="search-popup-heading">
+        <div>
+          <span className="search-eyebrow">A2E IMMOBILIER</span>
+          <h3>Quel bien recherchez-vous ?</h3>
+          <p>Trouvez le bien qui correspond à votre projet.</p>
+        </div>
+
+        <button
+          type="button"
+          className="search-popup-close"
+          aria-label="Fermer la recherche"
+          onClick={() => {
+            setSearchOpen(false);
+            setSearch("");
+          }}
+        >
+          <FaTimes />
+        </button>
+      </div>
+
+      <form
+        className="navbar-search-form"
+        onSubmit={handleSearchSubmit}
+      >
+        <FaSearch className="search-popup-input-icon" />
+
+        <input
+          ref={searchInputRef}
+          type="text"
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          placeholder="Villa, appartement, Casablanca..."
+          autoComplete="off"
+          aria-label="Rechercher un bien immobilier"
+        />
+
+        {search && (
+          <button
+            type="button"
+            className="search-clear"
+            onClick={() => setSearch("")}
+            aria-label="Effacer la recherche"
+          >
+            <FaTimes />
+          </button>
+        )}
+
+        <button type="submit" className="search-submit">
+          Rechercher
+        </button>
+      </form>
+
+      {!search.trim() ? (
+        <div className="search-suggestions">
+          <span className="search-section-label">
+            RECHERCHES POPULAIRES
+          </span>
+
+          <div className="search-chips">
+            {[
+              "Villa",
+              "Appartement",
+              "Bureau",
+              "Local commercial",
+            ].map((term) => (
+              <button
+                type="button"
+                className="search-chip"
+                key={term}
+                onClick={() => {
+                  setSearch(term);
+                  searchInputRef.current?.focus();
+                }}
               >
-                <button
-                  type="button"
-                  className="search-button"
-                  aria-label="Rechercher"
-                  aria-expanded={searchOpen}
-                  onClick={() => setSearchOpen((open) => !open)}
-                >
-                  <FaSearch />
-                </button>
+                {term}
+                <FaArrowRight />
+              </button>
+            ))}
+          </div>
 
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                  onFocus={() => setSearchOpen(true)}
-                  placeholder="Rechercher un bien..."
-                  autoComplete="off"
-                  aria-label="Rechercher un bien immobilier"
-                />
-
-                {search.length > 0 && (
-                  <button
-                    type="button"
-                    className="search-clear"
-                    onClick={() => setSearch("")}
-                    aria-label="Effacer la recherche"
-                  >
-                    <FaTimes />
-                  </button>
-                )}
-              </form>
-
-              {searchOpen && search.trim() && (
-                <div className="search-results">
-                  {loading ? (
-                    <div className="search-message">
-                      Chargement...
-                    </div>
-                  ) : searchResults.length > 0 ? (
-                    <>
-                      <div className="search-results-header">
-                        <span>Résultats</span>
-                        <span>{searchResults.length}</span>
-                      </div>
-
-                      {searchResults.map((property) => (
-                        <button
-                          key={property._id}
-                          type="button"
-                          className="search-result"
-                          onClick={() => openProperty(property)}
-                        >
-                          <div className="search-result-content">
-                            <strong>{property.title}</strong>
-
-                            <span>
-                              {property.location ||
-                                property.subheader ||
-                                "Localisation non renseignée"}
-                            </span>
-
-                            <small>ID : {property._id}</small>
-                          </div>
-
-                          <FaArrowRight />
-                        </button>
-                      ))}
-
-                      <Link
-                        to="/properties"
-                        className="search-see-all"
-                        onClick={closeNavbar}
-                      >
-                        Voir toutes les propriétés
-                        <FaArrowRight />
-                      </Link>
-                    </>
-                  ) : (
-                    <div className="search-no-results">
-                      <FaSearch />
-                      <strong>Aucun bien trouvé</strong>
-                      <span>
-                        Recherchez par nom, localisation ou identifiant.
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
+          <div className="search-help">
+            <FaInfoCircle />
+            <span>
+              Conseil : recherchez par type de bien, ville,
+              quartier ou identifiant.
+            </span>
+          </div>
+        </div>
+      ) : (
+        <div className="search-results">
+          {loading ? (
+            <div className="search-message">
+              Chargement des propriétés...
             </div>
+          ) : searchResults.length > 0 ? (
+            <>
+              <div className="search-results-header">
+                <span>Biens correspondants</span>
+                <span>{searchResults.length}</span>
+              </div>
+
+              {searchResults.map((property) => (
+                <button
+                  key={property._id}
+                  type="button"
+                  className="search-result"
+                  onClick={() => openProperty(property)}
+                >
+                  <div className="search-result-content">
+                    <strong>{property.title}</strong>
+                    <span>
+                      {property.location ||
+                        property.subheader ||
+                        "Localisation non renseignée"}
+                    </span>
+                    <small>
+                      {property.type || "Bien immobilier"}
+                      {" · "}
+                      Réf. {property._id}
+                    </small>
+                  </div>
+
+                  <FaArrowRight />
+                </button>
+              ))}
+
+              <Link
+                to="/properties"
+                className="search-see-all"
+                onClick={closeNavbar}
+              >
+                Voir toutes les propriétés
+                <FaArrowRight />
+              </Link>
+            </>
+          ) : (
+            <div className="search-no-results">
+              <FaSearch />
+              <strong>Aucun bien trouvé</strong>
+              <span>
+                Essayez un autre type de bien, une autre
+                localisation ou un identifiant.
+              </span>
+              <button
+                type="button"
+                className="search-reset"
+                onClick={() => setSearch("")}
+              >
+                Voir les suggestions
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )}
+</div>
+
 
             <Nav.Link
               as={Link}
