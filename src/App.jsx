@@ -18,6 +18,7 @@ import AdminProtectedRoute from "./Admin/adminProtectedRoute";
 import ScrollToTopButton from "./Components/scrollToTop";
 import Collaborer from "./Views/Collaborer";
 import Collaborations from "./Admin/Collaboration";
+import ProjectsPage from "./Views/ProjectPage";
 function App() {
   return (
     <>
@@ -50,6 +51,7 @@ function App() {
           path="/collaboration"
           element={<Collaborer />}
         />
+        <Route path="/projects" element={<ProjectsPage/>} />
         <Route path="/properties" element={<Properties />} />
         <Route path="/properties/:id" element={<PropertyDetails />} />
         <Route path="/admin/login" element={<Login />} />
