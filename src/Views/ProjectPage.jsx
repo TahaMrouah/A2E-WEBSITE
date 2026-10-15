@@ -2,7 +2,10 @@
 import { useEffect, useMemo, useState } from "react";
 import "../Style/projects.css";
 import ScrollToTopButton from "../Components/scrollToTop";
-
+import centralHillsMain from "../assets/ch1.jpg";
+import centralHillsView from "../assets/ch2.jpg";
+import greenLotusMain from "../assets/BUSINESS EXT.jpg";
+import greenLotusView from "../assets/Bureau.png";
 const API_URL = "http://localhost:5000/api/projects";
 const WHATSAPP_NUMBER = "212602991215";
 
@@ -553,11 +556,29 @@ export default function ProjectsPage() {
             </span>
           </div>
 
-          <div className="projects-gallery">
-            <MediaSlot title="Photo principale — Central Hills" />
-            <MediaSlot title="Vue du projet commercial" />
-            <MediaSlot title="Vidéo de présentation" video />
-          </div>
+          
+<div className="projects-gallery">
+  <img
+    src={centralHillsMain}
+    alt="Photo principale — Central Hills"
+    className="project-media"
+  />
+
+  <img
+    src={centralHillsView}
+    alt="Vue du projet commercial"
+    className="project-media"
+  />
+
+  <video
+    className="project-media"
+    src=""
+    controls
+    playsInline
+    preload="metadata"
+  />
+</div>
+
 
           <div className="projects-stat-row">
             <div>
@@ -683,10 +704,26 @@ export default function ProjectsPage() {
           </div>
 
           <div className="projects-gallery">
-            <MediaSlot title="Photo principale — Green Lotus" />
-            <MediaSlot title="Vue des bureaux" />
-            <MediaSlot title="Vidéo de présentation" video />
-          </div>
+  <img
+    src={greenLotusMain}
+    alt="Photo principale — Central Hills"
+    className="project-media"
+  />
+
+  <img
+    src={greenLotusView}
+    alt="Vue du projet commercial"
+    className="project-media"
+  />
+
+  <video
+    className="project-media"
+    src=""
+    controls
+    playsInline
+    preload="metadata"
+  />
+</div>
 
           <div className="projects-stat-row">
             <div>
