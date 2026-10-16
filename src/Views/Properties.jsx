@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import "../Style/properties.css";
 import ScrollToTopButton from "../Components/scrollToTop";
+import FinanceFloatingButton from "../Components/FinanceFloatingButton";
+
 import {
     FaMapMarkerAlt,
     FaRulerCombined,
@@ -846,6 +848,7 @@ function Properties() {
                     </div>
 
                 )}
+                <FinanceFloatingButton />
 <ScrollToTopButton />
         </main>
     );

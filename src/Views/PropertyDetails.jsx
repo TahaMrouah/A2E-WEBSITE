@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 
 import "../Style/property-details.css";
 import ScrollToTopButton from "../Components/scrollToTop";
+import FinanceFloatingButton from "../Components/FinanceFloatingButton";
 import {
     FaArrowLeft,
     FaMapMarkerAlt,
@@ -938,6 +939,7 @@ function PropertyDetails() {
 
                     </div>
                 )}
+                <FinanceFloatingButton />
 <ScrollToTopButton />
         </main>
     );

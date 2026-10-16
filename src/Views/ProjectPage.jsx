@@ -6,6 +6,7 @@ import centralHillsMain from "../assets/ch1.jpg";
 import centralHillsView from "../assets/ch2.jpg";
 import greenLotusMain from "../assets/BUSINESS EXT.jpg";
 import greenLotusView from "../assets/Bureau.png";
+import FinanceFloatingButton from "../Components/FinanceFloatingButton";
 const API_URL = "http://localhost:5000/api/projects";
 const WHATSAPP_NUMBER = "212602991215";
 
@@ -873,6 +874,7 @@ export default function ProjectsPage() {
         Les prix, les surfaces et les disponibilités sont à confirmer
         auprès d’A2E avant tout engagement.
       </p>
+      <FinanceFloatingButton />
     </main>
   );
 }

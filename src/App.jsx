@@ -20,6 +20,8 @@ import Collaborer from "./Views/Collaborer";
 import Collaborations from "./Admin/Collaboration";
 import ProjectsPage from "./Views/ProjectPage";
 import ProjectUnitsAdmin from "./Admin/Projects";
+import FinancerMonBien from "./Views/FinanceSimulator";
+
 function App() {
   return (
     <>
@@ -48,6 +50,10 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/offres/:id" element={<Offre />} />
+        <Route
+  path="/financer-mon-bien"
+  element={<FinancerMonBien />}
+/>
         <Route
           path="/collaboration"
           element={<Collaborer />}
