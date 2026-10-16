@@ -48,7 +48,7 @@
       rgba(20, 20, 17, 0.82) 50%,
       rgba(20, 20, 17, 0.38) 100%
     ),
-    url("../../assets/images/collaborer-hero.jpg")
+    url("../assets/handshake.webp")
       center 52% / cover no-repeat;
   color: var(--collab-white);
 }

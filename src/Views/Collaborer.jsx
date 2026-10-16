@@ -12,7 +12,7 @@ function Collaborer() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
-
+const [emailWarning, setEmailWarning] = useState("");
   const errorRef = useRef(null);
 
   const showError = (message) => {
@@ -61,52 +61,70 @@ function Collaborer() {
     }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setSubmitError("");
+ 
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-    if (!formData.consent) {
-      setSubmitError(
-        "Veuillez accepter que vos informations soient utilisées afin que notre équipe puisse vous contacter."
-      );
-      return;
-    }
+  setSubmitError("");
+  setEmailWarning("");
+  setSubmitting(true);
 
-    setSubmitting(true);
-
-    try {
-      const response = await fetch(
-        /* "https://api.a2eimmo.ma/api/collaboration",*/
-        "http://localhost:5000/api/collaboration",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(
-          data.message ||
-          "Votre demande n'a pas pu être envoyée. Veuillez réessayer dans quelques instants."
-        );
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/collaboration",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       }
+    );
 
-      setSubmitted(true);
-    } catch (error) {
-      console.error("Collaboration form submission failed:", error);
-      setSubmitError(
-        error.message ||
-        "Impossible de contacter le serveur. Vérifiez votre connexion puis réessayez."
+    const data = await response.json().catch(() => ({}));
+
+    // Handle server errors before displaying success.
+    if (!response.ok) {
+      throw new Error(
+        data.message ||
+          "Votre demande n'a pas pu être envoyée. Veuillez réessayer."
       );
-    } finally {
-      setSubmitting(false);
     }
-  };
+
+    // Read email status only AFTER receiving the response.
+    const statuses = data.emailStatus;
+
+    if (
+      statuses &&
+      (statuses.admin === false ||
+        statuses.collaborator === false)
+    ) {
+      setEmailWarning(
+        statuses.collaborator === false
+          ? "Votre demande est enregistrée, mais l'e-mail de confirmation n'a pas pu être envoyé. Notre équipe vérifiera la situation."
+          : "Votre demande est enregistrée, mais une notification interne a échoué."
+      );
+    } else {
+      setEmailWarning("");
+    }
+
+    // Display success only after the server confirms acceptance.
+    setSubmitted(true);
+  } catch (error) {
+    console.error(
+      "Collaboration form submission failed:",
+      error
+    );
+
+    setSubmitError(
+      error.message ||
+        "Impossible de contacter le serveur. Vérifiez votre connexion puis réessayez."
+    );
+  } finally {
+    setSubmitting(false);
+  }
+};
+
 
   if (submitted) {
     return (
@@ -132,6 +150,11 @@ function Collaborer() {
             concernant votre bien et vous contactera
             prochainement.
           </p>
+          {emailWarning && (
+  <p role="status" className="collaborer-submit-error">
+    {emailWarning}
+  </p>
+)}
 
           <button
             type="button"
