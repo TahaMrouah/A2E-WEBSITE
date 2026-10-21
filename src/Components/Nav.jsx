@@ -117,7 +117,7 @@ function Navb() {
 
       try {
         const response = await fetch(
-          "http://localhost:5000/api/projects",
+          "https://api.a2eimmo.ma/api/projects",
           { signal: controller.signal }
         );
 

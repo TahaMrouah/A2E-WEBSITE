@@ -7,6 +7,7 @@ import centralHillsView from "../assets/ch2.jpg";
 import greenLotusMain from "../assets/BUSINESS EXT.jpg";
 import greenLotusView from "../assets/Bureau.png";
 import FinanceFloatingButton from "../Components/FinanceFloatingButton";
+
 const API_URL = "https://api.a2eimmo.ma/api/projects";
 const WHATSAPP_NUMBER = "212602991215";
 
