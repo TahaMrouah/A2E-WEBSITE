@@ -8,7 +8,7 @@ import { Navigate } from "react-router-dom";
 // ========================================
 
 const API_URL = "https://api.a2eimmo.ma/api";
-const API_LOCAL_URL = "http://localhost:5000/api";
+
 
 
 function AdminProtectedRoute({ children }) {
@@ -27,7 +27,7 @@ function AdminProtectedRoute({ children }) {
             try {
 
                 const response = await fetch(
-                    `${API_LOCAL_URL}/auth/me`,
+                    `${API_URL}/auth/me`,
                     {
                         method: "GET",
                         credentials: "include",

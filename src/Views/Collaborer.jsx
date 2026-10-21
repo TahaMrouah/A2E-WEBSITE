@@ -71,7 +71,7 @@ const handleSubmit = async (event) => {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/api/collaboration",
+      "https://api.a2eimmo.ma/api/collaboration",
       {
         method: "POST",
         headers: {
