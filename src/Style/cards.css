@@ -463,6 +463,392 @@
 }
 
 .offers-more-button:hover span { transform: translateX(6px); }
+```css
+/* =========================================
+   A2E IMMOBILIER — PROPERTY CATEGORY SECTION
+   Premium / Responsive
+========================================= */
+
+.property-category-links {
+  --category-gold: #b49658;
+  --category-gold-dark: #8e7139;
+  --category-ink: #202620;
+  --category-muted: #77796f;
+  --category-border: rgba(42, 47, 39, 0.12);
+  --category-paper: #f7f5f0;
+  --category-white: #fffefa;
+
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  padding: clamp(64px, 8vw, 112px) clamp(20px, 5vw, 76px);
+  overflow: hidden;
+  background: var(--category-paper);
+  color: var(--category-ink);
+}
+
+/* Subtle decorative detail */
+
+.property-category-links::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -150px;
+  right: -120px;
+  width: 390px;
+  height: 390px;
+  border: 1px solid rgba(180, 150, 88, 0.14);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.property-category-links::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -105px;
+  right: -75px;
+  width: 300px;
+  height: 300px;
+  border: 1px solid rgba(180, 150, 88, 0.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Intro */
+
+.property-category-links__intro {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto 44px;
+  text-align: center;
+}
+
+.property-category-links__intro .offers-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 17px;
+  color: var(--category-gold-dark);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.property-category-links__intro .offers-kicker::before,
+.property-category-links__intro .offers-kicker::after {
+  content: "";
+  display: block;
+  width: 25px;
+  height: 1px;
+  background: var(--category-gold);
+}
+
+.property-category-links__intro h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1.13;
+  text-wrap: balance;
+}
+
+.property-category-links__intro p {
+  max-width: 540px;
+  margin: 18px auto 0;
+  color: var(--category-muted);
+  font-size: clamp(0.92rem, 1.3vw, 1.02rem);
+  line-height: 1.85;
+  text-wrap: pretty;
+}
+
+/* Cards grid */
+
+.property-category-links__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+/* Individual card */
+
+.property-category-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  min-height: 290px;
+  padding: clamp(22px, 2.2vw, 32px);
+  overflow: hidden;
+  border: 1px solid var(--category-border);
+  background: var(--category-white);
+  color: var(--category-ink);
+  text-decoration: none;
+  box-shadow: 0 5px 22px rgba(35, 39, 32, 0.025);
+  transition:
+    transform 280ms ease,
+    border-color 280ms ease,
+    box-shadow 280ms ease,
+    background-color 280ms ease;
+}
+
+/* Gold line revealed on hover */
+
+.property-category-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--category-gold);
+  transition: width 280ms ease;
+}
+
+/* Soft corner decoration */
+
+.property-category-card::after {
+  content: "";
+  position: absolute;
+  right: -45px;
+  bottom: -55px;
+  width: 130px;
+  height: 130px;
+  border: 1px solid rgba(180, 150, 88, 0.12);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 350ms ease;
+}
+
+.property-category-card > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  border: 1px solid rgba(180, 150, 88, 0.42);
+  border-radius: 50%;
+  color: var(--category-gold-dark);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.property-category-card h3 {
+  margin: 29px 0 11px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.17rem, 1.6vw, 1.48rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.property-category-card p {
+  margin: 0 0 25px;
+  color: var(--category-muted);
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+/* Card link */
+
+.property-category-card .property-category-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: auto;
+  padding-top: 16px;
+  color: var(--category-gold-dark);
+  font-size: 0.77rem;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  line-height: 1.6;
+  transition: gap 220ms ease, color 220ms ease;
+}
+
+/* Hover and keyboard focus */
+
+@media (hover: hover) and (pointer: fine) {
+  .property-category-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(180, 150, 88, 0.58);
+    background: #ffffff;
+    box-shadow: 0 20px 42px rgba(35, 39, 32, 0.075);
+  }
+
+  .property-category-card:hover::before {
+    width: 100%;
+  }
+
+  .property-category-card:hover::after {
+    transform: scale(1.2);
+  }
+
+  .property-category-card:hover .property-category-card__link {
+    gap: 15px;
+    color: var(--category-ink);
+  }
+}
+
+.property-category-card:focus-visible {
+  outline: 3px solid var(--category-gold);
+  outline-offset: 4px;
+}
+
+/* =========================================
+   RESPONSIVE — SMALL DESKTOP / TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+  .property-category-links {
+    padding-right: 4%;
+    padding-left: 4%;
+  }
+
+  .property-category-links__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    max-width: 820px;
+  }
+
+  .property-category-card {
+    min-height: 255px;
+    padding: 28px;
+  }
+
+  .property-category-card h3 {
+    font-size: 1.35rem;
+  }
+}
+
+/* =========================================
+   RESPONSIVE — MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .property-category-links {
+    padding: 54px 20px 60px;
+  }
+
+  .property-category-links::before {
+    top: -120px;
+    right: -180px;
+    width: 290px;
+    height: 290px;
+  }
+
+  .property-category-links::after {
+    top: -80px;
+    right: -140px;
+    width: 220px;
+    height: 220px;
+  }
+
+  .property-category-links__intro {
+    margin-bottom: 30px;
+    text-align: left;
+  }
+
+  .property-category-links__intro .offers-kicker {
+    gap: 9px;
+    font-size: 0.64rem;
+    letter-spacing: 0.17em;
+  }
+
+  .property-category-links__intro .offers-kicker::before {
+    width: 18px;
+  }
+
+  .property-category-links__intro .offers-kicker::after {
+    display: none;
+  }
+
+  .property-category-links__intro h2 {
+    max-width: 440px;
+    font-size: clamp(2rem, 8.5vw, 2.7rem);
+    line-height: 1.12;
+  }
+
+  .property-category-links__intro p {
+    margin: 13px 0 0;
+    font-size: 0.91rem;
+    line-height: 1.75;
+  }
+
+  .property-category-links__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 13px;
+  }
+
+  .property-category-card {
+    min-height: 0;
+    padding: 22px 23px 21px;
+  }
+
+  .property-category-card > span:first-child {
+    width: 34px;
+    height: 34px;
+    font-size: 0.66rem;
+  }
+
+  .property-category-card h3 {
+    margin: 19px 0 7px;
+    font-size: 1.35rem;
+  }
+
+  .property-category-card p {
+    max-width: 390px;
+    margin-bottom: 13px;
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  .property-category-card .property-category-card__link {
+    padding-top: 12px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Narrow mobile screens */
+
+@media (max-width: 360px) {
+  .property-category-links {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  .property-category-card {
+    padding: 19px;
+  }
+
+  .property-category-card h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  .property-category-card,
+  .property-category-card::before,
+  .property-category-card::after,
+  .property-category-card .property-category-card__link {
+    transition: none;
+  }
+
+  .property-category-card:hover {
+    transform: none;
+  }
+}
 
 
 /* ---------- LARGE DESKTOP ---------- */

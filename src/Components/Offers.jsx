@@ -65,6 +65,66 @@ export default function RecipeReviewCard() {
         <>
             <OffersTitle />
 
+<section className="property-category-links">
+  <div className="property-category-links__intro">
+    <span className="offers-kicker">NOS CATÉGORIES</span>
+    <h2>Quel bien recherchez-vous ?</h2>
+    <p>
+      Découvrez notre sélection immobilière à Casablanca et ses environs.
+    </p>
+  </div>
+
+  <div className="property-category-links__grid">
+    <a
+      className="property-category-card"
+      href="/properties/villas-a-vendre"
+    >
+      <span>01</span>
+      <h3>Villas à vendre</h3>
+      <p>Découvrez nos villas et propriétés de standing.</p>
+      <span className="property-category-card__link">
+        Découvrir les villas →
+      </span>
+    </a>
+
+    <a
+      className="property-category-card"
+      href="/properties/appartements-a-vendre"
+    >
+      <span>02</span>
+      <h3>Appartements à vendre</h3>
+      <p>Trouvez un appartement adapté à votre projet.</p>
+      <span className="property-category-card__link">
+        Découvrir les appartements →
+      </span>
+    </a>
+
+    <a
+      className="property-category-card"
+      href="/bureaux-a-vendre-casablanca"
+    >
+      <span>03</span>
+      <h3>Bureaux à vendre</h3>
+      <p>Explorez nos opportunités immobilières professionnelles.</p>
+      <span className="property-category-card__link">
+        Découvrir les bureaux →
+      </span>
+    </a>
+
+    <a
+      className="property-category-card"
+      href="/locaux-commerciaux-a-vendre-casablanca"
+    >
+      <span>04</span>
+      <h3>Locaux commerciaux</h3>
+      <p>Découvrez des espaces dédiés à votre activité commerciale.</p>
+      <span className="property-category-card__link">
+        Découvrir les locaux →
+      </span>
+    </a>
+  </div>
+</section>
+
             <section className="cards" id="offres">
 
                 {properties.map((card) => (
