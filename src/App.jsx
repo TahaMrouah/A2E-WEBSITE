@@ -1,22 +1,137 @@
-import Navb from "./Components/Nav"
-import Footer from "./Components/Footer"
-import Home from "./Components/Home"
-import Offre from "./Components/Blogs"
-import Service from "./Components/Service"
-import Expertise from "./Components/Expertise"
+import { Routes, Route } from "react-router-dom";
+import About from "./Views/About";
+import Navb from "./Components/Nav";
+import Footer from "./Components/Footer";
+import Contact from "./Views/Contact";
+import Home from "./Components/Hero";
+import Offre from "./Components/Offers";
+import Service from "./Components/Service";
+import Expertise from "./Components/Expertise";
+import Properties from "./Views/Properties";
+import PropertyDetails from "./Views/PropertyDetails";
+import Login from "./Admin/Login";
+import Dashboard from "./Admin/Dashboard";
+import AdminProperties from "./Admin/Properties";
+import PropertyForm from "./Admin/PropertyForm";
+import ScrollToTop from "./hooks/scrollTop";
+import AdminProtectedRoute from "./Admin/adminProtectedRoute";
+import ScrollToTopButton from "./Components/scrollToTop";
+import Collaborer from "./Views/Collaborer";
+import Collaborations from "./Admin/Collaboration";
+import ProjectsPage from "./Views/ProjectPage";
+import ProjectUnitsAdmin from "./Admin/Projects";
+import FinancerMonBien from "./Views/FinanceSimulator";
+import SEO from "./Components/SEO";
 
+function App() {
+  return (
+    <>
+      <SEO />
+      <Navb />
+      <ScrollToTop />
+      <Routes>
+        {/* Main Dashboard */}
+        <Route
+          path="/"
+          element={
+            <>
+              <Home />
+              <Offre />
+              <Service />
+              <Expertise />
+              <ScrollToTopButton />
+            </>
+          }
+        />
 
-function  App() {
-    return (
-        <>
-            <Navb/>
-            <Home/>
-            <Offre/>
-            <Service/>
-            <Expertise/>
-            <Footer/>
-        </>
-        
-    );
+        {/* Individual pages */}
+        <Route path="/home" element={<Home />} />
+        <Route path="/services" element={<Service />} />
+        <Route path="/offres" element={<Offre />} />
+        <Route path="/expertise" element={<Expertise />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/offres/:id" element={<Offre />} />
+        <Route path="/financer-mon-bien" element={<FinancerMonBien />} />
+        <Route path="/collaboration" element={<Collaborer />} />
+        <Route
+          path="/bureaux-a-vendre-casablanca"
+          element={<ProjectsPage category="office" />}
+        />
+
+        <Route
+          path="/locaux-commerciaux-a-vendre-casablanca"
+          element={<ProjectsPage category="commercial" />}
+        />
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route
+          path="/properties/villas-a-vendre"
+          element={<Properties category="villa" />}
+        />
+
+        <Route
+          path="/properties/appartements-a-vendre"
+          element={<Properties category="appartement" />}
+        />
+        <Route path="/properties" element={<Properties />} />
+        <Route path="/properties/:id" element={<PropertyDetails />} />
+
+        <Route path="/admin/login" element={<Login />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminProtectedRoute>
+              <Dashboard />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/collaborations"
+          element={
+            <AdminProtectedRoute>
+              <Collaborations />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/projects"
+          element={
+            <AdminProtectedRoute>
+              <ProjectUnitsAdmin />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/properties"
+          element={
+            <AdminProtectedRoute>
+              <AdminProperties />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/properties/new"
+          element={
+            <AdminProtectedRoute>
+              <PropertyForm />
+            </AdminProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/properties/:id/edit"
+          element={
+            <AdminProtectedRoute>
+              <PropertyForm />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route path="*" element={<h1>404 Not Found</h1>} />
+      </Routes>
+
+      <Footer />
+    </>
+  );
 }
-export default App 
+
+export default App;
