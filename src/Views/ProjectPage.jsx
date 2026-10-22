@@ -570,33 +570,6 @@ useEffect(() => {
     </a>
   </div>
 )}
-{!category && (
-  <section className="projects-category-links">
-    <span className="projects-kicker">
-      EXPLORER NOS CATÉGORIES
-    </span>
-
-    <h2>Quel type de bien recherchez-vous ?</h2>
-
-    <nav aria-label="Catégories immobilières">
-      <a href="/properties/villas-a-vendre">
-        Villas à vendre
-      </a>
-
-      <a href="/properties/appartements-a-vendre">
-        Appartements à vendre
-      </a>
-
-      <a href="/bureaux-a-vendre-casablanca">
-        Bureaux à vendre
-      </a>
-
-      <a href="/locaux-commerciaux-a-vendre-casablanca">
-        Locaux commerciaux à vendre
-      </a>
-    </nav>
-  </section>
-)}
       {/* CENTRAL HILLS — COMMERCIAL UNITS */}
       {(project === "all" || project === "central") && (
         <section className="projects-section" id="central-hills">
