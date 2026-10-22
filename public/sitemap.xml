@@ -1,23 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-    <url>
-        <loc>https://a2eimmo.ma/</loc>
-    </url>
+  <url>
+    <loc>https://a2eimmo.ma/</loc>
+  </url>
 
-    <url>
-        <loc>https://a2eimmo.ma/about</loc>
-    </url>
+  <url>
+    <loc>https://a2eimmo.ma/about</loc>
+  </url>
 
-    <url>
-        <loc>https://a2eimmo.ma/properties</loc>
-    </url>
+  <url>
+    <loc>https://a2eimmo.ma/contact</loc>
+  </url>
 
-    <url>
-        <loc>https://a2eimmo.ma/contact</loc>
-    </url>
-    <url>
-        <loc>https://a2eimmo.ma/collaboration</loc>
-    </url>
+  <url>
+    <loc>https://a2eimmo.ma/collaboration</loc>
+  </url>
+
+  <url>
+    <loc>https://a2eimmo.ma/financer-mon-bien</loc>
+  </url>
+
+  <url>
+    <loc>https://a2eimmo.ma/properties</loc>
+  </url>
+
+  <url>
+    <loc>https://a2eimmo.ma/properties/villas-a-vendre</loc>
+  </url>
+
+  <url>
+    <loc>https://a2eimmo.ma/properties/appartements-a-vendre</loc>
+  </url>
+
+  <url>
+    <loc>https://a2eimmo.ma/projects</loc>
+  </url>
+
+  <url>
+    <loc>https://a2eimmo.ma/bureaux-a-vendre-casablanca</loc>
+  </url>
+
+  <url>
+    <loc>https://a2eimmo.ma/locaux-commerciaux-a-vendre-casablanca</loc>
+  </url>
 
 </urlset>

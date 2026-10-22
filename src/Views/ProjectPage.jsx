@@ -250,12 +250,18 @@ function OfficeCard({ item }) {
   );
 }
 
-export default function ProjectsPage() {
+export default function ProjectsPage({ category }) {
   const [units, setUnits] = useState([]);
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState("");
 
-  const [project, setProject] = useState("all");
+ const [project, setProject] = useState(
+  category === "office"
+    ? "green"
+    : category === "commercial"
+      ? "central"
+      : "all"
+);
   const [commercialSearch, setCommercialSearch] = useState("");
   const [officeSearch, setOfficeSearch] = useState("");
   const [phase, setPhase] = useState("all");
@@ -263,7 +269,15 @@ export default function ProjectsPage() {
   const [floor, setFloor] = useState("all");
   const [commercialBudget, setCommercialBudget] = useState("all");
   const [officeBudget, setOfficeBudget] = useState("all");
-
+useEffect(() => {
+  if (category === "office") {
+    setProject("green");
+  } else if (category === "commercial") {
+    setProject("central");
+  } else {
+    setProject("all");
+  }
+}, [category]);
   useEffect(() => {
     const controller = new AbortController();
 
@@ -467,15 +481,34 @@ export default function ProjectsPage() {
           </span>
 
           <h1>
-            L’immobilier
-            <br />
-            <em>d’exception, autrement.</em>
-          </h1>
+  {category === "office" ? (
+    <>
+      Bureaux à vendre
+      <br />
+      <em>à Casablanca</em>
+    </>
+  ) : category === "commercial" ? (
+    <>
+      Locaux commerciaux
+      <br />
+      <em>à vendre à Casablanca</em>
+    </>
+  ) : (
+    <>
+      L’immobilier
+      <br />
+      <em>d’exception, autrement.</em>
+    </>
+  )}
+</h1>
 
           <p>
-            Découvrez nos opportunités immobilières sélectionnées
-            pour vos ambitions professionnelles et vos investissements.
-          </p>
+  {category === "office"
+    ? "Découvrez les bureaux du projet Green Lotus. Consultez les surfaces, les prix et les disponibilités pour votre activité professionnelle."
+    : category === "commercial"
+      ? "Découvrez les locaux commerciaux du projet Central Hills. Comparez les surfaces et les prix pour votre activité ou votre investissement."
+      : "Découvrez nos opportunités immobilières sélectionnées pour vos ambitions professionnelles et vos investissements."}
+</p>
 
           <a className="projects-button" href="#nos-projets">
             Découvrir nos projets <span>↓</span>
@@ -504,7 +537,7 @@ export default function ProjectsPage() {
           puis contactez notre équipe pour plus d’informations.
         </p>
       </section>
-
+{!category && (
       <div className="projects-tabs" aria-label="Choisir un projet">
         <button
           type="button"
@@ -529,8 +562,41 @@ export default function ProjectsPage() {
         >
           Green Lotus <small>Bureaux</small>
         </button>
-      </div>
+      </div>)}
+      {category && (
+  <div className="projects-tabs">
+    <a className="projects-button" href="/projects">
+      Voir tous les projets
+    </a>
+  </div>
+)}
+{!category && (
+  <section className="projects-category-links">
+    <span className="projects-kicker">
+      EXPLORER NOS CATÉGORIES
+    </span>
 
+    <h2>Quel type de bien recherchez-vous ?</h2>
+
+    <nav aria-label="Catégories immobilières">
+      <a href="/properties/villas-a-vendre">
+        Villas à vendre
+      </a>
+
+      <a href="/properties/appartements-a-vendre">
+        Appartements à vendre
+      </a>
+
+      <a href="/bureaux-a-vendre-casablanca">
+        Bureaux à vendre
+      </a>
+
+      <a href="/locaux-commerciaux-a-vendre-casablanca">
+        Locaux commerciaux à vendre
+      </a>
+    </nav>
+  </section>
+)}
       {/* CENTRAL HILLS — COMMERCIAL UNITS */}
       {(project === "all" || project === "central") && (
         <section className="projects-section" id="central-hills">

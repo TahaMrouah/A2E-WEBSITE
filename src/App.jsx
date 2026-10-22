@@ -21,10 +21,12 @@ import Collaborations from "./Admin/Collaboration";
 import ProjectsPage from "./Views/ProjectPage";
 import ProjectUnitsAdmin from "./Admin/Projects";
 import FinancerMonBien from "./Views/FinanceSimulator";
+import SEO from "./Components/SEO";
 
 function App() {
   return (
     <>
+      <SEO />
       <Navb />
       <ScrollToTop />
       <Routes>
@@ -50,17 +52,30 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/offres/:id" element={<Offre />} />
+        <Route path="/financer-mon-bien" element={<FinancerMonBien />} />
+        <Route path="/collaboration" element={<Collaborer />} />
         <Route
-  path="/financer-mon-bien"
-  element={<FinancerMonBien />}
-/>
-        <Route
-          path="/collaboration"
-          element={<Collaborer />}
+          path="/bureaux-a-vendre-casablanca"
+          element={<ProjectsPage category="office" />}
         />
-        <Route path="/projects" element={<ProjectsPage/>} />
+
+        <Route
+          path="/locaux-commerciaux-a-vendre-casablanca"
+          element={<ProjectsPage category="commercial" />}
+        />
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route
+          path="/properties/villas-a-vendre"
+          element={<Properties category="villa" />}
+        />
+
+        <Route
+          path="/properties/appartements-a-vendre"
+          element={<Properties category="appartement" />}
+        />
         <Route path="/properties" element={<Properties />} />
         <Route path="/properties/:id" element={<PropertyDetails />} />
+
         <Route path="/admin/login" element={<Login />} />
         <Route
           path="/admin"
@@ -69,27 +84,47 @@ function App() {
               <Dashboard />
             </AdminProtectedRoute>
           }
-        /><Route
-  path="/admin/collaborations"
-  element={
-    <AdminProtectedRoute>
-      <Collaborations />
-    </AdminProtectedRoute>
-  }
-/><Route
-  path="/admin/projects"
-  element={<AdminProtectedRoute><ProjectUnitsAdmin /></AdminProtectedRoute>}
-/>
-        <Route path="/admin/properties" element={
-          <AdminProtectedRoute><AdminProperties /></AdminProtectedRoute>} />
+        />
+        <Route
+          path="/admin/collaborations"
+          element={
+            <AdminProtectedRoute>
+              <Collaborations />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/projects"
+          element={
+            <AdminProtectedRoute>
+              <ProjectUnitsAdmin />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/properties"
+          element={
+            <AdminProtectedRoute>
+              <AdminProperties />
+            </AdminProtectedRoute>
+          }
+        />
         <Route
           path="/admin/properties/new"
-          element={<AdminProtectedRoute><PropertyForm /></AdminProtectedRoute>}
+          element={
+            <AdminProtectedRoute>
+              <PropertyForm />
+            </AdminProtectedRoute>
+          }
         />
 
         <Route
           path="/admin/properties/:id/edit"
-          element={<AdminProtectedRoute><PropertyForm /></AdminProtectedRoute>}
+          element={
+            <AdminProtectedRoute>
+              <PropertyForm />
+            </AdminProtectedRoute>
+          }
         />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
@@ -100,7 +135,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
