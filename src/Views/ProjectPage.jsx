@@ -1,3 +1,4 @@
+
 import { useEffect, useMemo, useState } from "react";
 import "../Style/projects.css";
 import ScrollToTopButton from "../Components/scrollToTop";
@@ -93,21 +94,31 @@ function normalizeUnit(unit) {
 
 function getWhatsAppLink(item, projectName) {
   const type =
-    item.displayType === "commercial" ? "le local commercial" : "le bureau";
+    item.displayType === "commercial"
+      ? "le local commercial"
+      : "le bureau";
 
   const message =
     `Bonjour A2E, je souhaite obtenir des informations sur ${type} ` +
     `${item.reference} du projet ${projectName}.`;
 
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    message
+  )}`;
 }
 
 function MediaSlot({ title, video = false }) {
   return (
-    <div className={`projects-media ${video ? "projects-media-video" : ""}`}>
+    <div
+      className={`projects-media ${
+        video ? "projects-media-video" : ""
+      }`}
+    >
       <span className="media-plus">{video ? "▶" : "+"}</span>
       <span>{title}</span>
-      <small>Remplacez ce bloc par votre {video ? "vidéo" : "image"}</small>
+      <small>
+        Remplacez ce bloc par votre {video ? "vidéo" : "image"}
+      </small>
     </div>
   );
 }
@@ -244,13 +255,13 @@ export default function ProjectsPage({ category }) {
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState("");
 
-  const [project, setProject] = useState(
-    category === "office"
-      ? "green"
-      : category === "commercial"
-        ? "central"
-        : "all",
-  );
+ const [project, setProject] = useState(
+  category === "office"
+    ? "green"
+    : category === "commercial"
+      ? "central"
+      : "all"
+);
   const [commercialSearch, setCommercialSearch] = useState("");
   const [officeSearch, setOfficeSearch] = useState("");
   const [phase, setPhase] = useState("all");
@@ -258,15 +269,15 @@ export default function ProjectsPage({ category }) {
   const [floor, setFloor] = useState("all");
   const [commercialBudget, setCommercialBudget] = useState("all");
   const [officeBudget, setOfficeBudget] = useState("all");
-  useEffect(() => {
-    if (category === "office") {
-      setProject("green");
-    } else if (category === "commercial") {
-      setProject("central");
-    } else {
-      setProject("all");
-    }
-  }, [category]);
+useEffect(() => {
+  if (category === "office") {
+    setProject("green");
+  } else if (category === "commercial") {
+    setProject("central");
+  } else {
+    setProject("all");
+  }
+}, [category]);
   useEffect(() => {
     const controller = new AbortController();
 
@@ -294,7 +305,7 @@ export default function ProjectsPage({ category }) {
         if (error.name !== "AbortError") {
           console.error("Erreur lors du chargement des lots :", error);
           setApiError(
-            "Impossible de charger les lots. Vérifiez que votre serveur backend fonctionne.",
+            "Impossible de charger les lots. Vérifiez que votre serveur backend fonctionne."
           );
         }
       } finally {
@@ -312,13 +323,13 @@ export default function ProjectsPage({ category }) {
   // Central Hills: commercial units.
   const storesData = useMemo(
     () => units.filter((item) => item.displayType === "commercial"),
-    [units],
+    [units]
   );
 
   // Green Lotus: offices.
   const officesData = useMemo(
     () => units.filter((item) => item.displayType === "office"),
-    [units],
+    [units]
   );
 
   const filterItems = (items, search, maxBudget) => {
@@ -341,7 +352,8 @@ export default function ProjectsPage({ category }) {
         .join(" ")
         .toLowerCase();
 
-      const matchesSearch = !query || searchableText.includes(query);
+      const matchesSearch =
+        !query || searchableText.includes(query);
 
       const matchesBudget =
         maxBudget === "all" ||
@@ -356,27 +368,41 @@ export default function ProjectsPage({ category }) {
   const stores = useMemo(() => {
     return filterItems(
       storesData.filter(
-        (item) => phase === "all" || String(item.phase) === phase,
+        (item) =>
+          phase === "all" || String(item.phase) === phase
       ),
       commercialSearch,
-      commercialBudget,
+      commercialBudget
     );
-  }, [storesData, commercialSearch, commercialBudget, phase]);
+  }, [
+    storesData,
+    commercialSearch,
+    commercialBudget,
+    phase,
+  ]);
 
   const offices = useMemo(() => {
     return filterItems(
       officesData.filter((item) => {
         const matchesBuilding =
-          building === "all" || String(item.building) === building;
+          building === "all" ||
+          String(item.building) === building;
 
-        const matchesFloor = floor === "all" || String(item.floor) === floor;
+        const matchesFloor =
+          floor === "all" || String(item.floor) === floor;
 
         return matchesBuilding && matchesFloor;
       }),
       officeSearch,
-      officeBudget,
+      officeBudget
     );
-  }, [officesData, officeSearch, officeBudget, building, floor]);
+  }, [
+    officesData,
+    officeSearch,
+    officeBudget,
+    building,
+    floor,
+  ]);
 
   const resetCommercialFilters = () => {
     setCommercialSearch("");
@@ -399,13 +425,15 @@ export default function ProjectsPage({ category }) {
           value !== null &&
           value !== undefined &&
           value !== "" &&
-          Number.isFinite(Number(value)),
+          Number.isFinite(Number(value))
       )
       .map(Number);
 
     if (prices.length === 0) return "—";
 
-    return `${money(Math.min(...prices))} – ${money(Math.max(...prices))}`;
+    return `${money(Math.min(...prices))} – ${money(
+      Math.max(...prices)
+    )}`;
   };
 
   const getSurfaceRange = (items, field) => {
@@ -416,7 +444,7 @@ export default function ProjectsPage({ category }) {
           value !== null &&
           value !== undefined &&
           value !== "" &&
-          Number.isFinite(Number(value)),
+          Number.isFinite(Number(value))
       )
       .map(Number);
 
@@ -453,34 +481,34 @@ export default function ProjectsPage({ category }) {
           </span>
 
           <h1>
-            {category === "office" ? (
-              <>
-                Bureaux à vendre
-                <br />
-                <em>à Casablanca</em>
-              </>
-            ) : category === "commercial" ? (
-              <>
-                Locaux commerciaux
-                <br />
-                <em>à vendre à Casablanca</em>
-              </>
-            ) : (
-              <>
-                L’immobilier
-                <br />
-                <em>d’exception, autrement.</em>
-              </>
-            )}
-          </h1>
+  {category === "office" ? (
+    <>
+      Bureaux à vendre
+      <br />
+      <em>à Casablanca</em>
+    </>
+  ) : category === "commercial" ? (
+    <>
+      Locaux commerciaux
+      <br />
+      <em>à vendre à Casablanca</em>
+    </>
+  ) : (
+    <>
+      L’immobilier
+      <br />
+      <em>d’exception, autrement.</em>
+    </>
+  )}
+</h1>
 
           <p>
-            {category === "office"
-              ? "Découvrez les bureaux du projet Green Lotus. Consultez les surfaces, les prix et les disponibilités pour votre activité professionnelle."
-              : category === "commercial"
-                ? "Découvrez les locaux commerciaux du projet Central Hills. Comparez les surfaces et les prix pour votre activité ou votre investissement."
-                : "Découvrez nos opportunités immobilières sélectionnées pour vos ambitions professionnelles et vos investissements."}
-          </p>
+  {category === "office"
+    ? "Découvrez les bureaux du projet Green Lotus. Consultez les surfaces, les prix et les disponibilités pour votre activité professionnelle."
+    : category === "commercial"
+      ? "Découvrez les locaux commerciaux du projet Central Hills. Comparez les surfaces et les prix pour votre activité ou votre investissement."
+      : "Découvrez nos opportunités immobilières sélectionnées pour vos ambitions professionnelles et vos investissements."}
+</p>
 
           <a className="projects-button" href="#nos-projets">
             Découvrir nos projets <span>↓</span>
@@ -504,55 +532,121 @@ export default function ProjectsPage({ category }) {
         </div>
 
         <p>
-          Découvrez les locaux commerciaux de Central Hills et les bureaux de
-          Green Lotus. Consultez les surfaces et les prix, puis contactez notre
-          équipe pour plus d’informations.
+          Découvrez les locaux commerciaux de Central Hills et les
+          bureaux de Green Lotus. Consultez les surfaces et les prix,
+          puis contactez notre équipe pour plus d’informations.
         </p>
       </section>
+{!category && (
+      <div className="projects-tabs" aria-label="Choisir un projet">
+        <button
+          type="button"
+          className={project === "all" ? "selected" : ""}
+          onClick={() => setProject("all")}
+        >
+          Tous les projets
+        </button>
+
+        <button
+          type="button"
+          className={project === "central" ? "selected" : ""}
+          onClick={() => setProject("central")}
+        >
+          Central Hills <small>Locaux commerciaux</small>
+        </button>
+
+        <button
+          type="button"
+          className={project === "green" ? "selected" : ""}
+          onClick={() => setProject("green")}
+        >
+          Green Lotus <small>Bureaux</small>
+        </button>
+      </div>)}
+      {category && (
+  <div className="projects-tabs">
+    <a className="projects-button" href="/projects">
+      Voir tous les projets
+    </a>
+  </div>
+)}
+{!category && (
+  <section className="projects-category-links">
+    <span className="projects-kicker">
+      EXPLORER NOS CATÉGORIES
+    </span>
+
+    <h2>Quel type de bien recherchez-vous ?</h2>
+
+    <nav aria-label="Catégories immobilières">
+      <a href="/properties/villas-a-vendre">
+        Villas à vendre
+      </a>
+
+      <a href="/properties/appartements-a-vendre">
+        Appartements à vendre
+      </a>
+
+      <a href="/bureaux-a-vendre-casablanca">
+        Bureaux à vendre
+      </a>
+
+      <a href="/locaux-commerciaux-a-vendre-casablanca">
+        Locaux commerciaux à vendre
+      </a>
+    </nav>
+  </section>
+)}
       {/* CENTRAL HILLS — COMMERCIAL UNITS */}
       {(project === "all" || project === "central") && (
         <section className="projects-section" id="central-hills">
           <div className="projects-section-heading">
             <div>
-              <span className="projects-kicker">PROGRAMME COMMERCIAL</span>
+              <span className="projects-kicker">
+                PROGRAMME COMMERCIAL
+              </span>
 
               <h2>
                 Central <em>Hills</em>
               </h2>
 
               <p>
-                Des locaux commerciaux adaptés à vos projets professionnels et à
-                vos investissements.
+                Des locaux commerciaux adaptés à vos projets
+                professionnels et à vos investissements.
               </p>
             </div>
 
             <span className="projects-count">
-              <strong>{String(storesData.length).padStart(2, "0")}</strong> lots
-              listés
+              <strong>
+                {String(storesData.length).padStart(2, "0")}
+              </strong>{" "}
+              lots listés
             </span>
           </div>
 
-          <div className="projects-gallery">
-            <img
-              src={centralHillsMain}
-              alt="Photo principale — Central Hills"
-              className="project-media"
-            />
+          
+<div className="projects-gallery">
+  <img
+    src={centralHillsMain}
+    alt="Photo principale — Central Hills"
+    className="project-media"
+  />
 
-            <img
-              src={centralHillsView}
-              alt="Vue du projet commercial"
-              className="project-media"
-            />
+  <img
+    src={centralHillsView}
+    alt="Vue du projet commercial"
+    className="project-media"
+  />
 
-            <video
-              className="project-media"
-              src=""
-              controls
-              playsInline
-              preload="metadata"
-            />
-          </div>
+  <video
+    className="project-media"
+    src=""
+    controls
+    playsInline
+    preload="metadata"
+  />
+</div>
+
 
           <div className="projects-stat-row">
             <div>
@@ -574,7 +668,9 @@ export default function ProjectsPage({ category }) {
           <div className="projects-list-heading">
             <div>
               <h3>Les locaux commerciaux</h3>
-              <p>Recherchez un lot par référence, phase ou budget.</p>
+              <p>
+                Recherchez un lot par référence, phase ou budget.
+              </p>
             </div>
 
             <span>{stores.length} résultat(s)</span>
@@ -585,7 +681,9 @@ export default function ProjectsPage({ category }) {
               Référence du lot
               <input
                 value={commercialSearch}
-                onChange={(event) => setCommercialSearch(event.target.value)}
+                onChange={(event) =>
+                  setCommercialSearch(event.target.value)
+                }
                 placeholder="Ex. Lot Commercial-20-01"
               />
             </label>
@@ -606,7 +704,9 @@ export default function ProjectsPage({ category }) {
               Budget maximum
               <select
                 value={commercialBudget}
-                onChange={(event) => setCommercialBudget(event.target.value)}
+                onChange={(event) =>
+                  setCommercialBudget(event.target.value)
+                }
               >
                 <option value="all">Tous les budgets</option>
                 <option value="1600000">1 600 000 DH</option>
@@ -626,7 +726,10 @@ export default function ProjectsPage({ category }) {
 
           <div className="projects-units">
             {stores.map((item) => (
-              <StoreCard key={item._id || item.reference} item={item} />
+              <StoreCard
+                key={item._id || item.reference}
+                item={item}
+              />
             ))}
 
             {!loading && !apiError && stores.length === 0 && (
@@ -646,45 +749,49 @@ export default function ProjectsPage({ category }) {
         >
           <div className="projects-section-heading">
             <div>
-              <span className="projects-kicker">PROGRAMME PROFESSIONNEL</span>
+              <span className="projects-kicker">
+                PROGRAMME PROFESSIONNEL
+              </span>
 
               <h2>
                 Green <em>Lotus</em>
               </h2>
 
               <p>
-                Des bureaux aux configurations variées pour accompagner votre
-                activité professionnelle.
+                Des bureaux aux configurations variées pour
+                accompagner votre activité professionnelle.
               </p>
             </div>
 
             <span className="projects-count">
-              <strong>{String(officesData.length).padStart(2, "0")}</strong>{" "}
+              <strong>
+                {String(officesData.length).padStart(2, "0")}
+              </strong>{" "}
               bureaux listés
             </span>
           </div>
 
           <div className="projects-gallery">
-            <img
-              src={greenLotusMain}
-              alt="Photo principale — Central Hills"
-              className="project-media"
-            />
+  <img
+    src={greenLotusMain}
+    alt="Photo principale — Central Hills"
+    className="project-media"
+  />
 
-            <img
-              src={greenLotusView}
-              alt="Vue du projet commercial"
-              className="project-media"
-            />
+  <img
+    src={greenLotusView}
+    alt="Vue du projet commercial"
+    className="project-media"
+  />
 
-            <video
-              className="project-media"
-              src=""
-              controls
-              playsInline
-              preload="metadata"
-            />
-          </div>
+  <video
+    className="project-media"
+    src=""
+    controls
+    playsInline
+    preload="metadata"
+  />
+</div>
 
           <div className="projects-stat-row">
             <div>
@@ -706,7 +813,9 @@ export default function ProjectsPage({ category }) {
           <div className="projects-list-heading">
             <div>
               <h3>Les bureaux</h3>
-              <p>Filtrez par référence, immeuble, étage ou budget.</p>
+              <p>
+                Filtrez par référence, immeuble, étage ou budget.
+              </p>
             </div>
 
             <span>{offices.length} résultat(s)</span>
@@ -717,7 +826,9 @@ export default function ProjectsPage({ category }) {
               Référence du bureau
               <input
                 value={officeSearch}
-                onChange={(event) => setOfficeSearch(event.target.value)}
+                onChange={(event) =>
+                  setOfficeSearch(event.target.value)
+                }
                 placeholder="Ex. Bureau Building2-0-01"
               />
             </label>
@@ -741,13 +852,19 @@ export default function ProjectsPage({ category }) {
                 onChange={(event) => setFloor(event.target.value)}
               >
                 <option value="all">Tous les étages</option>
-                {["RDC", "R+1", "R+2", "R+3", "R+4", "R+5", "R+6"].map(
-                  (value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ),
-                )}
+                {[
+                  "RDC",
+                  "R+1",
+                  "R+2",
+                  "R+3",
+                  "R+4",
+                  "R+5",
+                  "R+6",
+                ].map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
               </select>
             </label>
 
@@ -755,7 +872,9 @@ export default function ProjectsPage({ category }) {
               Budget maximum
               <select
                 value={officeBudget}
-                onChange={(event) => setOfficeBudget(event.target.value)}
+                onChange={(event) =>
+                  setOfficeBudget(event.target.value)
+                }
               >
                 <option value="all">Tous les budgets</option>
                 <option value="900000">900 000 DH</option>
@@ -777,7 +896,10 @@ export default function ProjectsPage({ category }) {
 
           <div className="projects-units">
             {offices.map((item) => (
-              <OfficeCard key={item._id || item.reference} item={item} />
+              <OfficeCard
+                key={item._id || item.reference}
+                item={item}
+              />
             ))}
 
             {!loading && !apiError && offices.length === 0 && (
@@ -788,40 +910,7 @@ export default function ProjectsPage({ category }) {
           </div>
         </section>
       )}
-      {!category && (
-        <div className="projects-tabs" aria-label="Choisir un projet">
-          <button
-            type="button"
-            className={project === "all" ? "selected" : ""}
-            onClick={() => setProject("all")}
-          >
-            Tous les projets
-          </button>
 
-          <button
-            type="button"
-            className={project === "central" ? "selected" : ""}
-            onClick={() => setProject("central")}
-          >
-            Central Hills <small>Locaux commerciaux</small>
-          </button>
-
-          <button
-            type="button"
-            className={project === "green" ? "selected" : ""}
-            onClick={() => setProject("green")}
-          >
-            Green Lotus <small>Bureaux</small>
-          </button>
-        </div>
-      )}
-      {category && (
-        <div className="projects-tabs">
-          <a className="projects-button" href="/projects">
-            Voir tous les projets
-          </a>
-        </div>
-      )}
       <section className="projects-contact">
         <div>
           <span className="projects-kicker">UN PROJET EN TÊTE ?</span>
@@ -833,8 +922,8 @@ export default function ProjectsPage({ category }) {
           </h2>
 
           <p>
-            Contactez A2E pour confirmer les disponibilités, obtenir les
-            informations détaillées et organiser une visite.
+            Contactez A2E pour confirmer les disponibilités,
+            obtenir les informations détaillées et organiser une visite.
           </p>
         </div>
 
@@ -849,8 +938,8 @@ export default function ProjectsPage({ category }) {
       </section>
 
       <p className="projects-disclaimer">
-        Les prix, les surfaces et les disponibilités sont à confirmer auprès
-        d’A2E avant tout engagement.
+        Les prix, les surfaces et les disponibilités sont à confirmer
+        auprès d’A2E avant tout engagement.
       </p>
       <FinanceFloatingButton />
     </main>
