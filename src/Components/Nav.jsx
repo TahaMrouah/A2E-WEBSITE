@@ -1,4 +1,3 @@
-
 import { useEffect, useMemo, useRef, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -70,13 +69,9 @@ function Navb() {
     if (typeof value === "object") {
       return Object.entries(value)
         .filter(
-          ([key]) =>
-            !/image|buffer|base64|binary|password|token/i.test(key)
+          ([key]) => !/image|buffer|base64|binary|password|token/i.test(key),
         )
-        .map(
-          ([key, fieldValue]) =>
-            `${key} ${getSearchableText(fieldValue)}`
-        )
+        .map(([key, fieldValue]) => `${key} ${getSearchableText(fieldValue)}`)
         .join(" ");
     }
 
@@ -116,10 +111,9 @@ function Navb() {
       setProjectUnitsLoading(true);
 
       try {
-        const response = await fetch(
-          "https://api.a2eimmo.ma/api/projects",
-          { signal: controller.signal }
-        );
+        const response = await fetch("https://api.a2eimmo.ma/api/projects", {
+          signal: controller.signal,
+        });
 
         if (!response.ok) {
           throw new Error(`Projects API error: ${response.status}`);
@@ -138,10 +132,7 @@ function Navb() {
         setProjectUnits(units);
       } catch (error) {
         if (error.name !== "AbortError") {
-          console.error(
-            "Could not load offices and commercial units:",
-            error
-          );
+          console.error("Could not load offices and commercial units:", error);
         }
       } finally {
         if (!controller.signal.aborted) {
@@ -190,10 +181,7 @@ function Navb() {
   // Close the search panel when clicking outside it.
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        searchRef.current &&
-        !searchRef.current.contains(event.target)
-      ) {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
         setSearchOpen(false);
       }
     };
@@ -260,7 +248,7 @@ function Navb() {
         reference,
         projectName,
         unitType,
-      })
+      }),
     );
 
     return {
@@ -275,7 +263,7 @@ function Navb() {
 
   const searchableProjectUnits = useMemo(
     () => projectUnits.map(normalizeProjectSearchItem),
-    [projectUnits]
+    [projectUnits],
   );
 
   // Combine property listings, offices and commercial units in one search.
@@ -287,10 +275,7 @@ function Navb() {
     const propertyResults = properties
       .map((property) => {
         const reference = String(
-          property.reference ||
-            property.ref ||
-            property._id ||
-            ""
+          property.reference || property.ref || property._id || "",
         );
 
         return {
@@ -308,7 +293,7 @@ function Navb() {
             getSearchableText({
               ...property,
               reference,
-            })
+            }),
           ),
         };
       })
@@ -378,7 +363,7 @@ function Navb() {
       searchResults.every((result) => result.kind === "projectUnit")
     ) {
       const projectKeys = new Set(
-        searchResults.map((result) => result.projectKey)
+        searchResults.map((result) => result.projectKey),
       );
 
       if (projectKeys.size === 1 && projectKeys.has("central")) {
@@ -432,15 +417,6 @@ function Navb() {
 
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto navbar-links">
-            <Nav.Link
-              as={Link}
-              to="/"
-              className="link"
-              onClick={closeNavbar}
-            >
-              Accueil
-            </Nav.Link>
-
             {/* DISCOVER A2E DROPDOWN */}
             <NavDropdown
               title={dropdownTitle("Découvrir A2E")}
@@ -451,9 +427,7 @@ function Navb() {
                 as={Link}
                 to="/#services"
                 className="partner-dropdown-item"
-                onClick={(event) =>
-                  handleSectionNavigation(event, "services")
-                }
+                onClick={(event) => handleSectionNavigation(event, "services")}
               >
                 <span className="partner-icon">
                   <FaTools />
@@ -461,9 +435,7 @@ function Navb() {
 
                 <span className="partner-item-text">
                   <strong>Nos Services</strong>
-                  <small>
-                    Découvrez nos solutions immobilières
-                  </small>
+                  <small>Découvrez nos solutions immobilières</small>
                 </span>
 
                 <FaArrowRight className="partner-item-arrow" />
@@ -475,9 +447,7 @@ function Navb() {
                 as={Link}
                 to="/#offres"
                 className="partner-dropdown-item"
-                onClick={(event) =>
-                  handleSectionNavigation(event, "offres")
-                }
+                onClick={(event) => handleSectionNavigation(event, "offres")}
               >
                 <span className="partner-icon">
                   <FaBuilding />
@@ -485,9 +455,7 @@ function Navb() {
 
                 <span className="partner-item-text">
                   <strong>Nos Offres</strong>
-                  <small>
-                    Explorez nos biens immobiliers
-                  </small>
+                  <small>Explorez nos biens immobiliers</small>
                 </span>
 
                 <FaArrowRight className="partner-item-arrow" />
@@ -499,9 +467,7 @@ function Navb() {
                 as={Link}
                 to="/#expertise"
                 className="partner-dropdown-item"
-                onClick={(event) =>
-                  handleSectionNavigation(event, "expertise")
-                }
+                onClick={(event) => handleSectionNavigation(event, "expertise")}
               >
                 <span className="partner-icon">
                   <FaChartLine />
@@ -509,9 +475,7 @@ function Navb() {
 
                 <span className="partner-item-text">
                   <strong>Notre Expertise</strong>
-                  <small>
-                    Notre savoir-faire à votre service
-                  </small>
+                  <small>Notre savoir-faire à votre service</small>
                 </span>
 
                 <FaArrowRight className="partner-item-arrow" />
@@ -531,9 +495,7 @@ function Navb() {
 
                 <span className="partner-item-text">
                   <strong>Nos Propriétés</strong>
-                  <small>
-                    Trouvez votre prochain bien
-                  </small>
+                  <small>Trouvez votre prochain bien</small>
                 </span>
 
                 <FaArrowRight className="partner-item-arrow" />
@@ -578,9 +540,7 @@ function Navb() {
 
                 <span className="partner-item-text">
                   <strong>Collaborer avec A2E</strong>
-                  <small>
-                    Confiez-nous votre bien immobilier
-                  </small>
+                  <small>Confiez-nous votre bien immobilier</small>
                 </span>
 
                 <FaArrowRight className="partner-item-arrow" />
@@ -600,9 +560,7 @@ function Navb() {
 
                 <span className="partner-item-text">
                   <strong>Financer mon bien</strong>
-                  <small>
-                    Explorez vos solutions de financement
-                  </small>
+                  <small>Explorez vos solutions de financement</small>
                 </span>
 
                 <FaArrowRight className="partner-item-arrow" />
@@ -631,13 +589,9 @@ function Navb() {
                 <div className="search-popup">
                   <div className="search-popup-heading">
                     <div>
-                      <span className="search-eyebrow">
-                        A2E IMMOBILIER
-                      </span>
+                      <span className="search-eyebrow">A2E IMMOBILIER</span>
                       <h3>Quel bien recherchez-vous ?</h3>
-                      <p>
-                        Trouvez le bien qui correspond à votre projet.
-                      </p>
+                      <p>Trouvez le bien qui correspond à votre projet.</p>
                     </div>
 
                     <button
@@ -693,21 +647,33 @@ function Navb() {
 
                       <div className="search-chips">
                         {[
-                          "Villa",
-                          "Appartement",
-                          "Bureau",
-                          "Local commercial",
-                        ].map((term) => (
+                          {
+                            label: "Villa",
+                            route: "/properties/villas-a-vendre",
+                          },
+                          {
+                            label: "Appartement",
+                            route: "/properties/appartements-a-vendre",
+                          },
+                          {
+                            label: "Bureau",
+                            route: "/properties/bureaux-a-vendre",
+                          },
+                          {
+                            label: "Local commercial",
+                            route: "/properties/locaux-commerciaux-a-vendre",
+                          },
+                        ].map(({ label, route }) => (
                           <button
                             type="button"
                             className="search-chip"
-                            key={term}
+                            key={label}
                             onClick={() => {
-                              setSearch(term);
-                              searchInputRef.current?.focus();
+                              navigate(route);
+                              closeNavbar();
                             }}
                           >
-                            {term}
+                            {label}
                             <FaArrowRight />
                           </button>
                         ))}
@@ -716,8 +682,8 @@ function Navb() {
                       <div className="search-help">
                         <FaInfoCircle />
                         <span>
-                          Recherchez par type, référence, projet,
-                          localisation, surface ou prix.
+                          Recherchez par type, référence, projet, localisation,
+                          surface ou prix.
                         </span>
                       </div>
                     </div>
@@ -762,7 +728,7 @@ function Navb() {
                           ))}
 
                           {searchResults.some(
-                            (result) => result.kind === "property"
+                            (result) => result.kind === "property",
                           ) && (
                             <Link
                               to="/properties"
@@ -775,7 +741,7 @@ function Navb() {
                           )}
 
                           {searchResults.some(
-                            (result) => result.kind === "projectUnit"
+                            (result) => result.kind === "projectUnit",
                           ) && (
                             <Link
                               to="/projects"
@@ -792,8 +758,8 @@ function Navb() {
                           <FaSearch />
                           <strong>Aucun bien trouvé</strong>
                           <span>
-                            Essayez une autre référence, un autre
-                            type de bien ou une localisation différente.
+                            Essayez une autre référence, un autre type de bien
+                            ou une localisation différente.
                           </span>
                           <button
                             type="button"
