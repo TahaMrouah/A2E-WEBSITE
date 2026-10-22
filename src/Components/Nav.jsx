@@ -657,11 +657,11 @@ function Navb() {
                           },
                           {
                             label: "Bureau",
-                            route: "/properties/bureaux-a-vendre",
+                            route: "/bureaux-a-vendre",
                           },
                           {
                             label: "Local commercial",
-                            route: "/properties/locaux-commerciaux-a-vendre",
+                            route: "/locaux-commerciaux-a-vendre",
                           },
                         ].map(({ label, route }) => (
                           <button
