@@ -657,11 +657,11 @@ function Navb() {
                           },
                           {
                             label: "Bureau",
-                            route: "/bureaux-a-vendre",
+                            route: "/bureaux-a-vendre-casablanca",
                           },
                           {
                             label: "Local commercial",
-                            route: "/locaux-commerciaux-a-vendre",
+                            route: "/locaux-commerciaux-a-vendre-casablanca",
                           },
                         ].map(({ label, route }) => (
                           <button
