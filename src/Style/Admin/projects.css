@@ -1,0 +1,866 @@
+
+/* =========================================
+   A2E IMMOBILIER — PROJECT MANAGEMENT
+   Luxury editorial admin interface
+========================================= */
+
+.project-admin-page {
+  --project-ink: #262720;
+  --project-muted: #77786f;
+  --project-gold: #a88a53;
+  --project-gold-dark: #80683c;
+  --project-border: #e8e4da;
+  --project-paper: #ffffff;
+  --project-background: #f6f5f0;
+  --project-radius: 12px;
+
+  min-height: 100vh;
+  padding: clamp(22px, 4vw, 48px);
+  color: var(--project-ink);
+  background: var(--project-background);
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.project-admin-page *,
+.project-admin-page *::before,
+.project-admin-page *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================
+   BACK NAVIGATION
+========================================= */
+
+.project-admin-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 34px;
+  color: var(--project-muted);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15px;
+  transition: color 0.2s ease;
+}
+
+.project-admin-back svg {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.project-admin-back:hover {
+  color: var(--project-gold-dark);
+}
+
+.project-admin-back:hover svg {
+  transform: translateX(-4px);
+}
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.project-admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 34px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--project-border);
+}
+
+.project-admin-header > div:first-child > span {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--project-gold-dark);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+}
+
+.project-admin-header h1 {
+  margin: 0;
+  color: var(--project-ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 3.5vw, 43px);
+  font-weight: 400;
+  letter-spacing: -1.1px;
+  line-height: 1.2;
+}
+
+.project-admin-header p {
+  margin: 12px 0 0;
+  color: var(--project-muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.project-admin-count {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  flex-shrink: 0;
+  min-width: 150px;
+  padding: 18px 22px;
+  background: var(--project-paper);
+  border: 1px solid var(--project-border);
+  border-radius: var(--project-radius);
+  box-shadow: 0 3px 12px rgb(38 39 32 / 2%);
+}
+
+.project-admin-count > svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 11px;
+  color: var(--project-gold-dark);
+  background: #f5f0e5;
+  border-radius: 9px;
+  font-size: 18px;
+}
+
+.project-admin-count strong {
+  display: block;
+  color: var(--project-ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 27px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.project-admin-count span {
+  display: block;
+  margin-top: 4px;
+  color: var(--project-muted);
+  font-size: 10px;
+}
+
+/* =========================================
+   PROJECT SUMMARY CARDS
+========================================= */
+
+.project-admin-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.project-admin-summary > button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 155px;
+  padding: 24px;
+  overflow: hidden;
+  text-align: left;
+  color: var(--project-ink);
+  background: var(--project-paper);
+  border: 1px solid var(--project-border);
+  border-radius: var(--project-radius);
+  cursor: pointer;
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease,
+    background 0.22s ease;
+}
+
+.project-admin-summary > button::after {
+  position: absolute;
+  right: -22px;
+  bottom: -40px;
+  width: 110px;
+  height: 110px;
+  border: 1px solid rgb(168 138 83 / 12%);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.project-admin-summary > button:hover {
+  border-color: #cbbb9d;
+  box-shadow: 0 9px 24px rgb(38 39 32 / 5%);
+  transform: translateY(-2px);
+}
+
+.project-admin-summary > button.selected {
+  background: #fbf8f0;
+  border-color: var(--project-gold);
+  box-shadow: inset 0 0 0 1px rgb(168 138 83 / 12%);
+}
+
+.project-admin-summary > button.selected::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--project-gold);
+  content: "";
+}
+
+.project-admin-summary > button > span {
+  color: var(--project-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.35px;
+}
+
+.project-admin-summary > button > strong {
+  margin-top: 13px;
+  color: var(--project-ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 37px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.project-admin-summary > button > small {
+  margin-top: 9px;
+  color: var(--project-muted);
+  font-size: 11px;
+}
+
+/* =========================================
+   ALERTS AND FEEDBACK
+========================================= */
+
+.project-admin-error,
+.project-admin-notice,
+.project-admin-empty {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 22px;
+  padding: 16px 19px;
+  background: var(--project-paper);
+  border: 1px solid var(--project-border);
+  border-radius: 9px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.project-admin-error {
+  color: #9b423a;
+  background: #fff8f6;
+  border-color: #edd8d4;
+}
+
+.project-admin-notice {
+  color: #42684c;
+  background: #f5faf5;
+  border-color: #d9e8d8;
+}
+
+.project-admin-empty {
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+  color: var(--project-muted);
+  background: var(--project-paper);
+  border-style: dashed;
+  text-align: center;
+}
+
+/* =========================================
+   FILTER TOOLBAR
+========================================= */
+
+.project-admin-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 20px 22px;
+  background: var(--project-paper);
+  border: 1px solid var(--project-border);
+  border-radius: var(--project-radius);
+}
+
+.project-admin-toolbar > label {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 260px;
+  color: var(--project-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.project-admin-toolbar select,
+.project-admin-table select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 34px 0 12px;
+  color: var(--project-ink);
+  background-color: #fff;
+  border: 1px solid #dedbd1;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.project-admin-toolbar select:hover,
+.project-admin-table select:hover {
+  border-color: #c5b28d;
+}
+
+.project-admin-toolbar select:focus-visible,
+.project-admin-table select:focus-visible {
+  border-color: var(--project-gold);
+  box-shadow: 0 0 0 3px rgb(168 138 83 / 14%);
+}
+
+/* =========================================
+   INVENTORY TABLE
+========================================= */
+
+.project-admin-table-wrap {
+  width: 100%;
+  overflow: auto;
+  background: var(--project-paper);
+  border: 1px solid var(--project-border);
+  border-radius: var(--project-radius);
+  box-shadow: 0 4px 16px rgb(38 39 32 / 2%);
+}
+
+.project-admin-table {
+  width: 100%;
+  min-width: 950px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 12px;
+}
+
+.project-admin-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 17px 18px;
+  color: #77766e;
+  background: #f9f8f4;
+  border-bottom: 1px solid var(--project-border);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.project-admin-table tbody td {
+  padding: 17px 18px;
+  color: #55564e;
+  background: #fff;
+  border-bottom: 1px solid #efede6;
+  vertical-align: middle;
+  transition: background 0.18s ease;
+}
+
+.project-admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.project-admin-table tbody tr:hover td {
+  background: #fcfbf8;
+}
+
+.project-admin-table tbody td:first-child {
+  color: #80683c;
+  font-weight: 600;
+}
+
+.project-admin-table tbody td:nth-child(2) strong {
+  display: inline-block;
+  padding: 5px 8px;
+  color: var(--project-ink);
+  background: #f5f2eb;
+  border: 1px solid #ece6d9;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15px;
+}
+
+.project-admin-table tbody td:nth-child(5) {
+  color: var(--project-ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.project-admin-table td select {
+  min-width: 160px;
+  min-height: 38px;
+  font-size: 11px;
+}
+
+/* =========================================
+   DELETE BUTTON
+========================================= */
+
+.project-admin-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 8px 12px;
+  color: #a34f47;
+  background: #fff;
+  border: 1px solid #eadbd7;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.project-admin-delete svg {
+  font-size: 11px;
+}
+
+.project-admin-delete:hover:not(:disabled) {
+  color: #fff;
+  background: #a34f47;
+  border-color: #a34f47;
+}
+
+.project-admin-delete:focus-visible {
+  outline: 3px solid rgb(163 79 71 / 18%);
+  outline-offset: 2px;
+}
+
+.project-admin-delete:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   LOADING STATE
+========================================= */
+
+.project-admin-page > p {
+  padding: 30px 22px;
+  color: var(--project-muted);
+  background: var(--project-paper);
+  border: 1px solid var(--project-border);
+  border-radius: var(--project-radius);
+  text-align: center;
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+.project-admin-page button:focus-visible,
+.project-admin-page a:focus-visible {
+  outline: 3px solid rgb(168 138 83 / 35%);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-admin-page *,
+  .project-admin-page *::before,
+  .project-admin-page *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+  .project-admin-page {
+    padding: 26px;
+  }
+
+  .project-admin-summary {
+    gap: 12px;
+  }
+
+  .project-admin-summary > button {
+    min-height: 140px;
+    padding: 20px;
+  }
+
+  .project-admin-summary > button > strong {
+    font-size: 32px;
+  }
+
+  .project-admin-table thead th,
+  .project-admin-table tbody td {
+    padding: 14px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+
+/* Search inventory */
+.project-admin-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  margin: 0 0 18px;
+  padding: 0 16px;
+  border: 1px solid #e5dccd;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(30, 27, 20, 0.04);
+}
+
+.project-admin-search:focus-within {
+  border-color: #b49a68;
+  box-shadow: 0 0 0 3px rgba(180, 154, 104, 0.14);
+}
+
+.project-admin-search-icon {
+  display: flex;
+  align-items: center;
+  color: #99845e;
+}
+
+.project-admin-search input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 10px 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #26251f;
+  font: inherit;
+  font-size: 14px;
+}
+
+.project-admin-search input::placeholder {
+  color: #a49b8d;
+}
+
+.project-admin-search-clear {
+  flex-shrink: 0;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 7px;
+  background: #f4f0e8;
+  color: #65563d;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.project-admin-search-clear:hover {
+  background: #e9dfce;
+}
+
+@media (max-width: 768px) {
+  .project-admin-search {
+    min-height: 48px;
+    gap: 9px;
+    padding: 0 12px;
+  }
+
+  .project-admin-search input {
+    font-size: 13px;
+  }
+}
+
+.project-admin-toolbar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: end;
+}
+
+.project-admin-toolbar label {
+  min-width: 0;
+}
+
+.project-admin-toolbar select {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .project-admin-toolbar {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   MOBILE INVENTORY FIX
+   Keeps status and delete controls visible
+========================================= */
+
+@media (max-width: 768px) {
+  .project-admin-page {
+    padding: 16px 12px 32px;
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .project-admin-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+    font-size: 13px;
+  }
+
+  .project-admin-header {
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+
+  .project-admin-header h1 {
+    font-size: clamp(24px, 7vw, 32px);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .project-admin-header p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .project-admin-count {
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  /* Project summary cards */
+  .project-admin-summary {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .project-admin-summary > * {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Filters */
+  .project-admin-toolbar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 14px;
+    margin-bottom: 18px;
+  }
+
+  .project-admin-toolbar label {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 100%;
+    min-width: 0;
+    font-size: 13px;
+  }
+
+  .project-admin-toolbar select {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  /* Convert each table row into a readable mobile card */
+  .project-admin-table-wrap {
+    width: 100%;
+    overflow: visible;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .project-admin-table {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .project-admin-table thead {
+    display: none;
+  }
+
+  .project-admin-table tbody {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    width: 100%;
+  }
+
+  .project-admin-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e8e0d3;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(25, 25, 20, 0.05);
+  }
+
+  .project-admin-table tbody td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    padding: 12px 14px;
+    border-bottom: 1px solid #f0ece5;
+    text-align: right;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  /* Add a label before each value */
+  .project-admin-table tbody td:nth-child(1)::before {
+    content: "Projet";
+  }
+
+  .project-admin-table tbody td:nth-child(2)::before {
+    content: "Référence";
+  }
+
+  .project-admin-table tbody td:nth-child(3)::before {
+    content: "Type";
+  }
+
+  .project-admin-table tbody td:nth-child(4)::before {
+    content: "Surface";
+  }
+
+  .project-admin-table tbody td:nth-child(5)::before {
+    content: "Prix";
+  }
+
+  .project-admin-table tbody td:nth-child(6)::before {
+    content: "Statut";
+  }
+
+  .project-admin-table tbody td:nth-child(7)::before {
+    content: "Action";
+  }
+
+  .project-admin-table tbody td::before {
+    flex: 0 0 82px;
+    color: #827969;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .project-admin-table tbody td:last-child {
+    border-bottom: none;
+  }
+
+  /* Status selector is full-width and easy to tap */
+  .project-admin-table tbody td select {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 220px;
+    min-width: 0;
+    min-height: 44px;
+    padding: 9px 28px 9px 10px;
+    border: 1px solid #d9cdb9;
+    border-radius: 8px;
+    background-color: #faf8f4;
+    color: #292820;
+    font-size: 13px;
+  }
+
+  /* Make the delete action visible and easy to tap */
+  .project-admin-table tbody td .project-admin-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px 14px;
+    gap: 8px;
+    border-radius: 8px;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .project-admin-table tbody td:last-child {
+    justify-content: stretch;
+    background: #faf8f4;
+  }
+
+  .project-admin-error,
+  .project-admin-notice,
+  .project-admin-empty {
+    padding: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Very narrow phones */
+@media (max-width: 380px) {
+  .project-admin-page {
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .project-admin-table tbody td {
+    gap: 8px;
+    padding: 11px 10px;
+  }
+
+  .project-admin-table tbody td::before {
+    flex-basis: 72px;
+    font-size: 10px;
+  }
+
+  .project-admin-table tbody td select {
+    font-size: 12px;
+  }
+}
+

@@ -1,0 +1,1282 @@
+
+/* ============================================================
+   A2E IMMOBILIER
+   ADMIN — PROPERTIES
+   Luxury Real Estate Management
+============================================================ */
+
+.admin-properties-page {
+    min-height: 100vh;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8f5ef 0%,
+            #f3eee5 100%
+        );
+
+    color: #292620;
+
+    font-family:
+        "Inter",
+        Arial,
+        sans-serif;
+}
+
+
+/* ============================================================
+   CONTAINER
+============================================================ */
+
+.admin-properties-container {
+    width: min(1500px, calc(100% - 100px));
+
+    margin: 0 auto;
+
+    padding: 60px 0 90px;
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.admin-properties-header {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 40px;
+
+    margin-bottom: 42px;
+}
+
+
+.admin-properties-header-content {
+    min-width: 0;
+}
+
+
+.admin-properties-label {
+    display: inline-block;
+
+    margin-bottom: 13px;
+
+    color: #b08b3e;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 3.5px;
+
+    text-transform: uppercase;
+}
+
+
+.admin-properties-header h1 {
+    margin: 0;
+
+    color: #292620;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(38px, 4vw, 58px);
+
+    font-weight: 500;
+
+    line-height: 1.05;
+
+    letter-spacing: -1px;
+}
+
+
+.admin-properties-header p {
+    max-width: 600px;
+
+    margin: 15px 0 0;
+
+    color: #81796f;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* ============================================================
+   ADD PROPERTY BUTTON
+============================================================ */
+
+.admin-properties-add-button {
+    flex-shrink: 0;
+
+    min-height: 52px;
+
+    padding: 0 24px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    border: 1px solid #292620;
+
+    border-radius: 6px;
+
+    background: #292620;
+
+    color: #fff;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.admin-properties-add-button svg {
+    font-size: 11px;
+}
+
+
+.admin-properties-add-button:hover {
+    background: #b08b3e;
+
+    border-color: #b08b3e;
+
+    color: #fff;
+
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   TOOLBAR
+============================================================ */
+
+.admin-properties-toolbar {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-bottom: 24px;
+
+    color: #8a8278;
+
+    font-size: 11px;
+}
+
+
+.admin-properties-count {
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 5px;
+
+    white-space: nowrap;
+}
+
+
+.admin-properties-count-number {
+    color: #292620;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 20px;
+
+    font-weight: 600;
+}
+
+
+.admin-properties-toolbar-line {
+    width: 1px;
+
+    height: 20px;
+
+    background: #ddd5c8;
+}
+
+
+.admin-properties-toolbar-text {
+    color: #9a9287;
+
+    letter-spacing: 0.3px;
+}
+
+
+/* ============================================================
+   GRID
+============================================================ */
+
+.admin-properties-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 28px;
+}
+
+
+/* ============================================================
+   PROPERTY CARD
+============================================================ */
+
+.admin-property-card {
+    min-width: 0;
+
+    overflow: hidden;
+
+    background: #fff;
+
+    border: 1px solid #e5ddd0;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 8px 30px
+        rgba(41, 38, 32, 0.045);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+
+.admin-property-card:hover {
+    transform: translateY(-6px);
+
+    border-color: #d9c9aa;
+
+    box-shadow:
+        0 22px 55px
+        rgba(41, 38, 32, 0.11);
+}
+
+
+/* ============================================================
+   PROPERTY IMAGE
+============================================================ */
+
+.admin-property-image {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 10;
+
+    overflow: hidden;
+
+    background: #ded8cc;
+}
+
+
+.admin-property-image img {
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    transition:
+        transform 0.7s cubic-bezier(
+            0.2,
+            0.7,
+            0.2,
+            1
+        );
+}
+
+
+.admin-property-card:hover
+.admin-property-image img {
+    transform: scale(1.055);
+}
+
+
+/* ============================================================
+   IMAGE OVERLAY
+============================================================ */
+
+.admin-property-image-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.14),
+            transparent 35%,
+            rgba(0, 0, 0, 0.08)
+        );
+}
+
+
+/* ============================================================
+   STATUS
+============================================================ */
+
+.admin-property-status {
+    position: absolute;
+
+    top: 15px;
+
+    left: 15px;
+
+    z-index: 2;
+
+    padding: 7px 11px;
+
+    border: 1px solid
+        rgba(255, 255, 255, 0.18);
+
+    border-radius: 3px;
+
+    background:
+        rgba(41, 38, 32, 0.88);
+
+    color: #fff;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+    backdrop-filter: blur(5px);
+}
+
+
+/* ============================================================
+   NO IMAGE
+============================================================ */
+
+.admin-property-no-image {
+    width: 100%;
+
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eee9df,
+            #ddd6ca
+        );
+
+    color: #aaa197;
+}
+
+
+.admin-property-no-image svg {
+    font-size: 32px;
+}
+
+
+.admin-property-no-image span {
+    font-size: 10px;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* ============================================================
+   CONTENT
+============================================================ */
+
+.admin-property-content {
+    padding: 25px 25px 24px;
+}
+
+
+/* ============================================================
+   PROPERTY TYPE
+============================================================ */
+
+.admin-property-type {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #b08b3e;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 2.2px;
+
+    text-transform: uppercase;
+}
+
+
+/* ============================================================
+   TITLE
+============================================================ */
+
+.admin-property-content h2 {
+    margin: 0;
+
+    color: #292620;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 23px;
+
+    font-weight: 500;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.2px;
+}
+
+
+/* ============================================================
+   LOCATION
+============================================================ */
+
+.admin-property-location {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 11px;
+
+    color: #81796f;
+
+    font-size: 11px;
+}
+
+
+.admin-property-location svg {
+    flex-shrink: 0;
+
+    color: #b08b3e;
+
+    font-size: 11px;
+}
+
+
+.admin-property-location span {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   PRICE
+============================================================ */
+
+.admin-property-price {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 20px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #eee8de;
+
+    color: #292620;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 19px;
+
+    font-weight: 600;
+}
+
+
+.admin-property-price svg {
+    color: #b08b3e;
+
+    font-size: 14px;
+}
+
+
+/* ============================================================
+   DETAILS
+============================================================ */
+
+.admin-property-details {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 15px;
+}
+
+
+.admin-property-details span {
+    min-height: 29px;
+
+    padding: 0 9px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    border: 1px solid #eee8de;
+
+    border-radius: 4px;
+
+    background: #faf8f4;
+
+    color: #71695f;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
+.admin-property-details svg {
+    color: #b08b3e;
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   ACTIONS
+============================================================ */
+
+.admin-property-actions {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 7px;
+
+    margin-top: 22px;
+
+    padding-top: 19px;
+
+    border-top: 1px solid #eee8de;
+}
+
+
+.admin-property-view,
+.admin-property-edit,
+.admin-property-delete {
+    min-width: 0;
+
+    min-height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    border-radius: 5px;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.admin-property-view {
+    border: 1px solid #ded6c9;
+
+    background: #faf8f4;
+
+    color: #514b43;
+}
+
+
+.admin-property-view:hover {
+    border-color: #292620;
+
+    background: #292620;
+
+    color: #fff;
+}
+
+
+.admin-property-edit {
+    border: 1px solid #ded6c9;
+
+    background: #faf8f4;
+    padding: 10px 30px;
+    color: #514b43;
+}
+
+
+.admin-property-edit:hover {
+    border-color: #b08b3e;
+
+    background: #b08b3e;
+
+    color: #fff;
+}
+
+.admin-properties-back-button {
+    flex-shrink: 0;
+    min-height: 52px;
+    padding: 0 20px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    border: 1px solid #ded6c9;
+    border-radius: 6px;
+
+    background: #faf8f4;
+    color: #514b43;
+
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.admin-properties-back-button svg {
+    font-size: 11px;
+}
+
+.admin-properties-back-button:hover {
+    border-color: #292620;
+    background: #292620;
+    color: #fff;
+    transform: translateY(-2px);
+}
+.admin-property-delete {
+    border: 1px solid #eadbd7;
+
+    background: #fffafa;
+
+    color: #a45b50;
+}
+
+
+.admin-property-delete:hover {
+    border-color: #a45b50;
+
+    background: #a45b50;
+
+    color: #fff;
+}
+
+
+.admin-property-delete:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+.admin-properties-loading {
+    min-height: 70vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    color: #81796f;
+
+    text-align: center;
+}
+
+
+.admin-properties-loading span {
+    color: #292620;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 21px;
+}
+
+
+.admin-properties-loading small {
+    color: #9a9287;
+
+    font-size: 11px;
+}
+
+
+.admin-loading-spinner {
+    width: 30px;
+
+    height: 30px;
+
+    margin-bottom: 10px;
+
+    border: 2px solid #e2d9ca;
+
+    border-top-color: #b08b3e;
+
+    border-radius: 50%;
+
+    animation:
+        adminSpinner 0.8s linear infinite;
+}
+
+
+@keyframes adminSpinner {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* ============================================================
+   ERROR
+============================================================ */
+
+.admin-properties-error {
+    margin-bottom: 25px;
+
+    padding: 17px 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    border: 1px solid #eadbd7;
+
+    border-radius: 7px;
+
+    background: #fff9f7;
+
+    color: #a45b50;
+}
+
+
+.admin-error-icon {
+    width: 30px;
+
+    height: 30px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f4dfda;
+
+    color: #a45b50;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+.admin-properties-error strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 12px;
+}
+
+
+.admin-properties-error span {
+    display: block;
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+.admin-properties-empty {
+    min-height: 480px;
+
+    padding: 60px 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    border: 1px dashed #d6cdbf;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.5);
+}
+
+
+.admin-empty-icon {
+    width: 70px;
+
+    height: 70px;
+
+    margin-bottom: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eee8dc;
+
+    color: #b08b3e;
+
+    font-size: 25px;
+}
+
+
+.admin-empty-label {
+    margin-bottom: 8px;
+
+    color: #b08b3e;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 2.5px;
+}
+
+
+.admin-properties-empty h2 {
+    margin: 0;
+
+    color: #292620;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 31px;
+
+    font-weight: 500;
+}
+
+
+.admin-properties-empty p {
+    max-width: 430px;
+
+    margin: 12px 0 27px;
+
+    color: #81796f;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+}
+
+
+.admin-properties-empty-button {
+    min-height: 46px;
+
+    padding: 0 22px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    border-radius: 5px;
+
+    background: #292620;
+
+    color: #fff;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    transition: 0.25s ease;
+}
+
+
+.admin-properties-empty-button:hover {
+    background: #b08b3e;
+
+    color: #fff;
+
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   LARGE DESKTOP
+============================================================ */
+
+@media (min-width: 1600px) {
+
+    .admin-properties-container {
+        width: min(1550px, calc(100% - 140px));
+
+        padding-top: 75px;
+    }
+
+    .admin-properties-grid {
+        gap: 32px;
+    }
+
+    .admin-property-content {
+        padding: 28px 28px 27px;
+    }
+
+}
+
+
+/* ============================================================
+   DESKTOP / LAPTOP
+============================================================ */
+
+@media (max-width: 1200px) {
+
+    .admin-properties-container {
+        width: min(1100px, calc(100% - 60px));
+
+        padding-top: 45px;
+    }
+
+    .admin-properties-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 24px;
+    }
+
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 800px) {
+
+    .admin-properties-container {
+        width: calc(100% - 36px);
+
+        padding-top: 35px;
+
+        padding-bottom: 60px;
+    }
+
+
+    .admin-properties-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 25px;
+
+        margin-bottom: 32px;
+    }
+
+
+    .admin-properties-add-button {
+        width: 100%;
+    }
+
+
+    .admin-properties-grid {
+        gap: 18px;
+    }
+
+
+    .admin-property-content {
+        padding: 20px;
+    }
+
+
+    .admin-property-content h2 {
+        font-size: 20px;
+    }
+
+
+    .admin-property-price {
+        font-size: 18px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
+
+    .admin-properties-container {
+        width: calc(100% - 28px);
+
+        padding-top: 28px;
+
+        padding-bottom: 45px;
+    }
+
+
+    .admin-properties-header {
+        margin-bottom: 28px;
+    }
+
+
+    .admin-properties-label {
+        margin-bottom: 10px;
+
+        font-size: 8px;
+
+        letter-spacing: 2.7px;
+    }
+
+
+    .admin-properties-header h1 {
+        font-size: 36px;
+
+        letter-spacing: -0.5px;
+    }
+
+
+    .admin-properties-header p {
+        margin-top: 12px;
+
+        font-size: 11px;
+    }
+
+
+    .admin-properties-add-button {
+        min-height: 48px;
+    }
+
+
+    .admin-properties-toolbar {
+        margin-bottom: 18px;
+
+        gap: 12px;
+    }
+
+
+    .admin-properties-toolbar-text {
+        font-size: 9px;
+    }
+
+
+    .admin-properties-grid {
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+    }
+
+
+    .admin-property-image {
+        aspect-ratio: 16 / 10;
+    }
+
+
+    .admin-property-content {
+        padding: 22px;
+    }
+
+
+    .admin-property-content h2 {
+        font-size: 22px;
+    }
+
+
+    .admin-property-location {
+        font-size: 11px;
+    }
+
+
+    .admin-property-price {
+        font-size: 20px;
+    }
+
+
+    .admin-property-actions {
+        gap: 7px;
+    }
+
+
+    .admin-property-view,
+    .admin-property-edit,
+    .admin-property-delete {
+        min-height: 43px;
+
+        font-size: 9px;
+    }
+
+
+    .admin-properties-empty {
+        min-height: 400px;
+
+        padding: 45px 20px;
+    }
+
+
+    .admin-properties-empty h2 {
+        font-size: 27px;
+    }
+
+
+    .admin-properties-empty p {
+        font-size: 11px;
+    }
+
+}
+
+
+/* ============================================================
+   VERY SMALL PHONES
+============================================================ */
+
+@media (max-width: 380px) {
+
+    .admin-properties-container {
+        width: calc(100% - 20px);
+    }
+
+
+    .admin-properties-header h1 {
+        font-size: 31px;
+    }
+
+
+    .admin-properties-toolbar-text {
+        display: none;
+    }
+
+
+    .admin-property-content {
+        padding: 19px;
+    }
+
+
+    .admin-property-actions {
+        grid-template-columns: 1fr;
+    }
+
+
+    .admin-property-view,
+    .admin-property-edit,
+    .admin-property-delete {
+        min-height: 42px;
+
+        font-size: 10px;
+    }
+
+}
+

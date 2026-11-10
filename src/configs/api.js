@@ -1,0 +1,4 @@
+const API_URL = "https://api.a2eimmo.ma/api";
+/**/
+
+export default API_URL 

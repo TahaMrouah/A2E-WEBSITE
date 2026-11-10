@@ -1,4 +1,5 @@
 import "../Style/expertise.css";
+import {Link} from "react-router-dom";
 const steps = [
   {
     number: "01",
@@ -10,7 +11,7 @@ const steps = [
     number: "02",
     icon: "📈",
     title: "Valorisation",
-    description: "Mise en valeur avec des contenus professionels.",
+    description: "Mise en valeur avec des contenus professionnels.",
   },
   {
     number: "03",
@@ -34,7 +35,7 @@ const steps = [
     number: "06",
     icon: "🤝",
     title: "Négociation",
-    description: "Organisation de la meilleure offre.",
+    description: "Obtention de la meilleure offre.",
   },
   {
     number: "07",
@@ -46,48 +47,73 @@ const steps = [
 
 function Expertise() {
   return (
-    <section className="steps-section">
-      <div style={{margin:"10px "}}>
-        <h2 style={{color:"#000"}}>Notre expertise</h2>
-        <h6>
-          Une méthode éprouvée pour vendre votre bien dabs les meilleures
-          conditions.
-        </h6>
-        
+    <section className="steps-section" id
+    ="expertise">
+
+      {/* HEADER */}
+      <div className="expertise-header">
+
+        <div className="expertise-label">
+          <span></span>
+          NOTRE EXPERTISE
+        </div>
+
+        <h2>
+          Une méthode pensée pour
+          <br />
+          <em>valoriser votre bien.</em>
+        </h2>
+
+        <p>
+          Une méthode éprouvée pour vendre votre bien dans les meilleures
+          conditions, de la première estimation jusqu'à la signature.
+        </p>
+
       </div>
+
+
+      {/* STEPS */}
       <div className="steps-container">
+
         {steps.map((step) => (
           <div className="step-card" key={step.number}>
-            <div className="step-top">
-              <span className="step-number">{step.number}</span>
 
-              <div className="step-icon">{step.icon}</div>
+            <div className="step-top">
+
+              <span className="step-number">
+                {step.number}
+              </span>
+
+              <div className="step-icon">
+                {step.icon}
+              </div>
+
             </div>
 
             <div className="step-content">
+
               <h3>{step.title}</h3>
+
               <p>{step.description}</p>
+
             </div>
+
+            <div className="step-line"></div>
+
           </div>
         ))}
+
       </div>
-      <button className="btn">Contactez Nous</button>
+
+
+      {/* CTA */}
+      <Link to="/contact" className="btn">
+        Contactez-nous
+        <span>→</span>
+      </Link>
+
     </section>
   );
 }
 
-/*function Expertise(){
-    return (
-        <section className="expertise">
-                <div>
-                    <h2>Notre expertise</h2>
-                    <h6>Une méthode éprouvée pour vendre votre bien dabs les meilleures conditions.</h6>
-                    <button className="btn">Contactez Nous</button>
-                </div>
-                <div>
-
-                </div>
-        </section>
-    )
-}*/
 export default Expertise;
