@@ -23,7 +23,7 @@ function Contact() {
       <div className="contact-container">
         {/* WhatsApp */}
         <a
-          href="https://wa.me/212602991215"
+          href="https://wa.me/212648590094"
           className="contact-card"
           target="_blank"
           rel="noopener noreferrer"
@@ -43,7 +43,7 @@ function Contact() {
 
         {/* Téléphone */}
         <a
-          href="tel:+212602991215"
+          href="tel:+212648590094"
           className="contact-card"
         >
           <div className="contact-card-icon">
@@ -86,7 +86,7 @@ function Contact() {
           <h2>Votre projet commence par une conversation.</h2>
         </div>
 
-        <a href="tel:+212602991215">
+        <a href="tel:+212648590094">
           Nous contacter
           <i className="fa-solid fa-arrow-right"></i>
         </a>

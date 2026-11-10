@@ -475,7 +475,7 @@ function Properties({ category }) {
                       {/* APPELER */}
 
                       <a
-                        href="tel:+212602991215"
+                        href="tel:+212648590094"
                         className="property-action call-action"
                         aria-label="Appelez-nous"
                       >
@@ -489,7 +489,7 @@ function Properties({ category }) {
                       {/* WHATSAPP */}
 
                       <a
-                        href="https://wa.me/212602991215"
+                        href="https://wa.me/212648590094"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="property-action whatsapp-action"

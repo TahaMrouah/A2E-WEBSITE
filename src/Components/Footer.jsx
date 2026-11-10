@@ -120,8 +120,8 @@ function Footer() {
 
                 <div>
                   <small>Téléphone</small>
-                  <a href="tel:+212521443858">
-                    +212 521443858
+                  <a href="tel:+212648590094">
+                    +212 648 590 094
                   </a>
                 </div>
               </div>

@@ -9,7 +9,7 @@ import greenLotusView from "../assets/Bureau.png";
 import FinanceFloatingButton from "../Components/FinanceFloatingButton";
 
 const API_URL = "https://api.a2eimmo.ma/api/projects";
-const WHATSAPP_NUMBER = "212602991215";
+const WHATSAPP_NUMBER = "212648590094";
 
 const money = (value) => {
   if (value === null || value === undefined || value === "") return "—";

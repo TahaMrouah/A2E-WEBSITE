@@ -833,7 +833,7 @@ function PropertyDetails() {
                             </p>
 
                             <a
-                                href="tel:+212602991215"
+                                href="tel:+212648590094"
                                 className="property-call-button"
                             >
                                 <FaPhoneAlt />
@@ -844,7 +844,7 @@ function PropertyDetails() {
                             </a>
 
                             <a
-                                href={`https://wa.me/212602991215?text=${whatsappMessage}`}
+                                href={`https://wa.me/212648590094?text=${whatsappMessage}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="property-whatsapp-button"
